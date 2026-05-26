@@ -134,8 +134,12 @@ function startGateway() {
     const nodeExecutable = resolveNodePath();
     gatewayProcess = spawn(nodeExecutable, [localGatewayPath, "gateway", "run"], {
       detached: false, // Keep attached so it kills with Electron
-      stdio: ["ignore", logStream, logStream],
+      stdio: ["ignore", "pipe", "pipe"],
     });
+
+    gatewayProcess.stdout.pipe(logStream);
+    gatewayProcess.stderr.pipe(logStream);
+
     gatewayProcess.on("error", (err) => {
       console.error("[electron-main] Failed to spawn background gateway daemon:", err);
       logStream.write(`[ERROR] Spawn failed: ${err.message}\n`);
