@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, screen, session } = require("electron");
+const { app, BrowserWindow, ipcMain, screen, session, Menu, MenuItem } = require("electron");
 const path = require("node:path");
 const fs = require("node:fs");
 const http = require("node:http");
@@ -36,6 +36,20 @@ process.on("unhandledRejection", (reason, promise) => {
 let mainWindow = null;
 let gatewayProcess = null;
 let spawnedGateway = false;
+
+// Resolves the absolute path to Node.exe or falls back to standard PATH
+function resolveNodePath() {
+  const commonPaths = [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Program Files (x86)\\nodejs\\node.exe",
+  ];
+  for (const p of commonPaths) {
+    if (fs.existsSync(p)) {
+      return p;
+    }
+  }
+  return "node";
+}
 
 // Resolve Aether OS configurations to fetch the active token and port
 function resolveConfig() {
@@ -108,9 +122,13 @@ function startGateway() {
     console.log(
       `[electron-main] Spawning local background gateway daemon from: ${localGatewayPath}`,
     );
-    gatewayProcess = spawn("node", [localGatewayPath, "gateway", "run"], {
+    const nodeExecutable = resolveNodePath();
+    gatewayProcess = spawn(nodeExecutable, [localGatewayPath, "gateway", "run"], {
       detached: false, // Keep attached so it kills with Electron
       stdio: "ignore",
+    });
+    gatewayProcess.on("error", (err) => {
+      console.error("[electron-main] Failed to spawn background gateway daemon:", err);
     });
     spawnedGateway = true;
     return;
@@ -186,6 +204,24 @@ function createWindow() {
   });
 
   mainWindow.maximize();
+
+  // Register right-click native context menu for Copy/Paste mouse support
+  mainWindow.webContents.on("context-menu", (event, params) => {
+    const menu = new Menu();
+
+    if (params.selectionText) {
+      menu.append(new MenuItem({ label: "Copy", role: "copy" }));
+    }
+    if (params.isEditable) {
+      menu.append(new MenuItem({ label: "Cut", role: "cut" }));
+      menu.append(new MenuItem({ label: "Paste", role: "paste" }));
+    }
+    menu.append(new MenuItem({ label: "Select All", role: "selectall" }));
+
+    if (menu.items.length > 0) {
+      menu.popup({ window: mainWindow });
+    }
+  });
 
   // Load our custom Aether Canvas local HTML natively
   const localHtmlPath = path.join(__dirname, "..", "aether-canvas", "index.html");
