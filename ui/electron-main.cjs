@@ -132,7 +132,9 @@ function startGateway() {
     const logStream = fs.createWriteStream(path.join(logDir, "gateway-electron-spawn.log"), { flags: "a" });
 
     const nodeExecutable = resolveNodePath();
+    const repoRoot = path.resolve(__dirname, "..");
     gatewayProcess = spawn(nodeExecutable, [localGatewayPath, "gateway", "run"], {
+      cwd: repoRoot, // Set working directory to repository root to resolve template and doc paths
       detached: false, // Keep attached so it kills with Electron
       stdio: ["ignore", "pipe", "pipe"],
     });
