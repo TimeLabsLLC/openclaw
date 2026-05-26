@@ -122,13 +122,23 @@ function startGateway() {
     console.log(
       `[electron-main] Spawning local background gateway daemon from: ${localGatewayPath}`,
     );
+    
+    // Redirect stdio to a secure log file for debugging and auditing
+    const userProfile = process.env.USERPROFILE || process.env.HOMEPATH || "";
+    const logDir = path.join(userProfile, ".agentos", "logs");
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+    const logStream = fs.createWriteStream(path.join(logDir, "gateway-electron-spawn.log"), { flags: "a" });
+
     const nodeExecutable = resolveNodePath();
     gatewayProcess = spawn(nodeExecutable, [localGatewayPath, "gateway", "run"], {
       detached: false, // Keep attached so it kills with Electron
-      stdio: "ignore",
+      stdio: ["ignore", logStream, logStream],
     });
     gatewayProcess.on("error", (err) => {
       console.error("[electron-main] Failed to spawn background gateway daemon:", err);
+      logStream.write(`[ERROR] Spawn failed: ${err.message}\n`);
     });
     spawnedGateway = true;
     return;
