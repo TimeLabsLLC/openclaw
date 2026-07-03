@@ -43,6 +43,13 @@ function packagedExecutablePath(repoRoot, platform = process.platform) {
   );
 }
 
+function packagedLaunchArgs(args, platform = process.platform) {
+  if (platform === "linux") {
+    return ["--no-sandbox", ...args];
+  }
+  return args;
+}
+
 async function fileExists(filePath) {
   try {
     await access(filePath);
@@ -112,6 +119,29 @@ const RETURNING_USER_MODEL_CANDIDATES = [
 
 async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, "utf8"));
+}
+
+function checkFailureDetails(check) {
+  const productFlow = check.productFlow || {};
+  const proof = productFlow.returningUserProof || productFlow.firstRunProof || {};
+  return {
+    exitCode: check.exitCode,
+    timedOut: check.timedOut,
+    smokeReportPath: check.smokeReportPath,
+    proofRoot: check.proofRoot,
+    productFlowStatus: productFlow.status || null,
+    surfaceCount: Array.isArray(productFlow.surfaces) ? productFlow.surfaces.length : 0,
+    surfaceLabels: Array.isArray(productFlow.surfaces)
+      ? productFlow.surfaces.map((surface) => surface.label)
+      : [],
+    visibleErrors: check.visibleErrors || [],
+    proof,
+  };
+}
+
+function formatFailedCheck(check) {
+  const details = check.productFlow ? ` ${JSON.stringify(checkFailureDetails(check))}` : "";
+  return `${check.name}: ${check.missing.join(", ")}${details}`;
 }
 
 function modelSearchDirs(params = {}) {
@@ -233,8 +263,8 @@ export async function verifyBiosAiElectronProductFlowGate(
   params = {},
 ) {
   const normalizedRoot = path.resolve(repoRoot);
-  const executablePath =
-    params.executablePath || packagedExecutablePath(normalizedRoot, params.platform);
+  const platform = params.platform ?? process.platform;
+  const executablePath = params.executablePath || packagedExecutablePath(normalizedRoot, platform);
   const proofRoot =
     params.proofRoot ||
     path.join(normalizedRoot, "runtime", "outputs", "bios-ai-electron-product-flow");
@@ -287,18 +317,22 @@ export async function verifyBiosAiElectronProductFlowGate(
       BIOS_AI_ELECTRON_PROOF_PROFILE_ID: proofProfileId,
       BIOS_AI_ELECTRON_PROOF_PROFILE_NAME: proofProfileName,
     };
-    const returningLaunch = await (params.runProcess ?? runProcess)(executablePath, [], {
-      cwd: path.dirname(executablePath),
-      timeoutMs: params.timeoutMs ?? 180_000,
-      env: {
-        ...baseEnv,
-        ...(tempHome ? { BIOS_AI_HOME_OVERRIDE: tempHome } : {}),
-        BIOS_AI_ELECTRON_SMOKE_REPORT: returningSmokeReportPath,
-        BIOS_AI_ELECTRON_PRODUCT_FLOW_DIR: returningProofRoot,
-        BIOS_AI_ELECTRON_PRODUCT_FLOW_SCENARIO: "returning-user",
-        BIOS_AI_ELECTRON_PROOF_PROFILE_MODE: "returning",
+    const returningLaunch = await (params.runProcess ?? runProcess)(
+      executablePath,
+      packagedLaunchArgs([], platform),
+      {
+        cwd: path.dirname(executablePath),
+        timeoutMs: params.timeoutMs ?? 180_000,
+        env: {
+          ...baseEnv,
+          ...(tempHome ? { BIOS_AI_HOME_OVERRIDE: tempHome } : {}),
+          BIOS_AI_ELECTRON_SMOKE_REPORT: returningSmokeReportPath,
+          BIOS_AI_ELECTRON_PRODUCT_FLOW_DIR: returningProofRoot,
+          BIOS_AI_ELECTRON_PRODUCT_FLOW_SCENARIO: "returning-user",
+          BIOS_AI_ELECTRON_PROOF_PROFILE_MODE: "returning",
+        },
       },
-    });
+    );
     const returningSmoke = await readJson(returningSmokeReportPath).catch((error) => ({
       status: "fail",
       error: error.message,
@@ -356,18 +390,22 @@ export async function verifyBiosAiElectronProductFlowGate(
       (params.homeRoot
         ? path.join(params.homeRoot, "first-run-empty-home")
         : await mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-first-run-")));
-    const firstRunLaunch = await (params.runProcess ?? runProcess)(executablePath, [], {
-      cwd: path.dirname(executablePath),
-      timeoutMs: params.timeoutMs ?? 180_000,
-      env: {
-        ...baseEnv,
-        BIOS_AI_HOME_OVERRIDE: firstRunHome,
-        BIOS_AI_ELECTRON_SMOKE_REPORT: firstRunSmokeReportPath,
-        BIOS_AI_ELECTRON_PRODUCT_FLOW_DIR: firstRunProofRoot,
-        BIOS_AI_ELECTRON_PRODUCT_FLOW_SCENARIO: "first-run",
-        BIOS_AI_ELECTRON_PROOF_PROFILE_MODE: "none",
+    const firstRunLaunch = await (params.runProcess ?? runProcess)(
+      executablePath,
+      packagedLaunchArgs([], platform),
+      {
+        cwd: path.dirname(executablePath),
+        timeoutMs: params.timeoutMs ?? 180_000,
+        env: {
+          ...baseEnv,
+          BIOS_AI_HOME_OVERRIDE: firstRunHome,
+          BIOS_AI_ELECTRON_SMOKE_REPORT: firstRunSmokeReportPath,
+          BIOS_AI_ELECTRON_PRODUCT_FLOW_DIR: firstRunProofRoot,
+          BIOS_AI_ELECTRON_PRODUCT_FLOW_SCENARIO: "first-run",
+          BIOS_AI_ELECTRON_PROOF_PROFILE_MODE: "none",
+        },
       },
-    });
+    );
     const firstRunSmoke = await readJson(firstRunSmokeReportPath).catch((error) => ({
       status: "fail",
       error: error.message,
@@ -443,7 +481,7 @@ export async function verifyBiosAiElectronProductFlowGate(
     throw new Error(
       `BIOS AI Electron product-flow gate failed:\n${checks
         .filter((check) => check.status !== "pass")
-        .map((check) => `${check.name}: ${check.missing.join(", ")}`)
+        .map((check) => formatFailedCheck(check))
         .join("\n")}`,
     );
   }

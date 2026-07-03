@@ -226,14 +226,17 @@ describe("BIOS AI Electron product-flow gate", () => {
     await writeFile(exe, "");
     await mkdir(modelsDir, { recursive: true });
     await writeFile(modelPath, "gguf");
+    const seenArgs = [];
 
     const report = await verifyBiosAiElectronProductFlowGate(tempRoot, {
       executablePath: exe,
       proofRoot,
+      platform: "linux",
       env: {
         BIOS_AI_MODELS_DIR: modelsDir,
       },
-      runProcess: async (_command, _args, options) => {
+      runProcess: async (_command, args, options) => {
+        seenArgs.push(args);
         await mkdir(options.env.BIOS_AI_ELECTRON_PRODUCT_FLOW_DIR, { recursive: true });
         assert.equal(options.env.BIOS_AI_MODELS_DIR, modelsDir);
         const isFirstRun = options.env.BIOS_AI_ELECTRON_PRODUCT_FLOW_SCENARIO === "first-run";
@@ -300,6 +303,7 @@ describe("BIOS AI Electron product-flow gate", () => {
 
     assert.equal(report.status, "pass");
     assert.equal(report.checks[1].model.path, modelPath);
+    assert.deepEqual(seenArgs, [["--no-sandbox"], ["--no-sandbox"]]);
   });
 
   it("fails when a packaged screen exposes an internal Electron bridge error", async () => {
