@@ -234,6 +234,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     assert.ok(workflowText.includes("runtime/outputs/bios-ai-llama-sidecar-*.json"));
     assert.ok(workflowText.includes("runtime/outputs/bios-ai-electron-product-flow/**"));
     assert.ok(workflowText.includes("name: Upload package readiness proof"));
+    assert.ok(workflowText.includes("if: always()"));
     assert.ok(releaseSmokeSource.includes("verifyBiosAiElectronPackageArtifactGate"));
     assert.ok(!releaseSmokeSource.includes('"--bundles",\n      "nsis"'));
   });

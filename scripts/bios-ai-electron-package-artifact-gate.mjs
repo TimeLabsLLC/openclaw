@@ -322,9 +322,23 @@ function assertPass(report) {
   if (failures.length === 0) {
     return;
   }
+  const formatFailure = (check) => {
+    const details =
+      check.smokeReport || check.stdout || check.stderr || check.exitCode !== undefined
+        ? ` ${JSON.stringify({
+            exitCode: check.exitCode,
+            timedOut: check.timedOut,
+            smokeReportPath: check.smokeReportPath,
+            smokeReport: check.smokeReport,
+            stdout: check.stdout,
+            stderr: check.stderr,
+          })}`
+        : "";
+    return `${check.name}: ${check.missing.join(", ")}${details}`;
+  };
   throw new Error(
     `BIOS AI Electron package artifact gate failed:\n${failures
-      .map((check) => `${check.name}: ${check.missing.join(", ")}`)
+      .map((check) => formatFailure(check))
       .join("\n")}`,
   );
 }
