@@ -20,7 +20,7 @@ async function fixtureRepo() {
       "  package-readiness:",
       "    strategy:",
       "      matrix:",
-      "        os: [windows-latest, macos-13, ubuntu-24.04]",
+      "        os: [windows-latest, macos-15-intel, ubuntu-24.04]",
       "    steps:",
       "      - run: node scripts/bios-ai-cross-os-package-readiness.mjs # bios-ai-electron-package",
     ].join("\n"),
@@ -119,12 +119,12 @@ describe("BIOS AI cross-OS package readiness", () => {
   it("requires the Electron shell and all hosted runner OSes", () => {
     assert.deepEqual(
       assertBiosAiPackageTargetConfig(
-        { shell: "electron", workflowOses: ["windows-latest", "macos-13", "ubuntu-24.04"] },
+        { shell: "electron", workflowOses: ["windows-latest", "macos-15-intel", "ubuntu-24.04"] },
         "linux",
       ),
       {
         shell: "electron",
-        workflowOses: ["windows-latest", "macos-13", "ubuntu-24.04"],
+        workflowOses: ["windows-latest", "macos-15-intel", "ubuntu-24.04"],
         platformArtifacts: ["Linux Electron executable", "Linux llama.cpp sidecar binary"],
       },
     );
@@ -142,7 +142,7 @@ describe("BIOS AI cross-OS package readiness", () => {
           { shell: "electron", workflowOses: ["windows-latest", "ubuntu-24.04"] },
           "darwin",
         ),
-      /missing hosted runner: macos-13/,
+      /missing hosted runner: macos-15-intel/,
     );
   });
 
@@ -220,7 +220,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     assert.ok(workflowText.includes("name: BIOS AI Cross-OS Package Readiness"));
     assert.ok(workflowText.includes("package-readiness:"));
     assert.ok(workflowText.includes("- windows-latest"));
-    assert.ok(workflowText.includes("- macos-13"));
+    assert.ok(workflowText.includes("- macos-15-intel"));
     assert.ok(workflowText.includes("- ubuntu-24.04"));
     assert.ok(workflowText.includes("pnpm rebuild electron"));
     assert.ok(workflowText.includes("pnpm exec install-electron"));

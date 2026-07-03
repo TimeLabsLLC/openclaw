@@ -8,7 +8,7 @@ import { verifyBiosAiElectronProductFlowGate } from "./bios-ai-electron-product-
 import { verifyBiosAiElectronRuntimePackageGate } from "./bios-ai-electron-runtime-package-gate.mjs";
 
 const SUPPORTED_PLATFORMS = new Set(["win32", "darwin", "linux"]);
-const REQUIRED_WORKFLOW_OSES = ["windows-latest", "macos-13", "ubuntu-24.04"];
+const REQUIRED_WORKFLOW_OSES = ["windows-latest", "macos-15-intel", "ubuntu-24.04"];
 const ELECTRON_PACKAGE_ROOT = path.join(".artifacts", "desktop-shell", "bios-ai-electron-package");
 const PROOF_MODEL_FILE_NAME = "gemma-3-1b-it-Q4_K_M.gguf";
 const PLATFORM_ARTIFACTS = {

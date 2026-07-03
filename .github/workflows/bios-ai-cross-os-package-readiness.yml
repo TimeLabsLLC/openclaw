@@ -30,7 +30,7 @@ jobs:
       matrix:
         os:
           - windows-latest
-          - macos-13
+          - macos-15-intel
           - ubuntu-24.04
 
     steps:
