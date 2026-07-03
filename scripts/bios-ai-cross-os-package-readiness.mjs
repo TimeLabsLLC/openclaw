@@ -36,7 +36,7 @@ const PLATFORM_ARTIFACTS = {
         "BIOS AI.app",
         "Contents",
         "MacOS",
-        "BIOS AI",
+        "Electron",
       ),
       label: "macOS Electron app executable",
     },

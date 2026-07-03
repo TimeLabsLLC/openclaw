@@ -32,10 +32,14 @@ function resolveBiosAiElectronPaths(repoRoot = resolveRepoRoot(), platform = pro
     "bios-ai-electron-installer",
   );
   const packageSubdir =
-    platform === "darwin" ? path.join("mac", "BIOS AI.app") : platform === "win32" ? "win-unpacked" : "linux-unpacked";
+    platform === "darwin"
+      ? path.join("mac", "BIOS AI.app")
+      : platform === "win32"
+        ? "win-unpacked"
+        : "linux-unpacked";
   const releaseExePath =
     platform === "darwin"
-      ? path.join(packageRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI")
+      ? path.join(packageRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron")
       : platform === "win32"
         ? path.join(packageRoot, "win-unpacked", "BIOS AI.exe")
         : path.join(packageRoot, "linux-unpacked", "bios-ai");
@@ -51,10 +55,14 @@ function resolveBiosAiElectronPaths(repoRoot = resolveRepoRoot(), platform = pro
     electronPreloadPath: path.join(normalizedRoot, "aether-canvas", "electron", "preload.cjs"),
     electronPackageRoot: packageRoot,
     electronInstallerRoot: installerRoot,
-    distManifestPath: path.join(normalizedRoot, "aether-canvas", "dist", "bios-build-manifest.json"),
+    distManifestPath: path.join(
+      normalizedRoot,
+      "aether-canvas",
+      "dist",
+      "bios-build-manifest.json",
+    ),
     releaseExePath,
-    setupExePath:
-      platform === "win32" ? path.join(installerRoot, "BIOS AI Setup 0.1.0.exe") : "",
+    setupExePath: platform === "win32" ? path.join(installerRoot, "BIOS AI Setup 0.1.0.exe") : "",
     sidecarPath,
     packageSubdir,
   };
@@ -73,7 +81,9 @@ async function assertFileExists(filePath, label) {
 }
 
 function assertNoTauriProofPath(label, filePath) {
-  const normalized = String(filePath || "").replaceAll("/", "\\").toLowerCase();
+  const normalized = String(filePath || "")
+    .replaceAll("/", "\\")
+    .toLowerCase();
   assertCondition(
     !normalized.includes("\\src-tauri\\") && !normalized.includes("\\target\\release\\"),
     `${label} must not point at the old Tauri release path: ${filePath}`,

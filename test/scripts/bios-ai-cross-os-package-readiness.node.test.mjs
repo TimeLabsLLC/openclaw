@@ -72,7 +72,7 @@ async function writePlatformArtifacts(repoRoot, platform) {
         "BIOS AI.app",
         "Contents",
         "MacOS",
-        "BIOS AI",
+        "Electron",
       ),
     );
     await writeArtifact(

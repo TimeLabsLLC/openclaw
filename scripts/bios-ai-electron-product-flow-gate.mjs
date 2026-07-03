@@ -30,7 +30,7 @@ function packagedExecutablePath(repoRoot, platform = process.platform) {
       "BIOS AI.app",
       "Contents",
       "MacOS",
-      "BIOS AI",
+      "Electron",
     );
   }
   return path.join(

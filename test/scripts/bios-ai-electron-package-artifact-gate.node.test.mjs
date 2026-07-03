@@ -16,7 +16,7 @@ function packagedExePath(outputRoot) {
     return path.join(outputRoot, "win-unpacked", "BIOS AI.exe");
   }
   if (process.platform === "darwin") {
-    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI");
+    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron");
   }
   return path.join(outputRoot, "linux-unpacked", "bios-ai");
 }
@@ -178,6 +178,51 @@ describe("BIOS AI Electron package artifact gate", () => {
         (check) => check.name === "Packaged BIOS AI includes the llama.cpp runtime companion files",
       ),
     );
+  });
+
+  it("uses the native Electron executable inside macOS app bundles", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-macos-executable-")),
+    );
+    const outputRoot = path.join(fixtureRoot, "out");
+    const executablePath = path.join(
+      outputRoot,
+      "mac",
+      "BIOS AI.app",
+      "Contents",
+      "MacOS",
+      "Electron",
+    );
+    const sidecarPath = path.join(
+      outputRoot,
+      "mac",
+      "BIOS AI.app",
+      "Contents",
+      "Resources",
+      "bin",
+      "llama-server",
+    );
+    await writeFixtureFile(fixtureRoot, "aether-canvas/dist/index.html");
+    await writeFixtureFile(fixtureRoot, "aether-canvas/electron/main.mjs");
+    await writeFixtureFile(
+      fixtureRoot,
+      path.join("aether-canvas", "src-tauri", "resources", "bin", "llama-server"),
+    );
+
+    const report = await verifyBiosAiElectronPackageArtifactGate(fixtureRoot, {
+      platform: "darwin",
+      outputRoot,
+      writeReport: false,
+      runLaunchSmoke: false,
+      packageApp: async (_dependencyRoot, _stageRoot, actualOutputRoot) => {
+        assert.equal(actualOutputRoot, outputRoot);
+        await writeFixtureFile("", executablePath);
+        await writeFixtureFile("", sidecarPath);
+      },
+    });
+
+    assert.equal(report.status, "pass");
+    assert.equal(report.checks[2].executablePath, executablePath);
   });
 
   it("passes no-sandbox to packaged Linux launch smoke", async () => {

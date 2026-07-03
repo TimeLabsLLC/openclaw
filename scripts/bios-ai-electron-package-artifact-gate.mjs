@@ -60,7 +60,7 @@ function packagedExecutablePath(outputRoot, platform = process.platform) {
     return path.join(outputRoot, "win-unpacked", "BIOS AI.exe");
   }
   if (platform === "darwin") {
-    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI");
+    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron");
   }
   return path.join(outputRoot, "linux-unpacked", "bios-ai");
 }
@@ -254,11 +254,6 @@ async function packageBiosAiElectronApp(
     await rm(path.dirname(appRoot), { recursive: true, force: true });
     await mkdir(path.dirname(appRoot), { recursive: true });
     await cp(path.join(electronDist, "Electron.app"), appRoot, { recursive: true });
-    const sourceExecutable = path.join(appRoot, "Contents", "MacOS", "Electron");
-    const targetExecutable = path.join(appRoot, "Contents", "MacOS", "BIOS AI");
-    if (await fileExists(sourceExecutable)) {
-      await rename(sourceExecutable, targetExecutable);
-    }
     await cp(stageRoot, path.join(appRoot, "Contents", "Resources", "app"), { recursive: true });
     await mkdir(path.join(appRoot, "Contents", "Resources", "bin"), { recursive: true });
     await cp(
