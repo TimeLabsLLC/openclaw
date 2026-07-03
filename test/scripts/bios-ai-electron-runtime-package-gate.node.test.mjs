@@ -134,6 +134,39 @@ describe("BIOS AI Electron runtime package gate", () => {
     );
   });
 
+  it("passes the no-sandbox flag for Linux hosted runner Electron probes", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-runtime-linux-")),
+    );
+    await createAppFixture(fixtureRoot);
+    await createRuntimeFixture(fixtureRoot, "linux");
+    const calls = [];
+
+    await verifyBiosAiElectronRuntimePackageGate(fixtureRoot, {
+      platform: "linux",
+      writeReport: false,
+      runProcess: async (_command, args, options = {}) => {
+        calls.push(args);
+        if (options.env?.BIOS_AI_ELECTRON_SMOKE_REPORT) {
+          await writeFixtureFile(
+            "",
+            options.env.BIOS_AI_ELECTRON_SMOKE_REPORT,
+            JSON.stringify({
+              status: "pass",
+              appName: "BIOS AI",
+              sidecarProof: { status: "pass" },
+            }),
+          );
+        }
+        return { status: "pass", exitCode: 0, timedOut: false, stdout: "v42.2.0\n", stderr: "" };
+      },
+    });
+
+    assert.deepEqual(calls[0], ["--no-sandbox", "--version"]);
+    assert.equal(calls[1][0], "--no-sandbox");
+    assert.match(calls[1][1], /aether-canvas[\\/]+electron[\\/]+main\.mjs$/);
+  });
+
   it("keeps the gate blocked when launch smoke cannot prove the BIOS renderer loaded", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-runtime-launch-fail-")),

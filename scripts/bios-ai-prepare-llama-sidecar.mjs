@@ -88,6 +88,35 @@ function runCommand(command, args, options = {}) {
   });
 }
 
+export function archiveExtractionCommand(archivePath, extractRoot, platform = process.platform) {
+  if (platform === "win32") {
+    return {
+      command: "powershell.exe",
+      args: [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Expand-Archive -LiteralPath $env:BIOS_AI_LLAMA_ARCHIVE_PATH -DestinationPath $env:BIOS_AI_LLAMA_EXTRACT_ROOT -Force",
+      ],
+      env: {
+        ...process.env,
+        BIOS_AI_LLAMA_ARCHIVE_PATH: archivePath,
+        BIOS_AI_LLAMA_EXTRACT_ROOT: extractRoot,
+      },
+    };
+  }
+  return {
+    command: "tar",
+    args: ["-xf", archivePath, "-C", extractRoot],
+  };
+}
+
+async function extractArchive(archivePath, extractRoot, platform = process.platform) {
+  const extraction = archiveExtractionCommand(archivePath, extractRoot, platform);
+  await runCommand(extraction.command, extraction.args, { env: extraction.env });
+}
+
 async function fetchJson(url) {
   const response = await fetch(url, {
     headers: {
@@ -182,7 +211,7 @@ export async function prepareLlamaSidecar(repoRoot = resolveRepoRoot(), params =
     await downloadFile(asset.url, archivePath);
   }
 
-  await runCommand("tar", ["-xf", archivePath, "-C", extractRoot]);
+  await extractArchive(archivePath, extractRoot, platform);
   const copiedFiles = await copyRuntimeFiles(extractRoot, outputDir, platform);
   const serverName = platform === "win32" ? "llama-server.exe" : "llama-server";
   const serverPath = path.join(outputDir, serverName);

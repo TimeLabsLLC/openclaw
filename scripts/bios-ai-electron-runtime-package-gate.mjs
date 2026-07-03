@@ -64,6 +64,13 @@ function electronBuilderExecutablePath(dependencyRoot, platform = process.platfo
   );
 }
 
+function electronRuntimeArgs(args, platform = process.platform) {
+  if (platform === "linux") {
+    return ["--no-sandbox", ...args];
+  }
+  return args;
+}
+
 function executableInvocation(command, args, platform = process.platform) {
   if (platform === "win32" && command.toLowerCase().endsWith(".cmd")) {
     return {
@@ -254,10 +261,37 @@ export async function verifyBiosAiElectronRuntimePackageGate(
   params = {},
 ) {
   const normalizedRoot = path.resolve(repoRoot);
+  const platform = params.platform ?? process.platform;
   const dependencyRoot = resolveDependencyRoot(normalizedRoot, params.env);
   const runtimeMissing = await findMissingFiles(
     dependencyRoot,
-    params.runtimeChecks ?? REQUIRED_RUNTIME_FILES,
+    params.runtimeChecks ??
+      (platform === process.platform
+        ? REQUIRED_RUNTIME_FILES
+        : [
+            {
+              label: "Electron runtime package",
+              files: ["node_modules/electron/package.json", "node_modules/electron/path.txt"],
+            },
+            {
+              label: "Electron runtime binary",
+              files:
+                platform === "win32"
+                  ? ["node_modules/electron/dist/electron.exe"]
+                  : ["node_modules/electron/dist/electron"],
+            },
+            {
+              label: "Electron builder package",
+              files: ["node_modules/electron-builder/package.json"],
+            },
+            {
+              label: "Electron builder executable",
+              files:
+                platform === "win32"
+                  ? ["node_modules/.bin/electron-builder.CMD"]
+                  : ["node_modules/.bin/electron-builder"],
+            },
+          ]),
   );
   const appMissing = await findMissingFiles(
     normalizedRoot,
@@ -284,11 +318,15 @@ export async function verifyBiosAiElectronRuntimePackageGate(
     checks.push(
       summarizeCommandCheck(
         "Electron runtime executable reports a version",
-        await runner(electronExecutablePath(dependencyRoot, params.platform), ["--version"], {
-          cwd: normalizedRoot,
-          timeoutMs: params.commandTimeoutMs ?? 30_000,
-          platform: params.platform,
-        }),
+        await runner(
+          electronExecutablePath(dependencyRoot, platform),
+          electronRuntimeArgs(["--version"], platform),
+          {
+            cwd: normalizedRoot,
+            timeoutMs: params.commandTimeoutMs ?? 30_000,
+            platform,
+          },
+        ),
         /^v\d+\.\d+\.\d+/m,
       ),
     );
@@ -310,12 +348,12 @@ export async function verifyBiosAiElectronRuntimePackageGate(
     const runner = params.runProcess ?? runProcess;
     const mainPath = path.join(normalizedRoot, "aether-canvas", "electron", "main.mjs");
     const launchResult = await runner(
-      electronExecutablePath(dependencyRoot, params.platform),
-      [mainPath],
+      electronExecutablePath(dependencyRoot, platform),
+      electronRuntimeArgs([mainPath], platform),
       {
         cwd: normalizedRoot,
         timeoutMs: params.launchTimeoutMs ?? 45_000,
-        platform: params.platform,
+        platform,
         env: {
           ...process.env,
           ...(params.env ?? {}),

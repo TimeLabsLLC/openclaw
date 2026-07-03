@@ -56,7 +56,11 @@ jobs:
         run: |
           pnpm rebuild electron
           pnpm exec install-electron
-          pnpm exec electron --version
+          if [[ "${{ runner.os }}" == "Linux" ]]; then
+            pnpm exec electron --no-sandbox --version
+          else
+            pnpm exec electron --version
+          fi
 
       - name: Prepare llama.cpp sidecar
         shell: bash
