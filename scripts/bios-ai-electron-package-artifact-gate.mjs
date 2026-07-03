@@ -81,6 +81,13 @@ function packagedSidecarCompanionPath(outputRoot, platform = process.platform) {
   return path.join(outputRoot, "win-unpacked", "resources", "bin", "llama-common.dll");
 }
 
+function packagedLaunchArgs(args, platform = process.platform) {
+  if (platform === "linux") {
+    return ["--no-sandbox", ...args];
+  }
+  return args;
+}
+
 function platformSidecarFileName(platform = process.platform) {
   return platform === "win32" ? "llama-server.exe" : "llama-server";
 }
@@ -332,6 +339,7 @@ export async function verifyBiosAiElectronPackageArtifactGate(
   params = {},
 ) {
   const normalizedRoot = path.resolve(repoRoot);
+  const platform = params.platform ?? process.platform;
   const dependencyRoot = resolveDependencyRoot(normalizedRoot, params.env);
   const stageRoot = path.resolve(params.stageRoot || defaultStageRoot(normalizedRoot));
   const outputRoot = path.resolve(params.outputRoot || defaultOutputRoot(normalizedRoot));
@@ -356,9 +364,7 @@ export async function verifyBiosAiElectronPackageArtifactGate(
             stageRoot,
             "resources",
             "bin",
-            params.platform === "win32" || process.platform === "win32"
-              ? "llama-server.exe"
-              : "llama-server",
+            platform === "win32" ? "llama-server.exe" : "llama-server",
           ),
         ))
           ? "pass"
@@ -372,7 +378,7 @@ export async function verifyBiosAiElectronPackageArtifactGate(
     dependencyRoot,
     stageRoot,
     outputRoot,
-    params.platform,
+    platform,
   )
     .then(() => ({
       status: "pass",
@@ -405,7 +411,7 @@ export async function verifyBiosAiElectronPackageArtifactGate(
       .slice(0, 1000),
   });
 
-  const executablePath = packagedExecutablePath(outputRoot, params.platform);
+  const executablePath = packagedExecutablePath(outputRoot, platform);
   const executableExists = await fileExists(executablePath);
   checks.push({
     name: "Packaged BIOS AI executable exists",
@@ -414,9 +420,9 @@ export async function verifyBiosAiElectronPackageArtifactGate(
     executablePath,
   });
 
-  const sidecarPath = packagedSidecarPath(outputRoot, params.platform);
+  const sidecarPath = packagedSidecarPath(outputRoot, platform);
   const sidecarExists = await fileExists(sidecarPath);
-  const sidecarCompanionPath = packagedSidecarCompanionPath(outputRoot, params.platform);
+  const sidecarCompanionPath = packagedSidecarCompanionPath(outputRoot, platform);
   const sidecarCompanionExists = sidecarCompanionPath
     ? await fileExists(sidecarCompanionPath)
     : true;
@@ -451,19 +457,22 @@ export async function verifyBiosAiElectronPackageArtifactGate(
     await mkdir(smokeUserDataDir, { recursive: true });
     const launchResult = await runner(
       executablePath,
-      [
-        "--disable-3d-apis",
-        "--disable-accelerated-2d-canvas",
-        "--disable-gpu",
-        "--disable-gpu-compositing",
-        "--disable-gpu-rasterization",
-        "--disable-gpu-sandbox",
-        "--disable-features=Vulkan,UseSkiaRenderer,CanvasOopRasterization",
-      ],
+      packagedLaunchArgs(
+        [
+          "--disable-3d-apis",
+          "--disable-accelerated-2d-canvas",
+          "--disable-gpu",
+          "--disable-gpu-compositing",
+          "--disable-gpu-rasterization",
+          "--disable-gpu-sandbox",
+          "--disable-features=Vulkan,UseSkiaRenderer,CanvasOopRasterization",
+        ],
+        platform,
+      ),
       {
         cwd: path.dirname(executablePath),
         timeoutMs: params.launchTimeoutMs ?? 180_000,
-        platform: params.platform,
+        platform,
         env: {
           ...process.env,
           ...(params.env ?? {}),

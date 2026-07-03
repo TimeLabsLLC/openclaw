@@ -10,6 +10,7 @@ import { verifyBiosAiElectronRuntimePackageGate } from "./bios-ai-electron-runti
 const SUPPORTED_PLATFORMS = new Set(["win32", "darwin", "linux"]);
 const REQUIRED_WORKFLOW_OSES = ["windows-latest", "macos-13", "ubuntu-24.04"];
 const ELECTRON_PACKAGE_ROOT = path.join(".artifacts", "desktop-shell", "bios-ai-electron-package");
+const PROOF_MODEL_FILE_NAME = "gemma-3-1b-it-Q4_K_M.gguf";
 const PLATFORM_ARTIFACTS = {
   win32: [
     {
@@ -140,6 +141,23 @@ async function inspectArtifact(repoRoot, rule) {
   };
 }
 
+async function prepareProofModelDirectory(repoRoot, params = {}) {
+  if (params.skipProofModel === true) {
+    return null;
+  }
+  const proofModelDir = path.join(repoRoot, "runtime", "outputs", "bios-ai-proof-models");
+  await mkdir(proofModelDir, { recursive: true });
+  const proofModelPath = path.join(proofModelDir, PROOF_MODEL_FILE_NAME);
+  if (!(await pathExists(proofModelPath))) {
+    await writeFile(
+      proofModelPath,
+      "BIOS AI packaged product-flow proof model placeholder; not a real inference model.\n",
+      "utf8",
+    );
+  }
+  return proofModelDir;
+}
+
 export async function inspectBiosAiCrossOsPackageArtifacts(
   repoRoot = resolveRepoRoot(),
   params = {},
@@ -212,6 +230,10 @@ export async function verifyBiosAiCrossOsPackageReadiness(
     ...process.env,
     ...(params.env ?? {}),
   };
+  const proofModelDir = await prepareProofModelDirectory(normalizedRoot, params);
+  if (proofModelDir && !env.BIOS_AI_MODELS_DIR) {
+    env.BIOS_AI_MODELS_DIR = proofModelDir;
+  }
 
   const workflow = params.workflow ?? (await readWorkflowOsMatrix(normalizedRoot));
   const targetConfig = assertBiosAiPackageTargetConfig(
@@ -296,6 +318,7 @@ export async function verifyBiosAiCrossOsPackageReadiness(
       "not Windows code signing",
       "not a guarantee for every end-user machine",
       "not proof that every optional local model is already downloaded",
+      "product-flow proof uses a placeholder GGUF marker when hosted runners do not have a real model cache",
       "not proof that every optional boxed-lane substrate is preinstalled",
     ],
   };

@@ -1,8 +1,8 @@
-import os from "node:os";
-import { access, appendFile, mkdir, open, readFile, readdir, rename, stat } from "node:fs/promises";
-import path from "node:path";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
+import { access, appendFile, mkdir, open, readFile, readdir, rename, stat } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import {
   chatWithLocalWorker,
   probeLocalRuntime,
@@ -271,7 +271,9 @@ async function pathExists(filePath, deps) {
 }
 
 function normalizeCommandText(value) {
-  return String(value || "").replace(/\0/g, "").trim();
+  return String(value || "")
+    .replace(/\0/g, "")
+    .trim();
 }
 
 function parseWslVerboseList(raw) {
@@ -280,7 +282,9 @@ function parseWslVerboseList(raw) {
     .map((line) => line.replace(/^\*\s*/, "").trim())
     .filter((line) => line && !/^name\s+state\s+version$/i.test(line))
     .map((line) => {
-      const match = line.match(/^(.+?)\s+(Running|Stopped|Installing|Uninstalling|Converting)\s+(\d+)$/i);
+      const match = line.match(
+        /^(.+?)\s+(Running|Stopped|Installing|Uninstalling|Converting)\s+(\d+)$/i,
+      );
       if (!match) {
         return null;
       }
@@ -324,7 +328,9 @@ async function detectBoxedLaneStatus(deps = {}) {
       ready: false,
       safe_to_run_untrusted_work: false,
       next_action: "Install WSL2 through the BIOS AI boxed-lane repair path.",
-      detail: normalizeCommandText(status.stderr || status.stdout || version.stderr || version.stdout),
+      detail: normalizeCommandText(
+        status.stderr || status.stdout || version.stderr || version.stdout,
+      ),
     };
   }
 
@@ -412,8 +418,13 @@ async function prepareBoxedLane(payload = {}, deps = {}) {
     const after = await detectBoxedLaneStatus(deps);
     return {
       owner: "electron-main-sidecar",
-      action_taken: setup.status === "pass" || setup.timedOut ? "os_setup_started" : "os_setup_blocked",
-      repair_state: after.ready ? "ready" : setup.status === "pass" || setup.timedOut ? "verifying_after_os_setup" : "needs_admin_or_os_support",
+      action_taken:
+        setup.status === "pass" || setup.timedOut ? "os_setup_started" : "os_setup_blocked",
+      repair_state: after.ready
+        ? "ready"
+        : setup.status === "pass" || setup.timedOut
+          ? "verifying_after_os_setup"
+          : "needs_admin_or_os_support",
       ready: after.ready,
       command_preview: "wsl.exe --install -d Ubuntu --no-launch",
       command_output: normalizeCommandText(setup.stdout || setup.stderr || setup.error),
@@ -438,7 +449,11 @@ async function detectGpu(deps = {}) {
     { timeoutMs: 5000 },
   );
   if (nvidia.status === "pass" && nvidia.stdout.trim()) {
-    const [name, memoryMb] = nvidia.stdout.trim().split(/\r?\n/)[0].split(",").map((part) => part.trim());
+    const [name, memoryMb] = nvidia.stdout
+      .trim()
+      .split(/\r?\n/)[0]
+      .split(",")
+      .map((part) => part.trim());
     const parsedMemoryMb = Number.parseInt(memoryMb, 10);
     return {
       detected: true,
@@ -446,7 +461,9 @@ async function detectGpu(deps = {}) {
       gpu_vendor: "NVIDIA",
       gpu_name: name || "NVIDIA GPU",
       gpu_vram_mb: Number.isFinite(parsedMemoryMb) ? parsedMemoryMb : null,
-      gpu_vram_gb: Number.isFinite(parsedMemoryMb) ? Math.round((parsedMemoryMb / 1024) * 10) / 10 : null,
+      gpu_vram_gb: Number.isFinite(parsedMemoryMb)
+        ? Math.round((parsedMemoryMb / 1024) * 10) / 10
+        : null,
     };
   }
 
@@ -469,12 +486,15 @@ async function detectGpu(deps = {}) {
         return {
           detected: Boolean(parsed.Name),
           source: "win32_video_controller",
-          gpu_vendor: String(parsed.Name || "").toLowerCase().includes("nvidia")
+          gpu_vendor: String(parsed.Name || "")
+            .toLowerCase()
+            .includes("nvidia")
             ? "NVIDIA"
             : "unknown",
           gpu_name: parsed.Name || "unknown",
           gpu_vram_mb: adapterRam > 0 ? Math.round(adapterRam / 1024 / 1024) : null,
-          gpu_vram_gb: adapterRam > 0 ? Math.round((adapterRam / 1024 / 1024 / 1024) * 10) / 10 : null,
+          gpu_vram_gb:
+            adapterRam > 0 ? Math.round((adapterRam / 1024 / 1024 / 1024) * 10) / 10 : null,
         };
       } catch {
         // Fall through to the truthful unavailable state.
@@ -535,7 +555,8 @@ function runtimeStatusFromWorkerAndBoxedStatus(workerStatus, boxedStatus, payloa
 }
 
 function boxedLaneProvisioning(boxedStatus = {}) {
-  const installState = boxedStatus.install_state || (boxedStatus.ready ? "ready" : "needs_linux_distro");
+  const installState =
+    boxedStatus.install_state || (boxedStatus.ready ? "ready" : "needs_linux_distro");
   return {
     owner: "electron-main-sidecar",
     backend: boxedStatus.backend || "native boxed lane",
@@ -618,7 +639,9 @@ function diagnosticsContract(runtime, boxedStatus = {}) {
     headline: ready
       ? "BIOS AI is usable through the local BOSS runtime"
       : "BIOS AI needs runtime setup before full use",
-    summary: issues.length ? issues.join(" ") : "Local BOSS route and boxed-lane telemetry are available.",
+    summary: issues.length
+      ? issues.join(" ")
+      : "Local BOSS route and boxed-lane telemetry are available.",
     issues,
     what_still_works: ready ? ["Local BOSS chat can run through the Electron sidecar."] : [],
     recommended_next_steps: issues,
@@ -635,9 +658,9 @@ function observationContract(profileId) {
     detail: "BIOS AI is waiting for the next user request.",
     active_surface: "local_shell",
     body_state: "shell_standby",
-    body_state_label: "Shell standing by",
+    body_state_label: "Workspace ready",
     body_mode: "shell_standby",
-    body_summary: "Shell standing by",
+    body_summary: "Workspace ready",
     execution_lane: "local_shell",
     host_interruption_policy:
       "Host desktop action is blocked until a private BIOS body lane is ready.",
@@ -725,7 +748,7 @@ function buildBiosShellContract(payload, workerStatus, boxedStatus) {
       health: runtime.route_ready ? "ready" : "needs_setup",
       summary: runtime.route_ready
         ? "BOSS route is ready through the Electron sidecar."
-        : "BOSS route needs local runtime setup.",
+        : "BOSS route needs local setup.",
       recovery_action: runtime.route_ready ? "observe" : "restore_local_route",
       route_ready: runtime.route_ready,
     },
@@ -967,9 +990,18 @@ async function downloadManagedModel(profileId, model, modelsDir, deps = {}) {
 }
 
 async function startWorkerModelDownload(payload = {}, deps = {}) {
-  const profileId = payload.profileId || payload.profile_id || payload.input?.profile_id || payload.input?.profileId;
+  const profileId =
+    payload.profileId ||
+    payload.profile_id ||
+    payload.input?.profile_id ||
+    payload.input?.profileId;
   const variant = payload.variant || payload.input?.variant;
-  const modelsDir = payload.path || payload.models_dir || payload.input?.path || payload.input?.models_dir || defaultModelsDir();
+  const modelsDir =
+    payload.path ||
+    payload.models_dir ||
+    payload.input?.path ||
+    payload.input?.models_dir ||
+    defaultModelsDir();
   const model = managedModelByVariant(variant);
   if (!model) {
     throw new Error(`Unknown BIOS AI managed model variant: ${variant}`);
@@ -1013,10 +1045,21 @@ async function startWorkerModelDownload(payload = {}, deps = {}) {
 }
 
 async function startAllWorkerModelDownloads(payload = {}, deps = {}) {
-  const profileId = payload.profileId || payload.profile_id || payload.input?.profile_id || payload.input?.profileId;
-  const modelsDir = payload.path || payload.models_dir || payload.input?.path || payload.input?.models_dir || defaultModelsDir();
+  const profileId =
+    payload.profileId ||
+    payload.profile_id ||
+    payload.input?.profile_id ||
+    payload.input?.profileId;
+  const modelsDir =
+    payload.path ||
+    payload.models_dir ||
+    payload.input?.path ||
+    payload.input?.models_dir ||
+    defaultModelsDir();
   const catalog = await workerModelCatalog(modelsDir, deps);
-  const missing = catalog.filter((model) => model.download_supported && !model.installed).map((model) => model.variant);
+  const missing = catalog
+    .filter((model) => model.download_supported && !model.installed)
+    .map((model) => model.variant);
   if (downloadQueueState(profileId).state === "running") {
     return downloadQueueState(profileId);
   }

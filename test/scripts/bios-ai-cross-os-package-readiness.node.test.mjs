@@ -174,6 +174,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     const repoRoot = await fixtureRepo();
     await writePlatformArtifacts(repoRoot, "linux");
     const calls = [];
+    let productFlowEnv;
     const summaryPath = path.join(repoRoot, "summary.json");
 
     const result = await verifyBiosAiCrossOsPackageReadiness(repoRoot, {
@@ -184,7 +185,10 @@ describe("BIOS AI cross-OS package readiness", () => {
       },
       runRuntimeGate: async () => ({ status: "pass" }),
       runPackageGate: async () => ({ status: "pass" }),
-      runProductFlowGate: async () => ({ status: "pass" }),
+      runProductFlowGate: async (_repoRoot, params) => {
+        productFlowEnv = params.env;
+        return { status: "pass" };
+      },
     });
 
     assert.equal(result.status, "ready");
@@ -196,6 +200,13 @@ describe("BIOS AI cross-OS package readiness", () => {
     ]);
     assert.equal(calls.length, 1);
     assert.deepEqual(calls[0].args, [path.join("aether-canvas", "scripts", "prepare-dist.mjs")]);
+    assert.equal(
+      await readFile(
+        path.join(productFlowEnv.BIOS_AI_MODELS_DIR, "gemma-3-1b-it-Q4_K_M.gguf"),
+        "utf8",
+      ),
+      "BIOS AI packaged product-flow proof model placeholder; not a real inference model.\n",
+    );
     assert.equal(JSON.parse(await readFile(summaryPath, "utf8")).platform, "linux");
   });
 
