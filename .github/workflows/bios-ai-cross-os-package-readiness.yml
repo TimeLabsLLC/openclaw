@@ -51,6 +51,10 @@ jobs:
           install-bun: "false"
           pnpm-version: "10.33.2"
 
+      - name: Rebuild Electron runtime
+        shell: bash
+        run: pnpm rebuild electron
+
       - name: Prepare llama.cpp sidecar
         shell: bash
         run: node scripts/bios-ai-prepare-llama-sidecar.mjs
