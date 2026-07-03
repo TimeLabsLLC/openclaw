@@ -1,5 +1,5 @@
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
@@ -92,13 +92,6 @@ function runProcess(command, args, options = {}) {
   });
 }
 
-const MODEL_SEARCH_DIRS = [
-  process.env.BIOS_AI_MODELS_DIR,
-  "E:/BIOS AI/models",
-  path.join(os.homedir(), ".agentos", "bios-ai", "models"),
-  path.join(os.homedir(), ".bios-ai", "models"),
-].filter(Boolean);
-
 const RETURNING_USER_MODEL_CANDIDATES = [
   {
     variant: "gemma-3-1b",
@@ -121,11 +114,21 @@ async function readJson(filePath) {
   return JSON.parse(await readFile(filePath, "utf8"));
 }
 
+function modelSearchDirs(params = {}) {
+  return [
+    params.env?.BIOS_AI_MODELS_DIR,
+    process.env.BIOS_AI_MODELS_DIR,
+    "E:/BIOS AI/models",
+    path.join(os.homedir(), ".agentos", "bios-ai", "models"),
+    path.join(os.homedir(), ".bios-ai", "models"),
+  ].filter(Boolean);
+}
+
 async function findReturningUserModel(params = {}) {
   if (params.returningUserModel) {
     return params.returningUserModel;
   }
-  const searchDirs = params.modelSearchDirs || MODEL_SEARCH_DIRS;
+  const searchDirs = params.modelSearchDirs || modelSearchDirs(params);
   for (const dir of searchDirs) {
     for (const candidate of RETURNING_USER_MODEL_CANDIDATES) {
       const modelPath = path.join(dir, candidate.file_name);
@@ -230,17 +233,24 @@ export async function verifyBiosAiElectronProductFlowGate(
   params = {},
 ) {
   const normalizedRoot = path.resolve(repoRoot);
-  const executablePath = params.executablePath || packagedExecutablePath(normalizedRoot, params.platform);
+  const executablePath =
+    params.executablePath || packagedExecutablePath(normalizedRoot, params.platform);
   const proofRoot =
     params.proofRoot ||
     path.join(normalizedRoot, "runtime", "outputs", "bios-ai-electron-product-flow");
   const returningProofRoot = path.join(proofRoot, "returning-user");
   const firstRunProofRoot = path.join(proofRoot, "first-run");
-  const returningSmokeReportPath = path.join(returningProofRoot, "packaged-product-flow-smoke.json");
+  const returningSmokeReportPath = path.join(
+    returningProofRoot,
+    "packaged-product-flow-smoke.json",
+  );
   const firstRunSmokeReportPath = path.join(firstRunProofRoot, "packaged-product-flow-smoke.json");
   const selectedModel = await findReturningUserModel(params);
   const tempHome =
-    params.homeRoot || (selectedModel ? await mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-product-flow-")) : null);
+    params.homeRoot ||
+    (selectedModel
+      ? await mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-product-flow-"))
+      : null);
   const proofProfileId = params.profileId || "proof-boss";
   const proofProfileName = params.profileName || "Proof BOSS";
   if (selectedModel && tempHome) {
@@ -259,7 +269,9 @@ export async function verifyBiosAiElectronProductFlowGate(
     {
       name: "Returning-user proof has an installed BOSS brain model",
       status: selectedModel ? "pass" : "fail",
-      missing: selectedModel ? [] : ["no installed GGUF model found for packaged returning-user proof"],
+      missing: selectedModel
+        ? []
+        : ["no installed GGUF model found for packaged returning-user proof"],
       model: selectedModel,
     },
   ];
@@ -341,7 +353,9 @@ export async function verifyBiosAiElectronProductFlowGate(
 
     const firstRunHome =
       params.firstRunHomeRoot ||
-      (params.homeRoot ? path.join(params.homeRoot, "first-run-empty-home") : await mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-first-run-")));
+      (params.homeRoot
+        ? path.join(params.homeRoot, "first-run-empty-home")
+        : await mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-first-run-")));
     const firstRunLaunch = await (params.runProcess ?? runProcess)(executablePath, [], {
       cwd: path.dirname(executablePath),
       timeoutMs: params.timeoutMs ?? 180_000,
@@ -393,7 +407,9 @@ export async function verifyBiosAiElectronProductFlowGate(
         firstRunProof.onboardingStarted === true &&
         firstRunProof.noSavedProfileRequired === true
           ? []
-          : ["first-run onboarding screenshot was not proven without saved-profile dependency or visible internal errors"],
+          : [
+              "first-run onboarding screenshot was not proven without saved-profile dependency or visible internal errors",
+            ],
       exitCode: firstRunLaunch.exitCode,
       timedOut: firstRunLaunch.timedOut,
       smokeReportPath: firstRunSmokeReportPath,
@@ -412,7 +428,12 @@ export async function verifyBiosAiElectronProductFlowGate(
     shell: "electron",
     packageKind: "visible packaged Electron product-flow proof",
     checks,
-    outputPath: path.join(normalizedRoot, "runtime", "outputs", "bios-ai-electron-product-flow-gate.json"),
+    outputPath: path.join(
+      normalizedRoot,
+      "runtime",
+      "outputs",
+      "bios-ai-electron-product-flow-gate.json",
+    ),
   };
   await mkdir(path.dirname(report.outputPath), { recursive: true });
   await import("node:fs/promises").then(({ writeFile }) =>
