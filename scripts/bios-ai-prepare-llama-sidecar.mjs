@@ -118,10 +118,12 @@ async function extractArchive(archivePath, extractRoot, platform = process.platf
 }
 
 async function fetchJson(url) {
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
   const response = await fetch(url, {
     headers: {
       "User-Agent": "bios-ai-package-readiness",
       Accept: "application/vnd.github+json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
   assertCondition(response.ok, `Failed to fetch ${url}: HTTP ${response.status}`);

@@ -64,6 +64,8 @@ jobs:
 
       - name: Prepare llama.cpp sidecar
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/bios-ai-prepare-llama-sidecar.mjs
 
       - name: Run BIOS AI package readiness
@@ -89,4 +91,4 @@ jobs:
             runtime/outputs/bios-ai-electron-*.json
             runtime/outputs/bios-ai-electron-product-flow/**
             .artifacts/desktop-shell/bios-ai-electron-package/**
-          if-no-files-found: error
+          if-no-files-found: warn

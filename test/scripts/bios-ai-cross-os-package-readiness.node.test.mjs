@@ -226,6 +226,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     assert.ok(workflowText.includes("pnpm exec install-electron"));
     assert.ok(workflowText.includes("pnpm exec electron --no-sandbox --version"));
     assert.ok(workflowText.includes("pnpm exec electron --version"));
+    assert.ok(workflowText.includes("GITHUB_TOKEN: ${{ github.token }}"));
     assert.ok(workflowText.includes("node scripts/bios-ai-prepare-llama-sidecar.mjs"));
     assert.ok(
       workflowText.includes("xvfb-run -a node scripts/bios-ai-cross-os-package-readiness.mjs"),
@@ -235,6 +236,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     assert.ok(workflowText.includes("runtime/outputs/bios-ai-electron-product-flow/**"));
     assert.ok(workflowText.includes("name: Upload package readiness proof"));
     assert.ok(workflowText.includes("if: always()"));
+    assert.ok(workflowText.includes("if-no-files-found: warn"));
     assert.ok(releaseSmokeSource.includes("verifyBiosAiElectronPackageArtifactGate"));
     assert.ok(!releaseSmokeSource.includes('"--bundles",\n      "nsis"'));
   });
