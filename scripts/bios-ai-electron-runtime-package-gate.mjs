@@ -4,30 +4,49 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const REQUIRED_RUNTIME_FILES = [
-  {
-    label: "Electron runtime package",
-    files: ["node_modules/electron/package.json", "node_modules/electron/path.txt"],
-  },
-  {
-    label: "Electron runtime binary",
-    files:
-      process.platform === "win32"
-        ? ["node_modules/electron/dist/electron.exe"]
-        : ["node_modules/electron/dist/electron"],
-  },
-  {
-    label: "Electron builder package",
-    files: ["node_modules/electron-builder/package.json"],
-  },
-  {
-    label: "Electron builder executable",
-    files:
-      process.platform === "win32"
-        ? ["node_modules/.bin/electron-builder.CMD"]
-        : ["node_modules/.bin/electron-builder"],
-  },
-];
+function electronExecutableRelativePath(platform = process.platform) {
+  if (platform === "win32") {
+    return path.join("node_modules", "electron", "dist", "electron.exe");
+  }
+  if (platform === "darwin") {
+    return path.join(
+      "node_modules",
+      "electron",
+      "dist",
+      "Electron.app",
+      "Contents",
+      "MacOS",
+      "Electron",
+    );
+  }
+  return path.join("node_modules", "electron", "dist", "electron");
+}
+
+function runtimePackageChecks(platform = process.platform) {
+  return [
+    {
+      label: "Electron runtime package",
+      files: ["node_modules/electron/package.json", "node_modules/electron/path.txt"],
+    },
+    {
+      label: "Electron runtime binary",
+      files: [electronExecutableRelativePath(platform)],
+    },
+    {
+      label: "Electron builder package",
+      files: ["node_modules/electron-builder/package.json"],
+    },
+    {
+      label: "Electron builder executable",
+      files:
+        platform === "win32"
+          ? ["node_modules/.bin/electron-builder.CMD"]
+          : ["node_modules/.bin/electron-builder"],
+    },
+  ];
+}
+
+const REQUIRED_RUNTIME_FILES = runtimePackageChecks();
 
 const REQUIRED_APP_FILES = [
   "aether-canvas/electron/main.mjs",
@@ -46,13 +65,7 @@ function resolveDependencyRoot(repoRoot, env = process.env) {
 }
 
 function electronExecutablePath(dependencyRoot, platform = process.platform) {
-  return path.join(
-    dependencyRoot,
-    "node_modules",
-    "electron",
-    "dist",
-    platform === "win32" ? "electron.exe" : "electron",
-  );
+  return path.join(dependencyRoot, electronExecutableRelativePath(platform));
 }
 
 function electronBuilderExecutablePath(dependencyRoot, platform = process.platform) {
@@ -266,32 +279,7 @@ export async function verifyBiosAiElectronRuntimePackageGate(
   const runtimeMissing = await findMissingFiles(
     dependencyRoot,
     params.runtimeChecks ??
-      (platform === process.platform
-        ? REQUIRED_RUNTIME_FILES
-        : [
-            {
-              label: "Electron runtime package",
-              files: ["node_modules/electron/package.json", "node_modules/electron/path.txt"],
-            },
-            {
-              label: "Electron runtime binary",
-              files:
-                platform === "win32"
-                  ? ["node_modules/electron/dist/electron.exe"]
-                  : ["node_modules/electron/dist/electron"],
-            },
-            {
-              label: "Electron builder package",
-              files: ["node_modules/electron-builder/package.json"],
-            },
-            {
-              label: "Electron builder executable",
-              files:
-                platform === "win32"
-                  ? ["node_modules/.bin/electron-builder.CMD"]
-                  : ["node_modules/.bin/electron-builder"],
-            },
-          ]),
+      (platform === process.platform ? REQUIRED_RUNTIME_FILES : runtimePackageChecks(platform)),
   );
   const appMissing = await findMissingFiles(
     normalizedRoot,

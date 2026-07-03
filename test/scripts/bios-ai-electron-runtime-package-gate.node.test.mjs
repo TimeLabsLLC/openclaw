@@ -28,7 +28,9 @@ async function createRuntimeFixture(root, platform = process.platform) {
     "node_modules/electron/path.txt",
     platform === "win32"
       ? "node_modules/electron/dist/electron.exe"
-      : "node_modules/electron/dist/electron",
+      : platform === "darwin"
+        ? "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron"
+        : "node_modules/electron/dist/electron",
     platform === "win32"
       ? "node_modules/.bin/electron-builder.CMD"
       : "node_modules/.bin/electron-builder",
@@ -131,6 +133,51 @@ describe("BIOS AI Electron runtime package gate", () => {
     assert.equal(
       report.checks.every((check) => check.status === "pass"),
       true,
+    );
+  });
+
+  it("uses the macOS Electron app-bundle binary path", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-runtime-macos-")),
+    );
+    await createAppFixture(fixtureRoot);
+    await createRuntimeFixture(fixtureRoot, "darwin");
+    const commands = [];
+
+    const report = await verifyBiosAiElectronRuntimePackageGate(fixtureRoot, {
+      platform: "darwin",
+      writeReport: false,
+      runProcess: async (command, args, options = {}) => {
+        commands.push(command);
+        if (options.env?.BIOS_AI_ELECTRON_SMOKE_REPORT) {
+          await writeFixtureFile(
+            "",
+            options.env.BIOS_AI_ELECTRON_SMOKE_REPORT,
+            JSON.stringify({
+              status: "pass",
+              appName: "BIOS AI",
+              sidecarProof: { status: "pass" },
+            }),
+          );
+        }
+        return {
+          status: "pass",
+          exitCode: 0,
+          timedOut: false,
+          stdout: args.includes("--version") ? "v42.2.0\n" : "",
+          stderr: "",
+        };
+      },
+    });
+
+    assert.equal(report.status, "pass");
+    assert.match(
+      commands[0],
+      /node_modules[\\/]electron[\\/]dist[\\/]Electron\.app[\\/]Contents[\\/]MacOS[\\/]Electron$/,
+    );
+    assert.match(
+      commands[1],
+      /node_modules[\\/]electron[\\/]dist[\\/]Electron\.app[\\/]Contents[\\/]MacOS[\\/]Electron$/,
     );
   });
 
