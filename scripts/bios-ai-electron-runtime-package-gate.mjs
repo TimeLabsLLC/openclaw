@@ -1,5 +1,5 @@
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -156,8 +156,12 @@ function summarizeCommandCheck(name, result, expectedPattern) {
     missing: result.status === "pass" && versionMatched ? [] : [`expected ${expectedPattern}`],
     exitCode: result.exitCode,
     timedOut: result.timedOut,
-    stdout: String(result.stdout || "").trim().slice(0, 500),
-    stderr: String(result.stderr || "").trim().slice(0, 500),
+    stdout: String(result.stdout || "")
+      .trim()
+      .slice(0, 500),
+    stderr: String(result.stderr || "")
+      .trim()
+      .slice(0, 500),
   };
 }
 
@@ -165,7 +169,8 @@ async function readPackageVersion(packageJsonPath) {
   try {
     const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
     return {
-      status: typeof packageJson.version === "string" && packageJson.version.length > 0 ? "pass" : "fail",
+      status:
+        typeof packageJson.version === "string" && packageJson.version.length > 0 ? "pass" : "fail",
       version: packageJson.version || "",
       packageJsonPath,
       error: "",
@@ -218,9 +223,17 @@ function assertPass(report) {
   if (failures.length === 0) {
     return;
   }
+  const summarizeMissing = (missing) =>
+    missing
+      .map((entry) =>
+        typeof entry === "string"
+          ? entry
+          : `${entry.label ?? "Required file"}: ${entry.file ?? JSON.stringify(entry)}`,
+      )
+      .join(", ");
   throw new Error(
     `BIOS AI Electron runtime package gate failed:\n${failures
-      .map((check) => `${check.name}: ${check.missing.join(", ")}`)
+      .map((check) => `${check.name}: ${summarizeMissing(check.missing)}`)
       .join("\n")}`,
   );
 }
@@ -248,7 +261,10 @@ export async function verifyBiosAiElectronRuntimePackageGate(
   );
   const appMissing = await findMissingFiles(
     normalizedRoot,
-    (params.appFiles ?? REQUIRED_APP_FILES).map((file) => ({ label: "BIOS AI Electron app file", files: [file] })),
+    (params.appFiles ?? REQUIRED_APP_FILES).map((file) => ({
+      label: "BIOS AI Electron app file",
+      files: [file],
+    })),
   );
   const checks = [
     {
@@ -290,25 +306,25 @@ export async function verifyBiosAiElectronRuntimePackageGate(
   const smokeReportPath =
     params.smokeReportPath ||
     path.join(normalizedRoot, "runtime", "outputs", "bios-ai-electron-app-launch-smoke.json");
-  if (
-    runtimeMissing.length === 0 &&
-    appMissing.length === 0 &&
-    params.runLaunchSmoke !== false
-  ) {
+  if (runtimeMissing.length === 0 && appMissing.length === 0 && params.runLaunchSmoke !== false) {
     const runner = params.runProcess ?? runProcess;
     const mainPath = path.join(normalizedRoot, "aether-canvas", "electron", "main.mjs");
-    const launchResult = await runner(electronExecutablePath(dependencyRoot, params.platform), [mainPath], {
-      cwd: normalizedRoot,
-      timeoutMs: params.launchTimeoutMs ?? 45_000,
-      platform: params.platform,
-      env: {
-        ...process.env,
-        ...(params.env ?? {}),
-        BIOS_AI_ELECTRON_SMOKE: "1",
-        BIOS_AI_ELECTRON_SMOKE_EXIT_MS: String(params.smokeExitMs ?? 1200),
-        BIOS_AI_ELECTRON_SMOKE_REPORT: smokeReportPath,
+    const launchResult = await runner(
+      electronExecutablePath(dependencyRoot, params.platform),
+      [mainPath],
+      {
+        cwd: normalizedRoot,
+        timeoutMs: params.launchTimeoutMs ?? 45_000,
+        platform: params.platform,
+        env: {
+          ...process.env,
+          ...(params.env ?? {}),
+          BIOS_AI_ELECTRON_SMOKE: "1",
+          BIOS_AI_ELECTRON_SMOKE_EXIT_MS: String(params.smokeExitMs ?? 1200),
+          BIOS_AI_ELECTRON_SMOKE_REPORT: smokeReportPath,
+        },
       },
-    });
+    );
     const smokeReport = await readSmokeReport(smokeReportPath);
     checks.push({
       name: "BIOS AI Electron app launches the real renderer in hidden smoke mode",
@@ -325,13 +341,19 @@ export async function verifyBiosAiElectronRuntimePackageGate(
         hasPassingSidecarProof(smokeReport) &&
         !hasElectronHandlerError(launchResult)
           ? []
-          : ["Electron app launch smoke did not produce a clean passing smoke report with sidecar proof"],
+          : [
+              "Electron app launch smoke did not produce a clean passing smoke report with sidecar proof",
+            ],
       exitCode: launchResult.exitCode,
       timedOut: launchResult.timedOut,
       smokeReportPath,
       smokeReport,
-      stdout: String(launchResult.stdout || "").trim().slice(0, 500),
-      stderr: String(launchResult.stderr || "").trim().slice(0, 500),
+      stdout: String(launchResult.stdout || "")
+        .trim()
+        .slice(0, 500),
+      stderr: String(launchResult.stderr || "")
+        .trim()
+        .slice(0, 500),
     });
   }
 
@@ -343,7 +365,8 @@ export async function verifyBiosAiElectronRuntimePackageGate(
     owner: "scripts/bios-ai-electron-runtime-package-gate.mjs",
     target: "bios-ai",
     shell: "electron",
-    bypassPolicy: "Tauri remains fallback-only until this runtime gate and packaged artifact proof both pass.",
+    bypassPolicy:
+      "Tauri remains fallback-only until this runtime gate and packaged artifact proof both pass.",
     checks,
   };
   if (params.writeReport !== false) {

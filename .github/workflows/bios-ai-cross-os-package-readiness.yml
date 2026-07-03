@@ -53,7 +53,10 @@ jobs:
 
       - name: Rebuild Electron runtime
         shell: bash
-        run: pnpm rebuild electron
+        run: |
+          pnpm rebuild electron
+          pnpm exec install-electron
+          pnpm exec electron --version
 
       - name: Prepare llama.cpp sidecar
         shell: bash

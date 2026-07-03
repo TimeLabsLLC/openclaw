@@ -212,6 +212,8 @@ describe("BIOS AI cross-OS package readiness", () => {
     assert.ok(workflowText.includes("- macos-13"));
     assert.ok(workflowText.includes("- ubuntu-24.04"));
     assert.ok(workflowText.includes("pnpm rebuild electron"));
+    assert.ok(workflowText.includes("pnpm exec install-electron"));
+    assert.ok(workflowText.includes("pnpm exec electron --version"));
     assert.ok(workflowText.includes("node scripts/bios-ai-prepare-llama-sidecar.mjs"));
     assert.ok(
       workflowText.includes("xvfb-run -a node scripts/bios-ai-cross-os-package-readiness.mjs"),

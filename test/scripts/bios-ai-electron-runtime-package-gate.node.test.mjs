@@ -36,7 +36,11 @@ async function createRuntimeFixture(root, platform = process.platform) {
   for (const file of files) {
     await writeFixtureFile(root, file);
   }
-  await writeFixtureFile(root, "node_modules/electron/package.json", JSON.stringify({ version: "42.2.0" }));
+  await writeFixtureFile(
+    root,
+    "node_modules/electron/package.json",
+    JSON.stringify({ version: "42.2.0" }),
+  );
   await writeFixtureFile(
     root,
     "node_modules/electron-builder/package.json",
@@ -68,6 +72,29 @@ describe("BIOS AI Electron runtime package gate", () => {
     );
   });
 
+  it("reports missing Electron runtime file labels instead of object placeholders", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-runtime-message-")),
+    );
+
+    await assert.rejects(
+      () =>
+        verifyBiosAiElectronRuntimePackageGate(fixtureRoot, {
+          writeReport: false,
+          runVersionChecks: false,
+          runLaunchSmoke: false,
+        }),
+      (error) => {
+        assert.match(
+          error.message,
+          /Electron runtime package: node_modules\/electron\/package\.json/,
+        );
+        assert.doesNotMatch(error.message, /\[object Object\]/);
+        return true;
+      },
+    );
+  });
+
   it("passes when Electron, builder, and hidden app launch smoke are proved", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-runtime-pass-")),
@@ -82,7 +109,11 @@ describe("BIOS AI Electron runtime package gate", () => {
           await writeFixtureFile(
             "",
             options.env.BIOS_AI_ELECTRON_SMOKE_REPORT,
-            JSON.stringify({ status: "pass", appName: "BIOS AI", sidecarProof: { status: "pass" } }),
+            JSON.stringify({
+              status: "pass",
+              appName: "BIOS AI",
+              sidecarProof: { status: "pass" },
+            }),
           );
           return { status: "pass", exitCode: 0, timedOut: false, stdout: "", stderr: "" };
         }
@@ -97,7 +128,10 @@ describe("BIOS AI Electron runtime package gate", () => {
     });
 
     assert.equal(report.status, "pass");
-    assert.equal(report.checks.every((check) => check.status === "pass"), true);
+    assert.equal(
+      report.checks.every((check) => check.status === "pass"),
+      true,
+    );
   });
 
   it("keeps the gate blocked when launch smoke cannot prove the BIOS renderer loaded", async () => {
@@ -142,7 +176,11 @@ describe("BIOS AI Electron runtime package gate", () => {
           await writeFixtureFile(
             "",
             options.env.BIOS_AI_ELECTRON_SMOKE_REPORT,
-            JSON.stringify({ status: "pass", appName: "BIOS AI", sidecarProof: { status: "pass" } }),
+            JSON.stringify({
+              status: "pass",
+              appName: "BIOS AI",
+              sidecarProof: { status: "pass" },
+            }),
           );
           return {
             status: "pass",
