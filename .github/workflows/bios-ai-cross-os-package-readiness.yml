@@ -1,0 +1,80 @@
+name: BIOS AI Cross-OS Package Readiness
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/bios-ai-cross-os-package-readiness.yml"
+      - ".github/actions/setup-node-env/action.yml"
+      - "aether-canvas/**"
+      - "scripts/bios-ai-*.mjs"
+      - "scripts/bios-ai-release-smoke.*"
+      - "test/scripts/bios-ai-cross-os-package-readiness.node.test.mjs"
+      - "test/vitest/vitest.bios-ai.config.ts"
+      - "package.json"
+      - "pnpm-lock.yaml"
+
+permissions: read-all
+
+concurrency:
+  group: bios-ai-cross-os-package-readiness-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package-readiness:
+    name: ${{ matrix.os }} package readiness
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - macos-13
+          - ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Linux Electron smoke dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libxss1 libasound2t64 libdrm2 libgbm1
+
+      - name: Setup Node
+        uses: ./.github/actions/setup-node-env
+        with:
+          node-version: "24.x"
+          cache-key-suffix: bios-ai-package-readiness-${{ runner.os }}
+          install-bun: "false"
+          pnpm-version: "10.33.2"
+
+      - name: Prepare llama.cpp sidecar
+        shell: bash
+        run: node scripts/bios-ai-prepare-llama-sidecar.mjs
+
+      - name: Run BIOS AI package readiness
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/bios-ai-package-readiness"
+          if [[ "${{ runner.os }}" == "Linux" ]]; then
+            xvfb-run -a node scripts/bios-ai-cross-os-package-readiness.mjs \
+              --summary "$RUNNER_TEMP/bios-ai-package-readiness/summary-${{ matrix.os }}.json"
+          else
+            node scripts/bios-ai-cross-os-package-readiness.mjs \
+              --summary "$RUNNER_TEMP/bios-ai-package-readiness/summary-${{ matrix.os }}.json"
+          fi
+
+      - name: Upload package readiness proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: bios-ai-package-readiness-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/bios-ai-package-readiness/*.json
+            runtime/outputs/bios-ai-llama-sidecar-*.json
+            runtime/outputs/bios-ai-electron-*.json
+            runtime/outputs/bios-ai-electron-product-flow/**
+            .artifacts/desktop-shell/bios-ai-electron-package/**
+          if-no-files-found: error

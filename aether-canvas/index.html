@@ -1,0 +1,2218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIOS AI</title>
+    <meta
+      name="description"
+      content="BIOS AI — Your local agent operating system. Frictionless AI-powered desktop automation with privacy-first design."
+    />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/png" href="assets/bios-ai-icon.png" />
+    <link rel="apple-touch-icon" href="assets/bios-ai-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+  </head>
+  <body>
+    <div id="aether-root" data-active-page="bios">
+      <!-- ── Icon Rail (Zone 1) ─────────────────────────────── -->
+      <nav class="rail" aria-label="Primary navigation">
+        <!-- === HOME (BIOS AI) rail icons === -->
+        <div class="rail-page-group" id="rail-home" data-page="home">
+          <button class="rail-btn active" data-surface="chat" type="button" title="Chat">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </button>
+          <button
+            class="rail-btn rail-page-switch"
+            data-page-target="forge"
+            type="button"
+            title="Forge Arena"
+          >
+            <span class="rail-glow-icon">FA</span>
+          </button>
+          <button class="rail-btn" data-surface="tasks" type="button" title="Tasks">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 11l3 3L22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="workflows" type="button" title="Workflows">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="approvals" type="button" title="Approvals">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="memory" type="button" title="Memory">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"
+              />
+              <line x1="10" y1="22" x2="14" y2="22" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="status" type="button" title="Status">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="log" type="button" title="Log">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+          </button>
+          <div class="rail-spacer"></div>
+          <button class="rail-btn" data-surface="help" type="button" title="Help">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="settings" type="button" title="Settings">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- === FORGE ARENA rail icons (hidden until FA is selected) === -->
+        <div class="rail-page-group hidden" id="rail-forge" data-page="forge">
+          <button class="rail-btn active" data-surface="fa-feed" type="button" title="Arena Feed">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </button>
+          <button
+            class="rail-btn rail-page-switch"
+            data-page-target="home"
+            type="button"
+            title="Home"
+          >
+            <span class="rail-glow-icon rail-glow-home">⌂</span>
+          </button>
+          <button class="rail-btn" data-surface="fa-challenges" type="button" title="Challenges">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7" />
+              <path d="M4 22h16" />
+              <path d="M10 22V8h4v14" />
+              <path d="M8 9h8" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="fa-leaderboard" type="button" title="Leaderboard">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 20v-6M6 20v-4M18 20v-8" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="fa-runs" type="button" title="Runs">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="fa-judging" type="button" title="Judging">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+              <line x1="9" y1="9" x2="9.01" y2="9" />
+              <line x1="15" y1="9" x2="15.01" y2="9" />
+            </svg>
+          </button>
+          <button class="rail-btn" data-surface="fa-history" type="button" title="History">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </button>
+          <div class="rail-spacer"></div>
+          <button class="rail-btn" data-surface="fa-settings" type="button" title="Arena Settings">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ── Context Panel (Zone 2) — switchable surfaces ────── -->
+      <aside class="context-panel" aria-label="Context panel">
+        <!-- ▸ Chat (default surface) -->
+        <section class="ctx-surface active" id="surface-chat" data-surface="chat">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Agent Activity: <strong id="activity-label">IDLE</strong></p>
+            <div class="ctx-runtime-strip" id="ctx-runtime-strip" aria-label="BOSS runtime summary">
+              <span class="ctx-runtime-chip ctx-runtime-chip-strong" id="rail-boss-name"
+                >Waiting on onboarding</span
+              >
+              <span class="ctx-runtime-chip" id="rail-boss-route">Route waiting</span>
+              <span class="ctx-runtime-chip" id="rail-boss-worker">Worker waiting</span>
+            </div>
+          </div>
+          <div class="chat-stream" id="chat-stream">
+            <p class="ctx-empty" id="chat-empty">
+              Ask BIOS AI for a first task, or finish setup if the readiness panel says a route is
+              blocked.
+            </p>
+          </div>
+          <div class="chat-compose">
+            <textarea
+              id="chat-input"
+              class="chat-input"
+              placeholder="Message BIOS AI..."
+              rows="1"
+              autocomplete="off"
+            ></textarea>
+            <button id="btn-send" class="chat-send" type="button" aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+              </svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- ▸ Tasks -->
+        <section class="ctx-surface" id="surface-tasks" data-surface="tasks">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">
+              Agent Activity: <strong id="tasks-activity-label">IDLE</strong>
+            </p>
+          </div>
+          <h2 class="ctx-heading">Autonomous Goals</h2>
+          <p class="ctx-sub">Checklist is updating in real-time.</p>
+          <ul class="task-list" id="task-checklist">
+            <!-- Steps render here dynamically:
+              <li class="task-item completed">
+                <span class="task-icon">✓</span>
+                <div><strong>Project Created</strong><span class="task-detail">Railway</span></div>
+              </li>
+              <li class="task-item active">
+                <span class="task-icon">▶</span>
+                <div><strong>Database Deployed</strong><span class="task-detail">In Progress - Configuring Settings...</span></div>
+              </li>
+              <li class="task-item pending">
+                <span class="task-icon">☐</span>
+                <div><strong>Deploy Service</strong><span class="task-detail">Pending</span></div>
+              </li>
+            -->
+          </ul>
+          <div class="activity-log-section">
+            <h3 class="ctx-log-heading">Activity Log</h3>
+            <div class="activity-log" id="activity-log">
+              <!-- * Navigated to Database Settings...
+                   * Filling environment variables... -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ▸ Workflows (Phase N) -->
+        <section class="ctx-surface" id="surface-workflows" data-surface="workflows">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Workflows &amp; Playbooks</p>
+          </div>
+          <h2 class="ctx-heading">Automation Workflows</h2>
+          <p class="ctx-sub">
+            Define multi-step playbooks that BIOS AI can execute autonomously or on-demand.
+          </p>
+          <div id="workflows-list" class="workflow-list">
+            <!-- Example workflow card (rendered dynamically) -->
+            <div class="workflow-card glass" id="wf-deploy-pipeline">
+              <div class="workflow-card-header">
+                <span class="workflow-card-icon">▶</span>
+                <div class="workflow-card-info">
+                  <strong class="workflow-card-name">Deploy Pipeline</strong>
+                  <span class="badge badge-success">Ready</span>
+                </div>
+              </div>
+              <p class="workflow-card-desc">
+                Build → Test → Approve → Deploy. 4 steps, manual trigger.
+              </p>
+              <div class="workflow-card-meta">
+                <span class="workflow-step-count">4 steps</span>
+                <span class="workflow-trigger-type">Manual</span>
+              </div>
+              <button class="btn btn-primary workflow-run-btn" type="button">Run</button>
+            </div>
+
+            <div class="workflow-card glass" id="wf-nightly-cleanup">
+              <div class="workflow-card-header">
+                <span class="workflow-card-icon">🔄</span>
+                <div class="workflow-card-info">
+                  <strong class="workflow-card-name">Nightly Cleanup</strong>
+                  <span class="badge badge-accent">Scheduled</span>
+                </div>
+              </div>
+              <p class="workflow-card-desc">
+                Glymphatic clearance, memory compaction, and stale session pruning.
+              </p>
+              <div class="workflow-card-meta">
+                <span class="workflow-step-count">3 steps</span>
+                <span class="workflow-trigger-type">Cron: 0 3 * * *</span>
+              </div>
+              <button class="btn btn-ghost workflow-run-btn" type="button">Run Now</button>
+            </div>
+
+            <div class="workflow-card glass" id="wf-first-run-discovery">
+              <div class="workflow-card-header">
+                <span class="workflow-card-icon">🔍</span>
+                <div class="workflow-card-info">
+                  <strong class="workflow-card-name">First-Run Discovery</strong>
+                  <span class="badge badge-warning">On Boot</span>
+                </div>
+              </div>
+              <p class="workflow-card-desc">
+                Scan for API keys, soul.md, profiles, and credentials on first launch.
+              </p>
+              <div class="workflow-card-meta">
+                <span class="workflow-step-count">2 steps</span>
+                <span class="workflow-trigger-type">System Boot</span>
+              </div>
+              <button class="btn btn-ghost workflow-run-btn" type="button">Re-scan</button>
+            </div>
+          </div>
+          <div class="workflow-empty hidden" id="workflows-empty">
+            <p class="ctx-empty">No workflows configured. Create one from the chat or API.</p>
+          </div>
+        </section>
+
+        <!-- ▸ Approvals -->
+        <section class="ctx-surface" id="surface-approvals" data-surface="approvals">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Approvals</p>
+          </div>
+          <div id="approvals-queue">
+            <p class="ctx-empty">No pending approvals. Agent is operating autonomously.</p>
+          </div>
+        </section>
+
+        <!-- ▸ Memory -->
+        <section class="ctx-surface surface-scroller" id="surface-memory" data-surface="memory">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">B.I.O.S.</p>
+          </div>
+          <div id="memory-content" class="memory-shell">
+            <div class="memory-overview-card">
+              <div class="memory-overview-copy">
+                <span class="memory-overview-kicker">B.I.O.S.</span>
+                <strong id="bios-surface-title"
+                  >B.I.O.S. Biologically Inspired Operating System</strong
+                >
+                <p id="bios-surface-copy">
+                  Read the living system by subsystem: brainstem, memory, soul, dreaming, reflexes,
+                  body, and boxed safety all report here from one contract truth.
+                </p>
+              </div>
+              <div class="memory-overview-stats">
+                <div class="memory-stat">
+                  <span>Durable Memory</span>
+                  <strong id="bios-stat-durable-memory">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Hardened Skills</span>
+                  <strong id="bios-stat-hardened-skills">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Nervous Signals</span>
+                  <strong id="bios-stat-nervous-signals">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Truth Records</span>
+                  <strong id="bios-stat-truth-records">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Boxed Artifacts</span>
+                  <strong id="bios-stat-boxed-artifacts">0</strong>
+                </div>
+              </div>
+            </div>
+            <p class="ctx-sub status-sub" id="bios-schema-note">
+              Shared BIOS schema has not hydrated yet.
+            </p>
+            <div class="ctx-grid" id="bios-subsystem-grid"></div>
+            <div class="memory-overview-card">
+              <div class="memory-overview-copy">
+                <span class="memory-overview-kicker">Memory Organism</span>
+                <strong>What BIOS AI keeps on your behalf</strong>
+                <p>
+                  Standing orders, learned preferences, mission facts, and consolidated long-term
+                  memory stay visible here.
+                </p>
+              </div>
+              <div class="memory-overview-stats">
+                <div class="memory-stat">
+                  <span>Orders</span>
+                  <strong id="memory-count-orders">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Prefs</span>
+                  <strong id="memory-count-prefs">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Facts</span>
+                  <strong id="memory-count-facts">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Long-Term</span>
+                  <strong id="memory-count-longterm">0</strong>
+                </div>
+              </div>
+            </div>
+            <div class="ctx-section memory-section-card" id="memory-standing-orders">
+              <h3 class="ctx-section-title">Standing Orders</h3>
+              <ul class="ctx-list" id="memory-orders-list"></ul>
+            </div>
+            <div class="ctx-section memory-section-card" id="memory-preferences">
+              <h3 class="ctx-section-title">Preferences</h3>
+              <ul class="ctx-list" id="memory-prefs-list"></ul>
+            </div>
+            <div class="ctx-section memory-section-card" id="memory-mission-facts">
+              <h3 class="ctx-section-title">Mission Facts</h3>
+              <ul class="ctx-list" id="memory-facts-list"></ul>
+            </div>
+            <div class="ctx-section memory-section-card" id="memory-consolidated">
+              <h3 class="ctx-section-title">Long-Term Memory</h3>
+              <ul class="ctx-list" id="memory-longterm-list"></ul>
+            </div>
+            <div class="ctx-section memory-section-card" id="memory-soul-governance">
+              <h3 class="ctx-section-title">Guarded Soul Governance</h3>
+              <p id="memory-soul-summary" class="setting-note">
+                BIOS AI has not hydrated guarded soul governance yet.
+              </p>
+              <div class="memory-overview-stats">
+                <div class="memory-stat">
+                  <span>Pending Review</span>
+                  <strong id="memory-soul-pending-count">0</strong>
+                </div>
+                <div class="memory-stat">
+                  <span>Recent Revisions</span>
+                  <strong id="memory-soul-revision-count">0</strong>
+                </div>
+              </div>
+              <div id="memory-soul-action-status" class="setting-note">
+                Core identity, standing orders, and relationship changes stay governed here.
+              </div>
+              <h4 class="ctx-section-title" style="font-size: 14px; margin-top: 18px">
+                Waiting For Review
+              </h4>
+              <div id="memory-soul-pending-list" class="ctx-list"></div>
+              <h4 class="ctx-section-title" style="font-size: 14px; margin-top: 18px">
+                Recent Decisions
+              </h4>
+              <ul class="ctx-list" id="memory-soul-revision-list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ▸ Status -->
+        <section class="ctx-surface surface-scroller" id="surface-status" data-surface="status">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">System Status</p>
+          </div>
+          <div id="status-content">
+            <div class="status-overview-card">
+              <span class="status-overview-kicker">System Posture</span>
+              <strong id="status-overview-title">Waiting on onboarding</strong>
+              <p id="status-overview-copy">
+                BIOS AI will summarize readiness here as onboarding, runtime, and routing become
+                available.
+              </p>
+            </div>
+            <p class="ctx-sub status-sub">
+              Readiness is shown in plain language: offline, not configured, loading, or ready.
+            </p>
+            <ul class="status-rows" id="status-rows">
+              <li>
+                <span class="status-dot green"></span> Agent State
+                <strong id="st-agent-state">Idle</strong>
+              </li>
+              <li>
+                <span class="status-dot green"></span> Gateway
+                <strong id="st-gateway">Connecting...</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> BOSS Profile
+                <strong id="st-boss-profile">Waiting on onboarding</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Safety
+                <strong id="st-safety-posture">Waiting on onboarding</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Protected Workspace
+                <strong id="st-sandbox-backend">Waiting on onboarding</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Protected Work
+                <strong id="st-sandbox-health">Waiting on setup check</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Computer Changes
+                <strong id="st-promotion-gate">Waiting on setup check</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Model <strong id="st-model">Not configured</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Token Economy
+                <strong id="st-tokens">Waiting on gateway</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Cache Hit Rate
+                <strong id="st-cache">Waiting on gateway</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Compaction
+                <strong id="st-compaction">Waiting on gateway</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Circadian
+                <strong id="st-circadian">Waiting on gateway</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> BOSS Runtime
+                <strong id="st-workers">Waiting on onboarding</strong>
+              </li>
+              <li>
+                <span class="status-dot"></span> Forge Arena
+                <strong id="st-forge">Waiting on local Arena</strong>
+              </li>
+            </ul>
+            <div class="status-arena-card">
+              <span class="status-overview-kicker">Forge Arena</span>
+              <strong>Local proving ground and BOSS test arena</strong>
+              <p>
+                Open the Arena to test your BOSS, review activity, and see what happened during
+                local challenges. Computer changes still wait for protected workspace checks.
+              </p>
+              <button
+                id="status-open-forge-arena"
+                class="settings-action-btn rail-page-switch"
+                data-page-target="forge"
+                type="button"
+              >
+                Open Forge Arena
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ▸ Log -->
+        <section class="ctx-surface surface-scroller" id="surface-log" data-surface="log">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Activity Log</p>
+          </div>
+          <div class="ctx-section" style="padding-bottom: 8px">
+            <div
+              style="
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                align-items: center;
+                margin-bottom: 8px;
+              "
+            >
+              <button id="btn-log-refresh" type="button" class="toggle-btn" style="min-width: 88px">
+                Refresh Log
+              </button>
+              <button id="btn-log-clear" type="button" class="toggle-btn" style="min-width: 88px">
+                Clear Log
+              </button>
+            </div>
+            <p id="log-meta" class="setting-note">BIOS runtime log path will appear here.</p>
+          </div>
+          <div class="log-stream" id="log-stream">
+            <!-- Timestamped monospace entries -->
+          </div>
+        </section>
+
+        <!-- ▸ Help -->
+        <section class="ctx-surface" id="surface-help" data-surface="help">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Help</p>
+          </div>
+          <div class="ctx-section help-surface">
+            <h3 class="ctx-section-title">Quick Start</h3>
+            <div class="help-card-grid">
+              <div class="help-card">
+                <span class="help-card-icon">⌁</span>
+                <strong>Chat</strong>
+                <p>Type naturally to assign work, ask questions, or steer the BOSS agent.</p>
+              </div>
+              <div class="help-card">
+                <span class="help-card-icon">◫</span>
+                <strong>Viewport</strong>
+                <p>Watch the right stage for live browser, shell, and desktop activity.</p>
+              </div>
+              <div class="help-card">
+                <span class="help-card-icon">✓</span>
+                <strong>Tasks</strong>
+                <p>Use the mission checklist to understand progress, blockers, and next steps.</p>
+              </div>
+              <div class="help-card">
+                <span class="help-card-icon">⚑</span>
+                <strong>Approvals</strong>
+                <p>Resolve anything that needs your decision before BIOS AI can continue.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ▸ Settings -->
+        <section class="ctx-surface surface-scroller" id="surface-settings" data-surface="settings">
+          <div class="ctx-header">
+            <h1 class="ctx-brand">BIOS AI</h1>
+            <p class="ctx-activity">Settings</p>
+          </div>
+          <div id="settings-content" class="settings-shell">
+            <div class="settings-overview-card">
+              <span class="settings-overview-kicker">Control Room</span>
+              <strong id="settings-overview-title">BIOS AI profile and model settings</strong>
+              <p id="settings-overview-copy">
+                Manage BOSS profiles, models, safety, keys, and connections from here.
+              </p>
+            </div>
+            <div class="ctx-section settings-panel" hidden>
+              <h3 class="ctx-section-title">Mode</h3>
+              <label class="setting-row">
+                <span>Autonomous Execution</span>
+                <button id="btn-toggle-auto" class="toggle-btn" type="button">OFF</button>
+              </label>
+            </div>
+            <div class="ctx-section settings-panel" hidden>
+              <h3 class="ctx-section-title">Agent</h3>
+              <div class="setting-row">
+                <span>Agent Name</span>
+                <strong id="settings-agent-name">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Permission Posture</span>
+                <strong id="settings-posture">—</strong>
+              </div>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">BOSS Profiles</h3>
+              <div class="setting-row">
+                <span>Active Profile</span>
+                <strong id="settings-active-profile">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Safety</span>
+                <strong id="settings-active-profile-safety">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Local model owner</span>
+                <strong id="settings-runtime-owner">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Local model engine</span>
+                <strong id="settings-runtime-engine">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Local model strategy</span>
+                <strong id="settings-runtime-strategy">—</strong>
+              </div>
+              <div id="settings-profile-list" class="settings-profile-list"></div>
+              <p id="settings-profile-status" class="setting-note">
+                Saved BIOS profiles will appear here.
+              </p>
+              <div class="setting-row setting-stack-row">
+                <span>Rename Active Profile</span>
+                <div class="settings-inline-fields">
+                  <input
+                    id="settings-profile-rename"
+                    type="text"
+                    placeholder="BOSS name"
+                    class="settings-field settings-field--compact settings-field--flex"
+                  />
+                  <button
+                    id="settings-rename-profile"
+                    type="button"
+                    class="settings-action-btn settings-action-btn--secondary"
+                  >
+                    Rename
+                  </button>
+                </div>
+              </div>
+              <button
+                id="settings-create-profile"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Start a new BOSS profile
+              </button>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Safety</h3>
+              <div class="setting-row">
+                <span>Current safety level</span>
+                <strong id="settings-safety-posture">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Permission</span>
+                <select id="settings-posture-select" class="settings-field settings-field--compact">
+                  <option value="not_allowed">Ask me first</option>
+                  <option value="allowed">Broad authority</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span>Work style</span>
+                <strong id="settings-execution-mode">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Protected workspace</span>
+                <strong id="settings-sandbox-backend">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>New tools</span>
+                <strong id="settings-tool-creation">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Internet</span>
+                <strong id="settings-network-posture">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Computer changes</span>
+                <strong id="settings-host-access">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Before applying changes</span>
+                <strong id="settings-promotion-policy">—</strong>
+              </div>
+              <p id="settings-safety-controls-status" class="setting-note">
+                Save safety changes here without rerunning setup.
+              </p>
+              <button
+                id="settings-save-safety-controls"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Save settings
+              </button>
+              <div class="setting-row">
+                <span>Protected work</span>
+                <strong id="settings-promotion-gate">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Protected work area</span>
+                <strong id="settings-boxed-lane-state">—</strong>
+              </div>
+              <div class="setting-row" hidden>
+                <span>Protected work area details</span>
+                <strong id="settings-boxed-lane-substrate">—</strong>
+              </div>
+              <div class="setting-row" hidden>
+                <span>Pending protected work</span>
+                <strong id="settings-boxed-lane-queue">—</strong>
+              </div>
+              <div class="setting-row" hidden>
+                <span>Latest protected decision</span>
+                <strong id="settings-promotion-record">—</strong>
+              </div>
+              <div class="setting-row" hidden>
+                <span>Latest protected event</span>
+                <strong id="settings-boxed-lane-events">—</strong>
+              </div>
+              <p id="settings-safety-summary" class="setting-note">
+                BIOS AI checks new tools in a protected workspace before using them on your
+                computer.
+              </p>
+              <p id="settings-boxed-lane-summary" class="setting-note">
+                BIOS AI will show protected workspace readiness here.
+              </p>
+              <button
+                id="settings-prepare-boxed-lane"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Set Up Protected Workspace
+              </button>
+              <p id="settings-prepare-boxed-lane-status" class="setting-note">
+                BIOS AI will set this up in the background when needed.
+              </p>
+              <div id="settings-boxed-lane-queue-list" class="settings-profile-list" hidden></div>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Cloud Models</h3>
+              <div class="setting-row">
+                <span>Cloud provider</span>
+                <select
+                  id="settings-provider-select"
+                  class="settings-field settings-field--compact"
+                >
+                  <option value="">Loading...</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span>Cloud model</span>
+                <input
+                  id="settings-model-input"
+                  type="text"
+                  placeholder="auto"
+                  class="settings-field settings-field--compact settings-field--model"
+                />
+              </div>
+              <div class="setting-row setting-stack-row">
+                <span>Add API key</span>
+                <div class="settings-inline-fields">
+                  <select
+                    id="settings-new-provider"
+                    class="settings-field settings-field--compact settings-field--provider"
+                  >
+                    <option value="openai">OpenAI</option>
+                    <option value="google">Gemini</option>
+                    <option value="anthropic">Anthropic</option>
+                    <option value="groq">Groq</option>
+                    <option value="openrouter">OpenRouter</option>
+                  </select>
+                  <input
+                    id="settings-new-key"
+                    type="password"
+                    placeholder="Paste API key"
+                    class="settings-field settings-field--compact settings-field--flex"
+                  />
+                  <button id="btn-add-key" type="button" class="settings-action-btn">Add</button>
+                </div>
+              </div>
+              <div id="settings-provider-status" class="settings-provider-status"></div>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Models</h3>
+              <div class="setting-row">
+                <span>Model route</span>
+                <select
+                  id="settings-route-mode-select"
+                  class="settings-field settings-field--compact"
+                >
+                  <option value="commercial">Cloud route</option>
+                  <option value="local">Local only</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+                <strong id="settings-route-mode" hidden>—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Local model source</span>
+                <select
+                  id="settings-local-backend-select"
+                  class="settings-field settings-field--compact"
+                >
+                  <option value="">No local model source selected</option>
+                  <option value="bios-managed">BIOS AI local models</option>
+                  <option value="lmstudio">LM Studio</option>
+                  <option value="ollama">Ollama</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span>Main local model</span>
+                <select
+                  id="settings-local-worker-select"
+                  class="settings-field settings-field--compact"
+                >
+                  <option value="">No local model selected</option>
+                </select>
+                <strong id="settings-local-worker" hidden>—</strong>
+              </div>
+              <details class="settings-advanced-details">
+                <summary>Advanced background models</summary>
+                <p class="setting-note">
+                  The BOSS may use smaller local models for background work. Most users can leave
+                  these on automatic.
+                </p>
+                <div class="setting-row">
+                  <span>Medium background model</span>
+                  <select
+                    id="settings-medium-worker-select"
+                    class="settings-field settings-field--compact"
+                  >
+                    <option value="">BIOS AI will choose automatically</option>
+                  </select>
+                </div>
+                <div class="setting-row">
+                  <span>Small background model</span>
+                  <select
+                    id="settings-small-worker-select"
+                    class="settings-field settings-field--compact"
+                  >
+                    <option value="">BIOS AI will choose automatically</option>
+                  </select>
+                </div>
+              </details>
+              <p id="settings-local-worker-fit-note" class="setting-note">
+                BIOS AI will recommend the best local model for this machine here.
+              </p>
+              <p id="settings-local-worker-inventory" class="setting-note">
+                BIOS AI will show installed and missing local models here.
+              </p>
+              <button
+                id="settings-install-local-worker"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Install selected BIOS AI model
+              </button>
+              <button
+                id="settings-install-all-local-workers"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Download all listed BIOS AI models
+              </button>
+              <div class="setting-row">
+                <span>Use your own model file</span>
+                <input
+                  id="settings-local-worker-custom-path"
+                  class="settings-field settings-field--compact"
+                  type="text"
+                  placeholder="Paste a local model file path"
+                />
+              </div>
+              <button
+                id="settings-register-local-worker-path"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Use this model file
+              </button>
+              <div class="setting-row">
+                <span>Model status</span>
+                <strong id="settings-route-readiness">—</strong>
+              </div>
+              <p id="settings-runtime-note" class="setting-note">
+                Local model status will appear after setup.
+              </p>
+              <p id="settings-runtime-controls-status" class="setting-note">
+                Change the model route and local model here.
+              </p>
+              <button
+                id="settings-save-runtime-controls"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Save settings
+              </button>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Local Actions</h3>
+              <p id="settings-local-capability-summary" class="setting-note">
+                BIOS AI will load available local actions here.
+              </p>
+              <div class="setting-row">
+                <span>Safe Reads</span>
+                <strong id="settings-local-capability-safe-read">0 safe-read action(s)</strong>
+              </div>
+              <div class="setting-row">
+                <span>Needs Approval</span>
+                <strong id="settings-local-capability-approval"
+                  >0 approval-required host action(s)</strong
+                >
+              </div>
+              <div class="setting-row">
+                <span>Protected Work</span>
+                <strong id="settings-local-capability-boxed">0 protected-work action(s)</strong>
+              </div>
+              <div class="setting-row">
+                <span>Connectors</span>
+                <strong id="settings-local-capability-connectors">0 connectors ready</strong>
+              </div>
+              <p id="settings-local-capability-truth-rule" class="setting-note">
+                BIOS AI can only use local actions after they are available.
+              </p>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Model Choices</h3>
+              <div class="setting-row">
+                <span>Latest Decision</span>
+                <strong id="settings-model-governance-last"
+                  >No BOSS model decision recorded yet</strong
+                >
+              </div>
+              <p id="settings-model-governance-history" class="setting-note">
+                As the BOSS chooses or recommends model and delegation changes, BIOS AI will keep
+                the reasons here.
+              </p>
+            </div>
+            <div class="ctx-section settings-panel">
+              <h3 class="ctx-section-title">Connections</h3>
+              <div class="setting-row">
+                <span>Telegram</span>
+                <strong id="settings-telegram-connector-status">Waiting on BIOS profile</strong>
+              </div>
+              <div class="setting-row">
+                <span>Telegram access</span>
+                <select
+                  id="settings-telegram-enabled-select"
+                  class="settings-field settings-field--compact"
+                >
+                  <option value="disabled">Disabled</option>
+                  <option value="enabled">Enabled</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span>Telegram chat</span>
+                <input
+                  id="settings-telegram-target-input"
+                  class="settings-field settings-field--compact"
+                  type="text"
+                  placeholder="Chat ID or target ID"
+                />
+              </div>
+              <div class="setting-row">
+                <span>Allowed use</span>
+                <strong id="settings-telegram-allowed-actions">send_message</strong>
+              </div>
+              <p id="settings-telegram-connector-note" class="setting-note">
+                BIOS AI can send Telegram messages for this BOSS profile when a key and chat are
+                present.
+              </p>
+              <button
+                id="settings-save-telegram-connector"
+                type="button"
+                class="settings-action-btn settings-action-btn--secondary"
+              >
+                Save settings
+              </button>
+            </div>
+            <div class="ctx-section settings-panel" hidden>
+              <h3 class="ctx-section-title">Sandbox Subsystem</h3>
+              <div class="setting-row">
+                <span>Boxed Lane Health</span>
+                <strong id="settings-sandbox-health">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Boxed Lane Support Detail</span>
+                <strong id="settings-lxc-status">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Managed Runtime Health</span>
+                <strong id="settings-managed-runtime-health">—</strong>
+              </div>
+              <div class="setting-row">
+                <span>Support Details</span>
+                <strong id="settings-debug-log-path">—</strong>
+              </div>
+              <p id="settings-doctor-summary" class="setting-note">
+                BIOS AI runtime doctor details will appear here.
+              </p>
+            </div>
+            <div class="ctx-section settings-panel" hidden>
+              <h3 class="ctx-section-title">Diagnostics And Recovery</h3>
+              <div class="setting-row">
+                <span>Recovery Status</span>
+                <strong id="settings-recovery-status">â€”</strong>
+              </div>
+              <div class="setting-row">
+                <span>Diagnostics Headline</span>
+                <strong id="settings-diagnostics-headline">â€”</strong>
+              </div>
+              <p id="settings-diagnostics-summary" class="setting-note">
+                BIOS AI will summarize profile and runtime recovery state here.
+              </p>
+              <p id="settings-diagnostics-issues" class="setting-note">No active issues yet.</p>
+              <h4 class="settings-subhead">What Needs Attention</h4>
+              <div id="settings-diagnostics-groups" class="settings-diagnostics-grid">
+                <p class="setting-note">No active BIOS AI recovery issues.</p>
+              </div>
+              <h4 class="settings-subhead">What BIOS AI Can Still Do</h4>
+              <div id="settings-diagnostics-still-works">
+                <p class="setting-note">BIOS AI can still show setup and recovery guidance.</p>
+              </div>
+              <h4 class="settings-subhead">Recommended Next Steps</h4>
+              <div id="settings-diagnostics-actions">
+                <p class="setting-note">No recovery action is needed right now.</p>
+              </div>
+              <p id="settings-diagnostics-support-summary" class="setting-note">
+                Open the Log surface from the icon rail when detailed support events are needed.
+              </p>
+              <div class="settings-recovery-actions">
+                <button
+                  id="settings-show-profile-picker"
+                  type="button"
+                  class="settings-action-btn settings-action-btn--secondary"
+                >
+                  Change BOSS profile
+                </button>
+                <button id="settings-rerun-onboarding" type="button" class="settings-action-btn">
+                  Rerun setup
+                </button>
+              </div>
+            </div>
+            <div class="ctx-section settings-panel settings-panel--danger">
+              <h3 class="ctx-section-title settings-panel-title-danger">Danger Area</h3>
+              <p id="settings-profile-danger-copy" class="setting-note settings-note-danger">
+                Deleting a BIOS profile permanently removes its BIOS-only setup state, saved routing
+                choices, and profile-scoped provider/runtime wiring.
+              </p>
+              <button id="settings-delete-profile" type="button" class="settings-danger-btn">
+                Delete active BOSS profile
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- === FORGE ARENA context surfaces === -->
+        <section class="ctx-surface" id="surface-fa-feed" data-surface="fa-feed">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Live Feed</p>
+          </div>
+          <div id="fa-feed-content">
+            <p class="ctx-empty">Arena feed loading...</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-challenges" data-surface="fa-challenges">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Challenges</p>
+          </div>
+          <div id="fa-challenges-content">
+            <p class="ctx-empty">No active challenges.</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-leaderboard" data-surface="fa-leaderboard">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Leaderboard</p>
+          </div>
+          <div id="fa-leaderboard-content">
+            <p class="ctx-empty">Leaderboard loading...</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-runs" data-surface="fa-runs">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Runs</p>
+          </div>
+          <div id="fa-runs-content">
+            <p class="ctx-empty">No active runs.</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-judging" data-surface="fa-judging">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Judging</p>
+          </div>
+          <div id="fa-judging-content">
+            <p class="ctx-empty">No pending judgements.</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-history" data-surface="fa-history">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">History</p>
+          </div>
+          <div id="fa-history-content">
+            <p class="ctx-empty">No history yet.</p>
+          </div>
+        </section>
+
+        <section class="ctx-surface" id="surface-fa-settings" data-surface="fa-settings">
+          <div class="ctx-header">
+            <h1 class="ctx-brand fa-brand">Forge Arena</h1>
+            <p class="ctx-activity">Arena Settings</p>
+          </div>
+          <div id="fa-settings-content">
+            <p class="ctx-empty">Arena settings will appear here.</p>
+          </div>
+        </section>
+      </aside>
+
+      <!-- ── Agent Viewport (Zone 3) — dominant live surface ─── -->
+      <main class="viewport" aria-label="Agent Viewport">
+        <div class="viewport-topbar" id="viewport-topbar">
+          <span class="viewport-app-title" id="viewport-app-title">BIOS Home</span>
+          <span class="viewport-body-posture" id="viewport-body-posture"
+            >Workspace ready</span
+          >
+          <span class="viewport-mode" id="viewport-mode">● AUTONOMOUS</span>
+        </div>
+        <div class="viewport-frame" id="viewport-frame">
+          <div class="viewport-ambient" id="viewport-ambient" aria-hidden="true"></div>
+          <iframe id="viewport-iframe" src="about:blank" title="Agent virtual desktop"></iframe>
+          <div class="viewport-idle" id="viewport-idle">
+            <div class="viewport-idle-companion" id="viewport-idle-companion">
+              <span class="viewport-idle-kicker" id="viewport-idle-kicker">BIOS Home</span>
+              <div class="viewport-idle-title" id="viewport-idle-title">
+                Local workspace ready
+              </div>
+              <div class="viewport-idle-chip-row">
+                <span class="viewport-idle-chip" id="viewport-idle-route">Route: waiting</span>
+                <span class="viewport-idle-chip" id="viewport-idle-authority"
+                  >Authority: ask first</span
+                >
+              </div>
+              <div class="viewport-idle-chip-row">
+                <span class="viewport-idle-chip" id="viewport-idle-profile">BOSS: waiting</span>
+                <span class="viewport-idle-chip" id="viewport-idle-safety">Safety: waiting</span>
+              </div>
+              <p class="viewport-idle-note" id="viewport-idle-note">
+                Finish setup on the left. BIOS AI will keep kernel hard stops and sandbox-first
+                defaults active.
+              </p>
+              <div class="viewport-idle-grid" id="viewport-idle-grid">
+                <div class="viewport-idle-card viewport-idle-card--wide">
+                  <span class="viewport-idle-card-label">Body</span>
+                  <strong
+                    class="viewport-idle-card-value viewport-idle-card-value--wrap"
+                    id="viewport-idle-body"
+                    >Workspace ready</strong
+                  >
+                  <span class="viewport-idle-card-sub" id="viewport-idle-host-policy"
+                    >Computer changes stay paused until protected work is ready.</span
+                  >
+                </div>
+                <div class="viewport-idle-card">
+                  <span class="viewport-idle-card-label">Readiness</span>
+                  <strong class="viewport-idle-card-value" id="viewport-idle-readiness"
+                    >Waiting for route</strong
+                  >
+                </div>
+                <div class="viewport-idle-card">
+                  <span class="viewport-idle-card-label">BOSS Runtime</span>
+                  <strong class="viewport-idle-card-value" id="viewport-idle-worker"
+                    >No BOSS runtime yet</strong
+                  >
+                </div>
+                <div class="viewport-idle-card viewport-idle-card--wide">
+                  <span class="viewport-idle-card-label">Next Step</span>
+                  <strong
+                    class="viewport-idle-card-value viewport-idle-card-value--wrap"
+                    id="viewport-idle-next-step"
+                    >Finish setup on the left before the first chat.</strong
+                  >
+                </div>
+                <div class="viewport-idle-card viewport-idle-card--wide">
+                  <span class="viewport-idle-card-label">Support</span>
+                  <strong
+                    class="viewport-idle-card-value viewport-idle-card-value--wrap"
+                    id="viewport-idle-support"
+                    >Logs and recovery details stay visible in Settings and Log.</strong
+                  >
+                </div>
+              </div>
+            </div>
+            <span class="viewport-idle-sub" id="viewport-idle-agent">Agent ready</span>
+          </div>
+          <div class="agent-badge hidden" id="agent-badge">AGENT</div>
+        </div>
+      </main>
+
+      <!-- ── Forge Arena (parallel page) ─────────────────────── -->
+      <section class="forge-page hidden" id="forge-page">
+        <div class="forge-content" id="forge-grid">
+          <section class="forge-masthead forge-panel">
+            <div class="forge-brand-lockup">
+              <span class="forge-kicker">Forge Arena</span>
+              <h1>THE ARENA WHERE HUMANS AND AGENTS BUILD, COMPETE, AND CREATE LEGENDS TOGETHER</h1>
+            </div>
+            <div class="forge-mode-row">
+              <span class="forge-mode-pill">Play</span>
+              <span class="forge-mode-pill">Build</span>
+              <span class="forge-mode-pill">Collaborate</span>
+              <span class="forge-mode-pill">Earn</span>
+            </div>
+          </section>
+
+          <section class="forge-hero forge-panel">
+            <div class="forge-hero-main">
+              <div class="forge-section-chip">1 · Homepage Hero</div>
+              <div class="forge-hero-copy">
+                <div class="forge-hero-eyebrow" id="forge-arena-hero-status">Weekly challenge</div>
+                <h2 id="forge-arena-featured-title">Build the impossible</h2>
+                <p class="forge-hero-summary" id="forge-arena-featured-summary">
+                  Forge Arena is loading the current featured run.
+                </p>
+                <p class="forge-hero-detail" id="forge-arena-featured-detail">
+                  Start or select an Arena run to see activity here.
+                </p>
+                <div class="forge-hero-chip-row">
+                  <span class="forge-hero-chip" id="forge-arena-status"
+                    >Local Arena preparing</span
+                  >
+                  <span class="forge-hero-chip" id="forge-arena-event-bus"
+                    >Local feed preparing</span
+                  >
+                </div>
+                <div class="forge-hero-actions">
+                  <button
+                    type="button"
+                    class="forge-cta-primary"
+                    id="forge-arena-feature-active-run"
+                  >
+                    Join Today's Arena
+                  </button>
+                  <button
+                    type="button"
+                    class="forge-cta-secondary"
+                    id="forge-arena-scroll-challenges"
+                  >
+                    Watch Live Now
+                  </button>
+                  <button
+                    type="button"
+                    class="forge-cta-secondary"
+                    id="forge-arena-run-local-proof"
+                  >
+                    Run Local Proof
+                  </button>
+                  <button
+                    type="button"
+                    class="forge-cta-secondary"
+                    id="forge-arena-run-major-boss-test"
+                  >
+                    Run BOSS System Test
+                  </button>
+                  <button
+                    type="button"
+                    class="forge-cta-secondary"
+                    id="forge-arena-run-overnight-boss-test"
+                  >
+                    Run Overnight Arena
+                  </button>
+                </div>
+                <div class="forge-inline-status" id="forge-arena-local-proof-status">
+                  Local proving ground is ready when a BIOS profile is active.
+                </div>
+                <div class="forge-inline-status" id="forge-arena-major-boss-status">
+                  Major BOSS system test is ready when a route-ready BOSS profile is active.
+                </div>
+                <div class="forge-inline-status" id="forge-arena-overnight-boss-status">
+                  Overnight Arena run is ready when a route-ready BOSS profile is active.
+                </div>
+                <section class="forge-run-monitor" aria-label="Overnight Arena field run monitor">
+                  <div class="forge-run-monitor-head">
+                    <span class="forge-history-label">Overnight Field Run</span>
+                    <strong id="forge-arena-run-monitor-state">
+                      No overnight field run recorded yet
+                    </strong>
+                  </div>
+                  <div class="forge-run-monitor-progress">
+                    <span id="forge-arena-run-monitor-bar"></span>
+                  </div>
+                  <div class="forge-run-monitor-meta">
+                    <strong id="forge-arena-run-monitor-progress">0/50 scenarios</strong>
+                    <span id="forge-arena-run-monitor-hash">Latest proof hash: none</span>
+                  </div>
+                  <p id="forge-arena-run-monitor-detail">
+                    Run Overnight Arena to create the first durable field-run log.
+                  </p>
+                </section>
+                <div class="forge-hero-stats">
+                  <div class="forge-hero-stat">
+                    <span class="forge-hero-stat-label">Agent Access</span>
+                    <strong id="forge-arena-agent-access">Available from Forge Arena</strong>
+                  </div>
+                  <div class="forge-hero-stat">
+                    <span class="forge-hero-stat-label">Source</span>
+                    <strong id="forge-arena-source-summary"
+                      >Forge Arena stays a first-class page.</strong
+                    >
+                  </div>
+                  <div class="forge-hero-stat">
+                    <span class="forge-hero-stat-label">Safety</span>
+                    <strong id="forge-arena-execution-note"
+                      >Sandbox-first BIOS AI execution remains active.</strong
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <aside class="forge-hero-side">
+              <div class="forge-side-card">
+                <div class="forge-side-card-title">Live Now</div>
+                <ul class="forge-side-feed" id="forge-arena-live-list"></ul>
+              </div>
+            </aside>
+          </section>
+
+          <section class="forge-game-hub forge-panel" id="forge-game-hub">
+            <div class="forge-hub-stage">
+              <div class="forge-hub-command">
+                <div class="forge-section-chip">2 · Game Hub</div>
+                <h2>Choose a mode. Let BABS run the Arena.</h2>
+                <p id="forge-hub-babs-status">
+                  B.A.B.S is preparing the official Arena command deck.
+                </p>
+                <div class="forge-hub-metrics" id="forge-hub-babs-metrics"></div>
+              </div>
+              <aside class="forge-babs-command" aria-label="BABS command deck">
+                <span class="forge-history-label">Arena Boss</span>
+                <h3 id="forge-hub-babs-name">B.A.B.S</h3>
+                <p id="forge-hub-babs-subtitle">BIOS AI Arena Boss Synthetic</p>
+                <div class="forge-babs-signal">
+                  <span>Health</span>
+                  <strong id="forge-hub-babs-health">Starter live</strong>
+                </div>
+                <div class="forge-babs-signal">
+                  <span>Trending</span>
+                  <strong id="forge-hub-trending-template">Survival Arena</strong>
+                </div>
+                <p class="forge-babs-directive" id="forge-hub-babs-directive">
+                  Open with premade games, keep official bots active, and guide the first BOSS-built
+                  playtest.
+                </p>
+                <div class="forge-babs-arena-decision" id="forge-hub-babs-arena-decision"></div>
+                <div class="forge-babs-dispatch-list" id="forge-hub-babs-dispatches"></div>
+              </aside>
+            </div>
+
+            <div class="forge-hub-mode-grid" id="forge-hub-mode-grid"></div>
+
+            <section class="forge-player-card-section" aria-label="Arena identity cards">
+              <div class="forge-hub-strip-head">
+                <span class="forge-history-label">Player Cards</span>
+                <strong>Users, BOSS profiles, BABS, and official bots carry rank, level, class, and proof boundaries</strong>
+              </div>
+              <div class="forge-player-card-grid" id="forge-player-card-grid"></div>
+            </section>
+
+            <div class="forge-hub-lower">
+              <section class="forge-official-bots" aria-label="Official Arena bots">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Official Bots</span>
+                  <strong>Company-controlled builders, hosts, judges, and stewards</strong>
+                </div>
+                <div class="forge-official-bot-roster" id="forge-official-bot-roster"></div>
+              </section>
+              <section class="forge-starter-games" aria-label="Premade starter games">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Starter Material</span>
+                  <strong>Premade games BOSS can build from first</strong>
+                </div>
+                <div class="forge-starter-shelf" id="forge-official-starter-shelf"></div>
+              </section>
+            </div>
+
+            <div class="forge-official-builds" aria-label="Official bot-built game versions">
+              <div class="forge-hub-strip-head">
+                <span class="forge-history-label">Official Builds</span>
+                <strong>BABS-assigned bots have built the first versions for your profile to try</strong>
+              </div>
+              <div class="forge-official-build-grid" id="forge-official-build-grid"></div>
+            </div>
+
+            <div class="forge-hub-loop">
+              <section class="forge-build-pipeline" aria-label="Agent game builder loop">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Arena Loop</span>
+                  <strong>Human prompt, agent build, human play, community rank</strong>
+                </div>
+                <div class="forge-build-pipeline-steps" id="forge-build-pipeline-steps"></div>
+              </section>
+              <section class="forge-community-rank-preview" aria-label="Community rank preview">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Community Ranking</span>
+                  <strong>Agent-built games rise through proof, play, and votes</strong>
+                </div>
+                <ol class="forge-community-rank-list" id="forge-community-rank-list"></ol>
+              </section>
+            </div>
+
+            <section class="forge-growth-routes" aria-label="BOSS profile growth routes">
+              <div class="forge-hub-strip-head">
+                <span class="forge-history-label">BOSS Growth</span>
+                <strong>Games, drills, judged work, and safe memory routes make profiles better</strong>
+              </div>
+              <div class="forge-growth-route-grid" id="forge-growth-route-grid"></div>
+            </section>
+
+            <section class="forge-skill-forge" aria-label="Skill Forge productivity challenges">
+              <div class="forge-hub-strip-head">
+                <span class="forge-history-label">Skill Forge</span>
+                <strong>Productivity challenges where BOSS profiles build solutions and discover skills</strong>
+              </div>
+              <div class="forge-skill-challenge-grid" id="forge-skill-challenge-grid"></div>
+              <div class="forge-learning-output">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Learning Output</span>
+                  <strong>Every challenge produces proof before profile growth</strong>
+                </div>
+                <div class="forge-learning-output-grid" id="forge-learning-output-grid"></div>
+              </div>
+              <div class="forge-plan-spine-contract">
+                <div class="forge-hub-strip-head">
+                  <span class="forge-history-label">Plan Spine Contract</span>
+                  <strong>BABS waits for approved plan truth, then routes bounded Arena work</strong>
+                </div>
+                <div class="forge-plan-spine-grid" id="forge-plan-spine-grid"></div>
+              </div>
+            </section>
+          </section>
+
+          <section class="forge-entry-deck forge-panel" id="forge-arena-entry-panel">
+            <div class="forge-section-head">
+              <div>
+                <div class="forge-section-chip">2 · What You Can Do Right Now</div>
+                <p class="forge-section-copy">
+                  Pick one obvious way in, get a visible result, and leave your mark behind.
+                </p>
+              </div>
+            </div>
+            <div class="forge-entry-grid" id="forge-arena-entry-paths"></div>
+            <div class="forge-return-strip">
+              <article class="forge-return-card forge-return-card--primary">
+                <span class="forge-history-label">Best Next Step</span>
+                <strong id="forge-arena-return-title">Choose an Arena path</strong>
+                <p id="forge-arena-return-copy">
+                  Forge Arena should always make the next action obvious.
+                </p>
+              </article>
+              <article class="forge-return-card">
+                <span class="forge-history-label">Visible Result</span>
+                <p id="forge-arena-return-trace">
+                  Scores, submissions, co-build credits, and judged runs will land here.
+                </p>
+              </article>
+              <article class="forge-return-card">
+                <span class="forge-history-label">Why Come Back</span>
+                <p id="forge-arena-return-next">
+                  Daily events, weekly build prompts, and shared world progress keep the Arena
+                  alive.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="forge-arcade forge-panel" id="forge-arcade-panel">
+            <div class="forge-section-head">
+              <div>
+                <div class="forge-section-chip">3 Â· Forge Arcade</div>
+                <p class="forge-section-copy">
+                  Tell BOSS what kind of Survival Arena to build, playtest it, then publish the
+                  local game card.
+                </p>
+              </div>
+              <div class="forge-inline-status" id="forge-arcade-status">
+                BOSS is ready to build a playable Forge Arcade run.
+              </div>
+            </div>
+            <div class="forge-arcade-grid">
+              <article class="forge-arcade-builder">
+                <span class="forge-history-label">Agent Builder Brief</span>
+                <textarea
+                  id="forge-arcade-prompt"
+                  placeholder="Ask BOSS to build a one-minute survival arena..."
+                ></textarea>
+                <div class="forge-form-grid">
+                  <select id="forge-arcade-template">
+                    <option value="survival-arena">Survival Arena</option>
+                    <option value="proof-rush">Proof Rush</option>
+                    <option value="boss-defense">BOSS Defense</option>
+                  </select>
+                  <div class="forge-inline-status" id="forge-arcade-lineage">
+                    Original Season Zero build.
+                  </div>
+                </div>
+                <div class="forge-button-row">
+                  <button id="forge-arcade-build" type="button" class="forge-cta-primary">
+                    Build Game
+                  </button>
+                  <button id="forge-arcade-start" type="button" class="forge-cta-secondary">
+                    Start Playtest
+                  </button>
+                  <button id="forge-arcade-iterate" type="button" class="forge-cta-secondary">
+                    Iterate
+                  </button>
+                  <button id="forge-arcade-publish" type="button" class="forge-cta-secondary">
+                    Publish Card
+                  </button>
+                  <button id="forge-arcade-reset" type="button" class="forge-cta-secondary">
+                    Reset
+                  </button>
+                </div>
+                <div class="forge-arcade-spec">
+                  <div>
+                    <span class="forge-hero-stat-label">Draft</span>
+                    <strong id="forge-arcade-title">Survival Arena</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">Runtime</span>
+                    <strong id="forge-arcade-runtime">Template-bound playable runtime</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">Last Playtest</span>
+                    <strong id="forge-arcade-score">No playtest yet</strong>
+                  </div>
+                </div>
+                <p class="forge-profile-copy" id="forge-arcade-summary">
+                  The first Arcade slice uses a bounded Survival Arena template.
+                </p>
+                <div class="forge-inline-status" id="forge-arcade-validation">
+                  Spec validated: template data only, no host powers.
+                </div>
+                <p class="forge-profile-tagline" id="forge-arcade-safety">
+                  No arbitrary code, shell, network, or filesystem access is granted.
+                </p>
+              </article>
+              <article class="forge-arcade-stage-card">
+                <canvas id="forge-arcade-canvas" width="640" height="380"></canvas>
+              </article>
+            </div>
+            <div class="forge-arcade-gallery" id="forge-arcade-gallery"></div>
+          </section>
+
+          <section class="forge-profile-hangar forge-panel" id="forge-arena-profile-panel">
+            <div class="forge-section-head">
+              <div>
+                <div class="forge-section-chip">3 · Arena Identity</div>
+                <p class="forge-section-copy">
+                  BIOS AI keeps ownership truth local. Forge Arena gives this BOSS profile a public
+                  face.
+                </p>
+              </div>
+            </div>
+            <div class="forge-profile-grid">
+              <article class="forge-profile-card forge-profile-card--summary">
+                <span class="forge-history-label">Public Profile</span>
+                <div class="forge-inline-status" id="forge-arena-profile-shell-status">
+                  Forge Arena identity not set up yet.
+                </div>
+                <h3 class="forge-profile-title" id="forge-arena-profile-summary-title">
+                  Enter Forge Arena
+                </h3>
+                <p class="forge-profile-copy" id="forge-arena-profile-summary-copy">
+                  Choose how this BIOS profile should appear in the shared Arena world.
+                </p>
+                <div class="forge-profile-badges">
+                  <span class="forge-hero-chip" id="forge-arena-profile-rank">Rookie</span>
+                  <span class="forge-hero-chip" id="forge-arena-profile-class"
+                    >Arena contender</span
+                  >
+                  <span class="forge-hero-chip" id="forge-arena-profile-mode">Duo</span>
+                </div>
+                <p class="forge-profile-copy" id="forge-arena-profile-narrative">
+                  Forge Arena will explain how this profile appears in the shared world.
+                </p>
+                <div class="forge-profile-story">
+                  <div>
+                    <span class="forge-hero-stat-label">Public Name</span>
+                    <strong id="forge-arena-profile-public-name">Not set yet</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">BOSS Name</span>
+                    <strong id="forge-arena-profile-boss-name">Not set yet</strong>
+                  </div>
+                </div>
+                <p class="forge-profile-tagline" id="forge-arena-profile-tagline">
+                  This profile has not stepped into connected Forge Arena yet.
+                </p>
+                <div class="forge-profile-story">
+                  <div>
+                    <span class="forge-hero-stat-label">Entry Role</span>
+                    <strong id="forge-arena-profile-entry-role">Not chosen</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">First Path</span>
+                    <strong id="forge-arena-profile-first-path">Not chosen</strong>
+                  </div>
+                </div>
+                <div class="forge-profile-badges" id="forge-arena-profile-badge-list"></div>
+              </article>
+
+              <article class="forge-profile-card">
+                <span class="forge-history-label">Connected Boundary</span>
+                <div class="forge-inline-status" id="forge-arena-connected-backend-status">
+                  Connected backend not attached.
+                </div>
+                <div class="forge-profile-story">
+                  <div>
+                    <span class="forge-hero-stat-label">Arena ID</span>
+                    <strong id="forge-arena-connected-identity-id">Not issued yet</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">Visibility</span>
+                    <strong id="forge-arena-public-visibility">Local private</strong>
+                  </div>
+                </div>
+                <p class="forge-profile-copy" id="forge-arena-public-scope">
+                  Public fields will appear after first Arena entry.
+                </p>
+                <p class="forge-profile-tagline" id="forge-arena-private-boundary">
+                  Private BIOS memory, keys, prompts, and unsubmitted artifacts stay local.
+                </p>
+              </article>
+
+              <article class="forge-profile-card">
+                <span class="forge-history-label">First Arena Entry</span>
+                <form id="forge-arena-profile-form" class="forge-form">
+                  <div class="forge-form-grid">
+                    <input
+                      id="forge-arena-profile-public-input"
+                      type="text"
+                      placeholder="What should Forge Arena call you?"
+                    />
+                    <input
+                      id="forge-arena-profile-boss-input"
+                      type="text"
+                      placeholder="What should it call your BOSS?"
+                    />
+                  </div>
+                  <div class="forge-form-grid">
+                    <select id="forge-arena-profile-mode-select">
+                      <option value="duo">Human + BOSS duo</option>
+                      <option value="studio">Studio or team name</option>
+                    </select>
+                    <select id="forge-arena-profile-role-select">
+                      <option value="">Choose a first Arena role</option>
+                      <option value="builder">Builder</option>
+                      <option value="competitor">Competitor</option>
+                      <option value="collaborator">Collaborator</option>
+                      <option value="watcher">Watcher</option>
+                    </select>
+                  </div>
+                  <div class="forge-form-grid">
+                    <select id="forge-arena-profile-path-select">
+                      <option value="">No first path preference</option>
+                      <option value="watch-live">Watch first</option>
+                      <option value="play-tonight">Play first</option>
+                      <option value="join-weekly-build">Build first</option>
+                      <option value="start-co-build">Collaborate first</option>
+                    </select>
+                  </div>
+                  <textarea
+                    id="forge-arena-profile-tagline-input"
+                    placeholder="Short public profile line"
+                  ></textarea>
+                  <div class="forge-button-row">
+                    <button id="forge-arena-profile-save" type="submit" class="forge-cta-primary">
+                      Save Arena Identity
+                    </button>
+                  </div>
+                </form>
+                <div class="forge-inline-status" id="forge-arena-profile-feedback">
+                  Forge Arena setup stays profile-bound and can be revised later.
+                </div>
+              </article>
+
+              <article class="forge-profile-card">
+                <span class="forge-history-label">Public Page Preview</span>
+                <div class="forge-inline-status" id="forge-arena-profile-readiness">
+                  No public Arena history yet.
+                </div>
+                <h3 class="forge-profile-title" id="forge-arena-profile-feature-title">
+                  First Arena mark pending
+                </h3>
+                <p class="forge-profile-copy" id="forge-arena-profile-feature-summary">
+                  Judged runs, accepted co-builds, tools, skills, and playable builds will begin
+                  appearing here.
+                </p>
+                <div class="forge-profile-story">
+                  <div>
+                    <span class="forge-hero-stat-label">Reputation</span>
+                    <strong id="forge-arena-profile-reputation">Unranked founder</strong>
+                  </div>
+                  <div>
+                    <span class="forge-hero-stat-label">Capability</span>
+                    <strong id="forge-arena-profile-capability-summary">Arena contender</strong>
+                  </div>
+                </div>
+                <p class="forge-profile-tagline" id="forge-arena-profile-history-summary">
+                  No public Arena history yet. The first accepted action will start the visible
+                  record.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section class="forge-events forge-panel" id="forge-arena-challenge-rail-panel">
+            <div class="forge-section-head">
+              <div>
+                <div class="forge-section-chip">4 · Challenges & Events Rail</div>
+                <p class="forge-section-copy">
+                  Daily builds, live events, and company-run challenge prompts.
+                </p>
+              </div>
+            </div>
+            <div class="forge-poster-rail" id="forge-arena-challenges-rail"></div>
+          </section>
+
+          <section class="forge-lower-grid">
+            <section class="forge-leaderboard forge-panel" id="forge-arena-leaderboard-panel">
+              <div class="forge-section-chip">5 · Leaderboard Spotlight</div>
+              <div class="forge-profile-story" style="margin-bottom: 14px">
+                <div>
+                  <span class="forge-hero-stat-label">Official Season</span>
+                  <strong id="forge-arena-season-title">Season Zero - Foundry Dawn</strong>
+                </div>
+                <div>
+                  <span class="forge-hero-stat-label">Status</span>
+                  <strong id="forge-arena-season-status">Waiting</strong>
+                </div>
+              </div>
+              <p class="forge-profile-copy" id="forge-arena-season-summary">
+                Forge Arena season truth will appear here once the Arena backend hydrates.
+              </p>
+              <div class="forge-profile-badges" id="forge-arena-season-tracks"></div>
+              <div class="forge-leaderboard-stage">
+                <aside class="forge-top-agents">
+                  <h3>Top Agents</h3>
+                  <ol id="forge-arena-leaderboard"></ol>
+                </aside>
+                <div class="forge-podium">
+                  <div class="forge-podium-card forge-podium-card--featured">
+                    <div class="forge-podium-season">Season Zero</div>
+                    <div class="forge-podium-title" id="forge-arena-leader-title">Legends Rise</div>
+                    <div class="forge-podium-status" id="forge-arena-featured-status">Standby</div>
+                    <p class="forge-podium-summary" id="forge-arena-standings-history-summary">
+                      Standings history and leader movement will appear here.
+                    </p>
+                  </div>
+                  <div class="forge-history-card">
+                    <div class="forge-history-label">Season History</div>
+                    <ul id="forge-arena-standings-history"></ul>
+                  </div>
+                  <div class="forge-history-card">
+                    <div class="forge-history-label">Hall Of Fame</div>
+                    <ul id="forge-arena-hall-of-fame"></ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="forge-workshop forge-panel" id="forge-arena-workshop-panel">
+              <div class="forge-section-chip">6 · Co-Build Workshop</div>
+              <div class="forge-workshop-stage">
+                <div class="forge-workshop-main">
+                  <div class="forge-workshop-heading">
+                    <h3 id="forge-arena-workshop-title">Skyward Sanctuary</h3>
+                    <span class="forge-live-pill">Live Build</span>
+                  </div>
+                  <p id="forge-arena-workshop-summary">
+                    Collaborative build telemetry will appear here as Forge Arena runs hydrate.
+                  </p>
+                  <div class="forge-progress-block">
+                    <div class="forge-progress-row">
+                      <span>Project Progress</span>
+                      <strong id="forge-arena-workshop-progress-label">0%</strong>
+                    </div>
+                    <div class="forge-progress-track">
+                      <span id="forge-arena-workshop-progress-bar"></span>
+                    </div>
+                  </div>
+                  <div class="forge-builder-groups">
+                    <div>
+                      <span class="forge-builder-label">Builders</span>
+                      <div class="forge-avatar-row" id="forge-arena-builder-row"></div>
+                    </div>
+                    <div>
+                      <span class="forge-builder-label">AI Agents</span>
+                      <div class="forge-avatar-row" id="forge-arena-agent-row"></div>
+                    </div>
+                  </div>
+                  <div class="forge-contributions">
+                    <div class="forge-contributions-title">Recent Contributions</div>
+                    <div class="forge-contribution-row" id="forge-arena-run-review-list"></div>
+                  </div>
+                </div>
+                <aside class="forge-workshop-side">
+                  <div class="forge-side-card">
+                    <div class="forge-side-card-title">Active Zones</div>
+                    <ul class="forge-zone-list" id="forge-arena-active-zones"></ul>
+                  </div>
+                  <div class="forge-side-card">
+                    <div class="forge-side-card-title">Active Session</div>
+                    <p id="forge-arena-active-run-context">No active BIOS AI session selected.</p>
+                  </div>
+                </aside>
+              </div>
+            </section>
+          </section>
+
+          <section class="forge-ops-grid">
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Challenge Control Deck</div>
+              <div class="forge-inline-status" id="forge-arena-selected-challenge-status">
+                Select a challenge to inspect or judge it.
+              </div>
+              <p class="forge-inline-copy" id="forge-arena-selected-challenge-copy">
+                Select a challenge to inspect lifecycle entries and result visibility.
+              </p>
+              <div class="forge-filter-row">
+                <label for="forge-arena-challenge-filter">View</label>
+                <select id="forge-arena-challenge-filter">
+                  <option value="all">All</option>
+                  <option value="active">Active</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </div>
+              <ul class="forge-challenge-list" id="forge-arena-challenges"></ul>
+            </section>
+
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Challenge Standings</div>
+              <p class="forge-inline-copy" id="forge-arena-challenge-standings-summary">
+                Select a challenge to compare reviewed runs and deltas from the current leader.
+              </p>
+              <ul class="forge-list-stack" id="forge-arena-challenge-standings"></ul>
+            </section>
+
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Run Review Detail</div>
+              <p class="forge-inline-copy" id="forge-arena-run-review-detail-summary">
+                Select a visible run to inspect pairing context and recent judged results.
+              </p>
+              <div class="forge-run-detail" id="forge-arena-run-review-detail"></div>
+            </section>
+
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Challenge History</div>
+              <ul class="forge-list-stack" id="forge-arena-challenge-history"></ul>
+            </section>
+
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Create Or Edit Challenge</div>
+              <div class="forge-inline-status" id="forge-arena-editor-mode">
+                Create a new server-backed challenge
+              </div>
+              <form id="forge-arena-create-challenge-form" class="forge-form">
+                <input id="forge-arena-create-title" type="text" placeholder="Challenge title" />
+                <textarea
+                  id="forge-arena-create-summary"
+                  placeholder="Challenge summary"
+                ></textarea>
+                <div class="forge-form-grid">
+                  <select id="forge-arena-create-status">
+                    <option value="open">Open</option>
+                    <option value="live">Live</option>
+                    <option value="judging">Judging</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                  <input
+                    id="forge-arena-create-owner-session"
+                    type="text"
+                    placeholder="Owner session key"
+                  />
+                </div>
+                <div class="forge-form-grid">
+                  <select id="forge-arena-create-scoring-rule">
+                    <option value="balanced">Balanced</option>
+                    <option value="speed">Speed</option>
+                    <option value="creativity">Creativity</option>
+                    <option value="efficiency">Efficiency</option>
+                  </select>
+                  <input
+                    id="forge-arena-create-score-bonus"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value="0"
+                  />
+                </div>
+                <textarea
+                  id="forge-arena-create-result-summary"
+                  placeholder="Optional result summary"
+                ></textarea>
+                <div class="forge-button-row">
+                  <button id="forge-arena-create-challenge" type="submit" class="forge-cta-primary">
+                    <span id="forge-arena-create-submit-label">Create challenge</span>
+                  </button>
+                  <button
+                    id="forge-arena-cancel-edit"
+                    type="button"
+                    class="forge-cta-secondary"
+                    hidden
+                  >
+                    Cancel edit
+                  </button>
+                </div>
+              </form>
+              <div class="forge-inline-status" id="forge-arena-create-feedback">
+                Ready to create a new challenge.
+              </div>
+              <div class="forge-inline-status" id="forge-arena-local-participation-status">
+                Local participation loop is ready.
+              </div>
+            </section>
+
+            <section class="forge-ops-card forge-panel">
+              <div class="forge-subsection-title">Judging & Pairing</div>
+              <div class="forge-form-grid">
+                <button id="forge-arena-record-co-build" type="button" class="forge-cta-secondary">
+                  Record Co-Build
+                </button>
+                <button id="forge-arena-save-replay" type="button" class="forge-cta-secondary">
+                  Save Replay
+                </button>
+              </div>
+              <div class="forge-form-grid">
+                <select id="forge-arena-pair-run-select">
+                  <option value="">No visible runs yet</option>
+                </select>
+                <button
+                  id="forge-arena-pair-selected-run"
+                  type="button"
+                  class="forge-cta-secondary"
+                >
+                  Pair selected run
+                </button>
+              </div>
+              <div class="forge-form-grid">
+                <select id="forge-arena-judge-verdict">
+                  <option value="promote">Promote</option>
+                  <option value="hold">Hold</option>
+                  <option value="reject">Reject</option>
+                </select>
+                <select id="forge-arena-judge-review-category">
+                  <option value="breakthrough">Breakthrough</option>
+                  <option value="craft">Craft</option>
+                  <option value="performance">Performance</option>
+                  <option value="fun">Fun</option>
+                </select>
+              </div>
+              <div class="forge-form-grid">
+                <input id="forge-arena-judge-score-delta" type="number" value="0" />
+                <button id="forge-arena-judge-selected" type="button" class="forge-cta-primary">
+                  Judge selected
+                </button>
+              </div>
+              <textarea
+                id="forge-arena-judge-summary"
+                class="forge-judge-summary"
+                placeholder="Optional judging summary"
+              ></textarea>
+              <div class="forge-inline-status" id="forge-arena-feature-action-status">
+                Ready to feature the active run.
+              </div>
+              <div class="forge-inline-status" id="forge-arena-judge-feedback">
+                Select a challenge before judging.
+              </div>
+            </section>
+          </section>
+        </div>
+      </section>
+
+      <!-- ── Connection overlay ──────────────────────────────── -->
+      <div id="connect-overlay" class="connect-overlay">
+        <div class="connect-spinner"></div>
+        <p id="connect-status">Connecting to BIOS AI...</p>
+      </div>
+
+      <!-- ── Onboarding ─────────────────────────────────────── -->
+      <div id="naming-modal" class="hidden onboarding-overlay">
+        <div class="onboarding-card">
+          <h2 id="onboarding-title">CALIBRATE SYSTEM</h2>
+          <div id="onboarding-step-intro" class="onboarding-step">
+            <p>Welcome to <strong>BIOS AI</strong> — your local agent operating system.</p>
+            <p class="onboarding-lead">
+              I can help with browser tasks, files, repos, apps, and connected systems. The broader
+              the authority you give me, the more I can do without making you repeat yourself.
+            </p>
+            <button id="btn-onboarding-intro-next" class="btn-primary">Continue</button>
+          </div>
+          <div id="onboarding-step-name" class="onboarding-step hidden">
+            <p>Give your agent a name.</p>
+            <input
+              type="text"
+              id="agent-name-input"
+              placeholder="e.g., Atlas, Aegis, Nova"
+              autocomplete="off"
+              class="onboarding-input"
+            />
+            <button id="btn-onboarding-name-next" class="btn-primary">Confirm Name</button>
+          </div>
+          <div id="onboarding-step-permissions" class="onboarding-step hidden">
+            <p id="onboarding-permission-copy">
+              Can <strong id="onboarding-agent-name-label">your agent</strong> handle routine work
+              directly without asking each time?
+            </p>
+            <p class="onboarding-fine">
+              Kernel safety stops and sandbox defaults always remain active.
+            </p>
+            <div class="onboarding-btn-row">
+              <button id="btn-onboarding-perm-yes" class="btn-primary">
+                Yes — broad authority
+              </button>
+              <button id="btn-onboarding-perm-no" class="btn-secondary">No — ask first</button>
+            </div>
+          </div>
+          <div id="onboarding-step-readback" class="onboarding-step hidden">
+            <p id="onboarding-readback-copy">Readback loading...</p>
+            <p class="onboarding-fine">
+              Kernel safety stops, sandbox-first execution, and secret protection remain active at
+              all times.
+            </p>
+            <button id="btn-onboarding-finish" class="btn-primary">Start Working</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

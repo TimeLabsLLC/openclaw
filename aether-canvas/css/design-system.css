@@ -1,0 +1,752 @@
+/* ============================================================
+   AETHER OS — Design System
+   Deep obsidian glassmorphism with holographic neon accents
+   ============================================================ */
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Obsidian surface hierarchy */
+  --bg-base: #03050a;
+  --bg-primary: #05070d;
+  --bg-secondary: #080b14;
+  --bg-elevated: #0c101a;
+  --bg-surface: #101520;
+  --bg-hover: #161d2a;
+  --bg-active: #1c2535;
+
+  /* Card / panel glass surfaces */
+  --glass-bg: rgba(12, 16, 26, 0.65);
+  --glass-bg-hover: rgba(22, 29, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.04);
+  --glass-blur: 20px;
+
+  /* Text hierarchy */
+  --text-primary: #f0f4f8;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dim: #475569;
+  --text-inverse: #05070d;
+
+  /* BIOS AI brand accent — green-cyan circuit neon */
+  --accent: hsl(160, 100%, 50%);
+  --accent-bright: hsl(160, 100%, 65%);
+  --accent-hover: hsl(160, 100%, 58%);
+  --accent-muted: hsl(160, 80%, 40%);
+  --accent-subtle: hsla(160, 100%, 50%, 0.08);
+  --accent-glow: hsla(160, 100%, 50%, 0.2);
+  --accent-glow-strong: hsla(160, 100%, 50%, 0.4);
+
+  /* Status colors */
+  --success: hsl(155, 80%, 45%);
+  --success-glow: hsla(155, 80%, 45%, 0.2);
+  --warning: hsl(38, 95%, 55%);
+  --warning-glow: hsla(38, 95%, 55%, 0.15);
+  --danger: hsl(0, 85%, 60%);
+  --danger-glow: hsla(0, 85%, 60%, 0.15);
+  --info: var(--accent);
+
+  /* Typography */
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+
+  --text-xs: 0.6875rem; /* 11px */
+  --text-sm: 0.8125rem; /* 13px */
+  --text-base: 0.875rem; /* 14px */
+  --text-md: 0.9375rem; /* 15px */
+  --text-lg: 1.0625rem; /* 17px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.625rem; /* 26px */
+  --text-3xl: 2rem; /* 32px */
+
+  /* Spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+  --shadow-glow-strong: 0 0 32px var(--accent-glow-strong);
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-normal: 200ms;
+  --dur-slow: 350ms;
+  --dur-smooth: 500ms;
+
+  /* Z-index layers */
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-titlebar: 50;
+}
+
+/* ── Reset & Base ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  background-color: var(--bg-base);
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: var(--accent-glow-strong);
+  color: var(--text-primary);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-active);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
+/* ── Typography ────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+a:hover {
+  color: var(--accent-bright);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background: var(--bg-surface);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--accent-bright);
+}
+
+pre {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-4);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-secondary);
+}
+
+/* ── Glassmorphism Utilities ───────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-hover:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.glass-elevated {
+  background: rgba(16, 21, 32, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Button System ─────────────────────────────────────────── */
+:root {
+  --pressable-hover-y: -2px;
+  --pressable-hover-scale: 1.018;
+  --pressable-active-y: 0;
+  --pressable-active-scale: 0.982;
+  --pressable-hover-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  --pressable-accent-shadow: 0 0 0 1px rgba(127, 255, 207, 0.16), 0 16px 34px rgba(0, 255, 170, 0.12);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--dur-normal) var(--ease-out);
+  outline: none;
+  line-height: 1.4;
+}
+
+button,
+[role="button"],
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.btn-icon,
+.toggle-btn,
+.settings-action-btn,
+.settings-danger-btn,
+.settings-profile-chip,
+.bios-profile-picker,
+.chat-send,
+.rail-btn,
+.workflow-run-btn,
+.forge-cta-primary,
+.forge-cta-secondary,
+.forge-entry-card-action,
+.forge-arena-action-btn,
+.bios-soul-approve-btn,
+.bios-soul-reject-btn,
+[data-approval-action] {
+  transform-origin: center;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    filter var(--dur-fast) ease;
+}
+
+button:not(:disabled):hover,
+[role="button"]:not([aria-disabled="true"]):hover,
+.btn:not(:disabled):hover,
+.btn-primary:not(:disabled):hover,
+.btn-secondary:not(:disabled):hover,
+.btn-ghost:not(:disabled):hover,
+.btn-icon:not(:disabled):hover,
+.toggle-btn:not(:disabled):hover,
+.settings-action-btn:not(:disabled):hover,
+.settings-danger-btn:not(:disabled):hover,
+.settings-profile-chip:not(:disabled):hover,
+.bios-profile-picker:not(:disabled):hover,
+.chat-send:not(:disabled):hover,
+.rail-btn:not(:disabled):hover,
+.workflow-run-btn:not(:disabled):hover,
+.forge-cta-primary:not(:disabled):hover,
+.forge-cta-secondary:not(:disabled):hover,
+.forge-entry-card-action:not(:disabled):hover,
+.forge-arena-action-btn:not(:disabled):hover,
+.bios-soul-approve-btn:not(:disabled):hover,
+.bios-soul-reject-btn:not(:disabled):hover,
+[data-approval-action]:not(:disabled):hover {
+  transform: translateY(var(--pressable-hover-y)) scale(var(--pressable-hover-scale));
+  box-shadow: var(--pressable-hover-shadow);
+  filter: brightness(1.06);
+}
+
+button:focus-visible,
+[role="button"]:focus-visible,
+.btn:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-ghost:focus-visible,
+.btn-icon:focus-visible,
+.toggle-btn:focus-visible,
+.settings-action-btn:focus-visible,
+.settings-danger-btn:focus-visible,
+.settings-profile-chip:focus-visible,
+.bios-profile-picker:focus-visible,
+.chat-send:focus-visible,
+.rail-btn:focus-visible,
+.workflow-run-btn:focus-visible,
+.forge-cta-primary:focus-visible,
+.forge-cta-secondary:focus-visible,
+.forge-entry-card-action:focus-visible,
+.forge-arena-action-btn:focus-visible,
+.bios-soul-approve-btn:focus-visible,
+.bios-soul-reject-btn:focus-visible,
+[data-approval-action]:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--bg-base),
+    0 0 0 4px var(--accent),
+    var(--pressable-accent-shadow);
+}
+
+button:not(:disabled):active,
+[role="button"]:not([aria-disabled="true"]):active,
+.btn:not(:disabled):active,
+.btn-primary:not(:disabled):active,
+.btn-secondary:not(:disabled):active,
+.btn-ghost:not(:disabled):active,
+.btn-icon:not(:disabled):active,
+.toggle-btn:not(:disabled):active,
+.settings-action-btn:not(:disabled):active,
+.settings-danger-btn:not(:disabled):active,
+.settings-profile-chip:not(:disabled):active,
+.bios-profile-picker:not(:disabled):active,
+.chat-send:not(:disabled):active,
+.rail-btn:not(:disabled):active,
+.workflow-run-btn:not(:disabled):active,
+.forge-cta-primary:not(:disabled):active,
+.forge-cta-secondary:not(:disabled):active,
+.forge-entry-card-action:not(:disabled):active,
+.forge-arena-action-btn:not(:disabled):active,
+.bios-soul-approve-btn:not(:disabled):active,
+.bios-soul-reject-btn:not(:disabled):active,
+[data-approval-action]:not(:disabled):active {
+  transform: translateY(var(--pressable-active-y)) scale(var(--pressable-active-scale));
+  filter: brightness(0.96);
+}
+
+button:disabled,
+.btn:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-ghost:disabled,
+.btn-icon:disabled,
+.toggle-btn:disabled,
+.settings-action-btn:disabled,
+.settings-danger-btn:disabled,
+.settings-profile-chip:disabled,
+.chat-send:disabled,
+.rail-btn:disabled,
+.workflow-run-btn:disabled,
+.forge-cta-primary:disabled,
+.forge-cta-secondary:disabled,
+.forge-entry-card-action:disabled,
+.forge-arena-action-btn:disabled,
+.bios-soul-approve-btn:disabled,
+.bios-soul-reject-btn:disabled,
+[data-approval-action]:disabled {
+  cursor: not-allowed;
+  filter: saturate(0.7) brightness(0.82);
+  transform: none;
+  box-shadow: none;
+}
+
+.rail-btn.active,
+.toggle-btn.on,
+.settings-profile-chip.is-active,
+.bios-profile-picker.is-active,
+.forge-entry-card-action.is-active,
+.forge-arena-action-btn.is-active,
+[aria-pressed="true"],
+[aria-selected="true"] {
+  box-shadow: var(--pressable-accent-shadow);
+  filter: brightness(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  [role="button"],
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-icon,
+  .toggle-btn,
+  .settings-action-btn,
+  .settings-danger-btn,
+  .settings-profile-chip,
+  .bios-profile-picker,
+  .chat-send,
+  .rail-btn,
+  .workflow-run-btn,
+  .forge-cta-primary,
+  .forge-cta-secondary,
+  .forge-entry-card-action,
+  .forge-arena-action-btn,
+  .bios-soul-approve-btn,
+  .bios-soul-reject-btn,
+  [data-approval-action] {
+    transition: none;
+  }
+
+  button:not(:disabled):hover,
+  [role="button"]:not([aria-disabled="true"]):hover,
+  .btn:not(:disabled):hover,
+  .btn-primary:not(:disabled):hover,
+  .btn-secondary:not(:disabled):hover,
+  .btn-ghost:not(:disabled):hover,
+  .btn-icon:not(:disabled):hover,
+  .toggle-btn:not(:disabled):hover,
+  .settings-action-btn:not(:disabled):hover,
+  .settings-danger-btn:not(:disabled):hover,
+  .settings-profile-chip:not(:disabled):hover,
+  .bios-profile-picker:not(:disabled):hover,
+  .chat-send:not(:disabled):hover,
+  .rail-btn:not(:disabled):hover,
+  .workflow-run-btn:not(:disabled):hover,
+  .forge-cta-primary:not(:disabled):hover,
+  .forge-cta-secondary:not(:disabled):hover,
+  .forge-entry-card-action:not(:disabled):hover,
+  .forge-arena-action-btn:not(:disabled):hover,
+  .bios-soul-approve-btn:not(:disabled):hover,
+  .bios-soul-reject-btn:not(:disabled):hover,
+  [data-approval-action]:not(:disabled):hover {
+    transform: none;
+  }
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--pressable-accent-shadow);
+}
+.btn-primary:active {
+  transform: translateY(var(--pressable-active-y)) scale(var(--pressable-active-scale));
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+}
+.btn-ghost:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--dur-fast) ease;
+}
+.btn-icon:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Input System ──────────────────────────────────────────── */
+textarea,
+input[type="text"] {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-3) var(--sp-4);
+  outline: none;
+  resize: none;
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
+  line-height: 1.5;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+  border-color: var(--accent-muted);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+textarea::placeholder {
+  color: var(--text-dim);
+}
+
+/* ── Status Badges ─────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-success {
+  background: hsla(155, 80%, 45%, 0.12);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: hsla(38, 95%, 55%, 0.12);
+  color: var(--warning);
+}
+
+.badge-danger {
+  background: hsla(0, 85%, 60%, 0.12);
+  color: var(--danger);
+}
+
+.badge-accent {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+/* ── Status Pulse Animation ─────────────────────────────────── */
+.status-pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    var(--accent-bright) 0%,
+    var(--accent) 30%,
+    var(--accent-muted) 60%,
+    transparent 75%
+  );
+  box-shadow:
+    var(--shadow-glow-strong),
+    inset 0 0 12px var(--accent-glow);
+  animation: status-pulse-anim 3s var(--ease-out) infinite;
+  position: relative;
+}
+
+.status-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-glow);
+  animation: status-ring-anim 3s var(--ease-out) infinite;
+}
+
+@keyframes status-pulse-anim {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      var(--shadow-glow),
+      inset 0 0 12px var(--accent-glow);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      var(--shadow-glow-strong),
+      inset 0 0 18px var(--accent-glow-strong);
+  }
+}
+
+@keyframes status-ring-anim {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+/* Miniature status indicator dots */
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  animation: indicator-dot-pulse 2s ease infinite;
+}
+
+.indicator-dot--success {
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success-glow);
+}
+.indicator-dot--warning {
+  background: var(--warning);
+  box-shadow: 0 0 8px var(--warning-glow);
+}
+.indicator-dot--danger {
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger-glow);
+}
+
+@keyframes indicator-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ── Keyframe Library ──────────────────────────────────────── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 24px var(--accent-glow-strong);
+  }
+}
+
+/* ── Utility Classes ───────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mono {
+  font-family: var(--font-mono);
+}
+.text-accent {
+  color: var(--accent);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-dim {
+  color: var(--text-dim);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
