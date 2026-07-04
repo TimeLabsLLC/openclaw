@@ -29,9 +29,9 @@ describeBundledMetadataOnlyChannelCatalogContract({
 
 describeOfficialFallbackChannelCatalogContract({
   channelId: "whatsapp",
-  npmSpec: "@agentos/whatsapp",
+  npmSpec: "@openclaw/whatsapp",
   meta: whatsappMeta,
-  packageName: "@agentos/whatsapp",
+  packageName: "@openclaw/whatsapp",
   pluginId: "whatsapp",
   externalNpmSpec: "@vendor/whatsapp-fork",
   externalLabel: "WhatsApp Fork",
