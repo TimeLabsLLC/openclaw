@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { LEGACY_MANIFEST_KEYS, MANIFEST_KEY } from "../../compat/legacy-names.js";
 import { isPrereleaseSemverVersion, parseRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
-import { resolveAgentOSPackageRootSync } from "../../infra/agentos-root.js";
+import { resolveOpenClawPackageRootSync as resolveAgentOSPackageRootSync } from "../../infra/openclaw-root.js";
 import { listChannelCatalogEntries } from "../../plugins/channel-catalog-registry.js";
 import {
   describePluginInstallSource,
