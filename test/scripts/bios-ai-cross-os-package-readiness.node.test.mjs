@@ -72,7 +72,7 @@ async function writePlatformArtifacts(repoRoot, platform) {
         "BIOS AI.app",
         "Contents",
         "MacOS",
-        "Electron",
+        "BIOS AI",
       ),
     );
     await writeArtifact(
@@ -162,7 +162,7 @@ describe("BIOS AI cross-OS package readiness", () => {
     );
     assert.deepEqual(
       macos.map((artifact) => artifact.label),
-      ["macOS Electron app executable", "macOS llama.cpp sidecar binary"],
+      ["macOS BIOS AI app executable", "macOS llama.cpp sidecar binary"],
     );
     assert.deepEqual(
       linux.map((artifact) => artifact.label),

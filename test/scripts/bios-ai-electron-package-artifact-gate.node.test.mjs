@@ -16,7 +16,7 @@ function packagedExePath(outputRoot) {
     return path.join(outputRoot, "win-unpacked", "BIOS AI.exe");
   }
   if (process.platform === "darwin") {
-    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron");
+    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI");
   }
   return path.join(outputRoot, "linux-unpacked", "bios-ai");
 }
@@ -180,7 +180,7 @@ describe("BIOS AI Electron package artifact gate", () => {
     );
   });
 
-  it("uses the native Electron executable inside macOS app bundles", async () => {
+  it("uses the product executable inside macOS app bundles", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-macos-executable-")),
     );
@@ -191,7 +191,7 @@ describe("BIOS AI Electron package artifact gate", () => {
       "BIOS AI.app",
       "Contents",
       "MacOS",
-      "Electron",
+      "BIOS AI",
     );
     const sidecarPath = path.join(
       outputRoot,
@@ -241,6 +241,22 @@ describe("BIOS AI Electron package artifact gate", () => {
     );
     await writeFixtureFile(
       dependencyRoot,
+      "node_modules/electron/dist/Electron.app/Contents/Info.plist",
+      [
+        "<plist>",
+        "<dict>",
+        "<key>CFBundleExecutable</key>",
+        "<string>Electron</string>",
+        "<key>CFBundleName</key>",
+        "<string>Electron</string>",
+        "<key>CFBundleDisplayName</key>",
+        "<string>Electron</string>",
+        "</dict>",
+        "</plist>",
+      ].join("\n"),
+    );
+    await writeFixtureFile(
+      dependencyRoot,
       "node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Resources/Info.plist",
     );
     await writeFixtureFile(
@@ -284,6 +300,13 @@ describe("BIOS AI Electron package artifact gate", () => {
       ),
       "icu",
     );
+    const infoPlist = await readFile(
+      path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "Info.plist"),
+      "utf8",
+    );
+    assert.match(infoPlist, /<key>CFBundleExecutable<\/key>\s*<string>BIOS AI<\/string>/);
+    assert.match(infoPlist, /<key>CFBundleName<\/key>\s*<string>BIOS AI<\/string>/);
+    assert.match(infoPlist, /<key>CFBundleDisplayName<\/key>\s*<string>BIOS AI<\/string>/);
   });
 
   it("passes no-sandbox to packaged Linux launch smoke", async () => {

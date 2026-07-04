@@ -60,7 +60,7 @@ function packagedExecutablePath(outputRoot, platform = process.platform) {
     return path.join(outputRoot, "win-unpacked", "BIOS AI.exe");
   }
   if (platform === "darwin") {
-    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron");
+    return path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI");
   }
   return path.join(outputRoot, "linux-unpacked", "bios-ai");
 }
@@ -308,6 +308,11 @@ async function packageBiosAiElectronApp(
     await rm(path.dirname(appRoot), { recursive: true, force: true });
     await mkdir(path.dirname(appRoot), { recursive: true });
     await cp(path.join(electronDist, "Electron.app"), appRoot, { recursive: true });
+    await rename(
+      path.join(appRoot, "Contents", "MacOS", "Electron"),
+      path.join(appRoot, "Contents", "MacOS", "BIOS AI"),
+    );
+    await writeMacInfoPlist(path.join(appRoot, "Contents", "Info.plist"));
     await copyMacElectronSupportFiles(electronDist, appRoot);
     await cp(stageRoot, path.join(appRoot, "Contents", "Resources", "app"), { recursive: true });
     await mkdir(path.join(appRoot, "Contents", "Resources", "bin"), { recursive: true });
@@ -341,6 +346,24 @@ async function packageBiosAiElectronApp(
   await cp(path.join(stageRoot, "resources", "bin"), path.join(appRoot, "resources", "bin"), {
     recursive: true,
   });
+}
+
+async function writeMacInfoPlist(infoPlistPath) {
+  const current = await readFile(infoPlistPath, "utf8");
+  const updated = current
+    .replace(
+      /<key>CFBundleExecutable<\/key>\s*<string>[^<]*<\/string>/,
+      "<key>CFBundleExecutable</key>\n\t<string>BIOS AI</string>",
+    )
+    .replace(
+      /<key>CFBundleName<\/key>\s*<string>[^<]*<\/string>/,
+      "<key>CFBundleName</key>\n\t<string>BIOS AI</string>",
+    )
+    .replace(
+      /<key>CFBundleDisplayName<\/key>\s*<string>[^<]*<\/string>/,
+      "<key>CFBundleDisplayName</key>\n\t<string>BIOS AI</string>",
+    );
+  await writeFile(infoPlistPath, updated, "utf8");
 }
 
 async function writeReport(repoRoot, report) {

@@ -39,7 +39,7 @@ function resolveBiosAiElectronPaths(repoRoot = resolveRepoRoot(), platform = pro
         : "linux-unpacked";
   const releaseExePath =
     platform === "darwin"
-      ? path.join(packageRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "Electron")
+      ? path.join(packageRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI")
       : platform === "win32"
         ? path.join(packageRoot, "win-unpacked", "BIOS AI.exe")
         : path.join(packageRoot, "linux-unpacked", "bios-ai");

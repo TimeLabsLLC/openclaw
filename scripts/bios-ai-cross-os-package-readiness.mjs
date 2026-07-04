@@ -36,9 +36,9 @@ const PLATFORM_ARTIFACTS = {
         "BIOS AI.app",
         "Contents",
         "MacOS",
-        "Electron",
+        "BIOS AI",
       ),
-      label: "macOS Electron app executable",
+      label: "macOS BIOS AI app executable",
     },
     {
       relativePath: path.join(
