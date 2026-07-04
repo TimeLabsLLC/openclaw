@@ -27,7 +27,7 @@ function readManifestRecords(): PluginManifest[] {
       const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf-8")) as {
         agentos?: AgentOSPackageManifest;
       };
-      return normalizeBundledPluginStringList(packageJson.openclaw?.extensions).length > 0;
+      return normalizeBundledPluginStringList(packageJson.agentos?.extensions).length > 0;
     })
     .map(
       (pluginDir) =>

@@ -520,7 +520,7 @@ describe("provider install catalog", () => {
         name: "@openclaw/codex",
         source: "official",
         kind: "provider",
-        openclaw: {
+        agentos: {
           plugin: { id: "codex", label: "Codex" },
           providers: [
             {
