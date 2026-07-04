@@ -65,7 +65,7 @@ export function getThreadingContractRegistryShardRefs(params: {
     .map((id) => ({ id }));
 }
 
-const directoryPresenceOnlyIds = new Set(["whatsapp", "zalouser"]);
+const directoryPresenceOnlyIds = new Set(["mattermost", "whatsapp", "zalouser"]);
 
 export function getDirectoryContractRegistryShardRefs(params: {
   shardIndex: number;
