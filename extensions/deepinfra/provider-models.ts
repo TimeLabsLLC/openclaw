@@ -2,7 +2,7 @@ import { buildManifestModelProviderConfig } from "openclaw/plugin-sdk/provider-c
 import { fetchWithTimeout } from "openclaw/plugin-sdk/provider-http";
 import type { ModelDefinitionConfig } from "openclaw/plugin-sdk/provider-model-shared";
 import { createSubsystemLogger } from "openclaw/plugin-sdk/runtime-env";
-import manifest from "./openclaw.plugin.json" with { type: "json" };
+import manifest from "./agentos.plugin.json" with { type: "json" };
 
 const log = createSubsystemLogger("deepinfra-models");
 

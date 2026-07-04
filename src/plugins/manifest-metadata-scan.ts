@@ -18,7 +18,7 @@ type CandidateDir = {
 };
 
 const OPENCLAW_PACKAGE_ROOT = fileURLToPath(new URL("../..", import.meta.url));
-const PLUGIN_MANIFEST_FILENAME = "openclaw.plugin.json";
+const PLUGIN_MANIFEST_FILENAME = "agentos.plugin.json";
 let manifestMetadataCache:
   | {
       key: string;

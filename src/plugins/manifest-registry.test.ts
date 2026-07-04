@@ -5,7 +5,7 @@ import { collectChannelSchemaMetadata } from "../config/channel-config-metadata.
 import { collectBundledChannelConfigs } from "./bundled-channel-config-metadata.js";
 import type { PluginCandidate } from "./discovery.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
-import type { OpenClawPackageManifest } from "./manifest.js";
+import type { AgentOSPackageManifest } from "./manifest.js";
 import { cleanupTrackedTempDirs, makeTrackedTempDir } from "./test-helpers/fs-fixtures.js";
 
 vi.unmock("../version.js");
@@ -29,7 +29,7 @@ function makeTempDir() {
 }
 
 function writeManifest(dir: string, manifest: Record<string, unknown>) {
-  fs.writeFileSync(path.join(dir, "openclaw.plugin.json"), JSON.stringify(manifest), "utf-8");
+  fs.writeFileSync(path.join(dir, "agentos.plugin.json"), JSON.stringify(manifest), "utf-8");
 }
 
 function writeTextFile(rootDir: string, relativePath: string, value: string) {
@@ -63,7 +63,7 @@ function createPluginCandidate(params: {
   format?: "openclaw" | "bundle";
   bundleFormat?: "codex" | "claude" | "cursor";
   packageName?: string;
-  packageManifest?: OpenClawPackageManifest;
+  packageManifest?: AgentOSPackageManifest;
   packageDir?: string;
   bundledManifest?: PluginCandidate["bundledManifest"];
   bundledManifestPath?: string;
@@ -126,8 +126,8 @@ function prepareLinkedManifestFixture(params: { id: string; mode: "symlink" | "h
 } {
   const rootDir = makeTempDir();
   const outsideDir = makeTempDir();
-  const outsideManifest = path.join(outsideDir, "openclaw.plugin.json");
-  const linkedManifest = path.join(rootDir, "openclaw.plugin.json");
+  const outsideManifest = path.join(outsideDir, "agentos.plugin.json");
+  const linkedManifest = path.join(rootDir, "agentos.plugin.json");
   fs.writeFileSync(path.join(rootDir, "index.ts"), "export default function () {}", "utf-8");
   fs.writeFileSync(
     outsideManifest,
@@ -319,7 +319,7 @@ describe("loadPluginManifestRegistry", () => {
       }),
       "utf-8",
     );
-    const manifestPath = path.join(pluginDir, "openclaw.plugin.json");
+    const manifestPath = path.join(pluginDir, "agentos.plugin.json");
     writeManifest(pluginDir, {
       id: "cached-manifest",
       name: "Before",
@@ -949,7 +949,7 @@ describe("loadPluginManifestRegistry", () => {
       expect.objectContaining({
         level: "warn",
         pluginId: "external-openai",
-        source: path.join(dir, "openclaw.plugin.json"),
+        source: path.join(dir, "agentos.plugin.json"),
         message: expect.stringContaining(
           "providerAuthEnvVars is deprecated compatibility metadata",
         ),
@@ -1033,7 +1033,7 @@ describe("loadPluginManifestRegistry", () => {
       expect.objectContaining({
         level: "warn",
         pluginId: "external-chat",
-        source: path.join(dir, "openclaw.plugin.json"),
+        source: path.join(dir, "agentos.plugin.json"),
         message: expect.stringContaining("without channelConfigs metadata"),
       }),
     );
@@ -1179,7 +1179,7 @@ describe("loadPluginManifestRegistry", () => {
     const dir = makeTempDir();
     writeTextFile(
       dir,
-      "openclaw.plugin.json",
+      "agentos.plugin.json",
       JSON.stringify({
         id: "external-chat",
         channels: ["safe-chat"],
@@ -1600,7 +1600,7 @@ describe("loadPluginManifestRegistry", () => {
         idHint: "telegram",
         rootDir: dir,
         origin: "bundled",
-        bundledManifestPath: path.join(dir, "openclaw.plugin.json"),
+        bundledManifestPath: path.join(dir, "agentos.plugin.json"),
         bundledManifest: {
           id: "telegram",
           configSchema: { type: "object" },

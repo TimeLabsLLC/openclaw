@@ -65,14 +65,14 @@ export function describeBundledMetadataOnlyChannelCatalogContract(params: {
       fs.mkdirSync(bundledDir, { recursive: true });
       fs.writeFileSync(
         path.join(workspaceDir, "package.json"),
-        JSON.stringify({ name: "openclaw" }),
+        JSON.stringify({ name: "agentos" }),
         "utf8",
       );
       fs.writeFileSync(
         path.join(bundledDir, "package.json"),
         JSON.stringify({
           name: params.packageName,
-          openclaw: {
+          agentos: {
             extensions: ["./index.js"],
             channel: params.meta,
             install: {
@@ -85,7 +85,7 @@ export function describeBundledMetadataOnlyChannelCatalogContract(params: {
       );
       fs.writeFileSync(path.join(bundledDir, "index.js"), "export default {};\n", "utf8");
       fs.writeFileSync(
-        path.join(bundledDir, "openclaw.plugin.json"),
+        path.join(bundledDir, "agentos.plugin.json"),
         JSON.stringify({ id: params.pluginId, channels: [params.meta.id], configSchema: {} }),
         "utf8",
       );
@@ -122,7 +122,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
           entries: [
             {
               name: params.packageName,
-              openclaw: {
+              agentos: {
                 channel: params.meta,
                 install: {
                   npmSpec: params.npmSpec,
@@ -156,7 +156,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
         path.join(bundledDir, "package.json"),
         JSON.stringify({
           name: params.packageName,
-          openclaw: {
+          agentos: {
             channel: {
               ...params.meta,
               label: `${params.meta.label} Bundled`,
@@ -174,7 +174,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
           entries: [
             {
               name: params.packageName,
-              openclaw: {
+              agentos: {
                 channel: {
                   ...params.meta,
                   label: `${params.meta.label} Official`,
@@ -194,7 +194,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
           entries: [
             {
               name: params.externalNpmSpec,
-              openclaw: {
+              agentos: {
                 channel: {
                   ...params.meta,
                   label: params.externalLabel,
@@ -232,7 +232,7 @@ export function describeOfficialFallbackChannelCatalogContract(params: {
           entries: [
             {
               name: params.packageName,
-              openclaw: {
+              agentos: {
                 channel: params.meta,
                 install: {
                   npmSpec: `${params.packageName}-fork@1.2.3`,

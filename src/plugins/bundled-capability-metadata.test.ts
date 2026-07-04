@@ -10,7 +10,7 @@ import {
   hasBundledPluginContractSnapshotCapabilities,
 } from "./contracts/inventory/bundled-capability-metadata.js";
 import { pluginTestRepoRoot as repoRoot } from "./generated-plugin-test-helpers.js";
-import type { OpenClawPackageManifest } from "./manifest.js";
+import type { AgentOSPackageManifest } from "./manifest.js";
 import type { PluginManifest } from "./manifest.js";
 
 function readManifestRecords(): PluginManifest[] {
@@ -25,14 +25,14 @@ function readManifestRecords(): PluginManifest[] {
         return false;
       }
       const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf-8")) as {
-        openclaw?: OpenClawPackageManifest;
+        agentos?: AgentOSPackageManifest;
       };
       return normalizeBundledPluginStringList(packageJson.openclaw?.extensions).length > 0;
     })
     .map(
       (pluginDir) =>
         JSON.parse(
-          fs.readFileSync(path.join(pluginDir, "openclaw.plugin.json"), "utf-8"),
+          fs.readFileSync(path.join(pluginDir, "agentos.plugin.json"), "utf-8"),
         ) as PluginManifest,
     )
     .toSorted((left, right) => left.id.localeCompare(right.id));
