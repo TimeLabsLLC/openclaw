@@ -99,13 +99,34 @@ async function copyMacElectronSupportFiles(electronDist, appRoot) {
   ];
   await Promise.all(resourceRoots.map((resourceRoot) => mkdir(resourceRoot, { recursive: true })));
   for (const fileName of ["icudtl.dat", "v8_context_snapshot.bin", "snapshot_blob.bin"]) {
-    const source = path.join(electronDist, fileName);
+    const sourceCandidates = [
+      path.join(electronDist, fileName),
+      path.join(
+        electronDist,
+        "Electron.app",
+        "Contents",
+        "Frameworks",
+        "Electron Framework.framework",
+        "Resources",
+        fileName,
+      ),
+    ];
+    const source = await firstExistingFile(sourceCandidates);
     if (await fileExists(source)) {
       await Promise.all(
         resourceRoots.map((resourceRoot) => cp(source, path.join(resourceRoot, fileName))),
       );
     }
   }
+}
+
+async function firstExistingFile(filePaths) {
+  for (const filePath of filePaths) {
+    if (await fileExists(filePath)) {
+      return filePath;
+    }
+  }
+  return filePaths[0];
 }
 
 function runProcess(command, args, options = {}) {

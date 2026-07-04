@@ -243,7 +243,11 @@ describe("BIOS AI Electron package artifact gate", () => {
       dependencyRoot,
       "node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Resources/Info.plist",
     );
-    await writeFixtureFile(dependencyRoot, "node_modules/electron/dist/icudtl.dat", "icu");
+    await writeFixtureFile(
+      dependencyRoot,
+      "node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Resources/icudtl.dat",
+      "icu",
+    );
 
     const report = await verifyBiosAiElectronPackageArtifactGate(fixtureRoot, {
       platform: "darwin",
