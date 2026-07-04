@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/file-transfer",
+  "name": "@agentos/file-transfer",
   "version": "2026.5.3",
-  "description": "OpenClaw file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
+  "description": "AgentOS file transfer plugin (file_fetch, dir_list, dir_fetch, file_write)",
   "type": "module",
   "dependencies": {
     "minimatch": "10.2.5",
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

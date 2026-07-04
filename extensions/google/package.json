@@ -1,17 +1,17 @@
 {
-  "name": "@openclaw/google-plugin",
+  "name": "@agentos/google-plugin",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Google plugin",
+  "description": "AgentOS Google plugin",
   "type": "module",
   "dependencies": {
     "@google/genai": "^1.51.0",
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

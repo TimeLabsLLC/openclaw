@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/nvidia-provider",
+  "name": "@agentos/nvidia-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw NVIDIA provider plugin",
+  "description": "AgentOS NVIDIA provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

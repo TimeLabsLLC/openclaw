@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/bluebubbles",
+  "name": "@agentos/bluebubbles",
   "version": "2026.5.3",
-  "description": "OpenClaw BlueBubbles channel plugin",
+  "description": "AgentOS BlueBubbles channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/agentos/agentos"
   },
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*",
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
@@ -48,7 +48,7 @@
       ]
     },
     "install": {
-      "npmSpec": "@openclaw/bluebubbles",
+      "npmSpec": "@agentos/bluebubbles",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -56,7 +56,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "agentosVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

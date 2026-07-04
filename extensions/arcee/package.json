@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/arcee-provider",
+  "name": "@agentos/arcee-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Arcee provider plugin",
+  "description": "AgentOS Arcee provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

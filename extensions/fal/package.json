@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/fal-provider",
+  "name": "@agentos/fal-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw fal provider plugin",
+  "description": "AgentOS fal provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

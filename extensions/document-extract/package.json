@@ -1,14 +1,14 @@
 {
-  "name": "@openclaw/document-extract-plugin",
+  "name": "@agentos/document-extract-plugin",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw local document extraction plugin",
+  "description": "AgentOS local document extraction plugin",
   "type": "module",
   "dependencies": {
     "pdfjs-dist": "^5.7.284"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
   "peerDependencies": {
     "@napi-rs/canvas": "^0.1.89"
@@ -18,7 +18,7 @@
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

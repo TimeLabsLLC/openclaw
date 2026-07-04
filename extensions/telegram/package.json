@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/telegram",
+  "name": "@agentos/telegram",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Telegram channel plugin",
+  "description": "AgentOS Telegram channel plugin",
   "type": "module",
   "dependencies": {
     "@grammyjs/runner": "^2.0.3",
@@ -12,9 +12,9 @@
     "undici": "8.1.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
@@ -35,7 +35,7 @@
       "selectionDocsPrefix": "",
       "selectionDocsOmitLabel": true,
       "selectionExtras": [
-        "https://openclaw.ai"
+        "https://agentos.ai"
       ],
       "markdownCapable": true,
       "commands": {

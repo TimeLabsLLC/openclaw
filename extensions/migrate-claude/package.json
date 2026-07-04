@@ -1,22 +1,22 @@
 {
-  "name": "@openclaw/migrate-claude",
+  "name": "@agentos/migrate-claude",
   "version": "2026.5.3",
   "private": true,
-  "description": "Claude to OpenClaw migration provider",
+  "description": "Claude to AgentOS migration provider",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*",
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

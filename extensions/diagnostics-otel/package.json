@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/diagnostics-otel",
+  "name": "@agentos/diagnostics-otel",
   "version": "2026.5.3",
-  "description": "OpenClaw diagnostics OpenTelemetry exporter",
+  "description": "AgentOS diagnostics OpenTelemetry exporter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/agentos/agentos"
   },
   "type": "module",
   "dependencies": {
@@ -21,15 +21,15 @@
     "@opentelemetry/semantic-conventions": "^1.40.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
     "install": {
-      "clawhubSpec": "clawhub:@openclaw/diagnostics-otel",
-      "npmSpec": "@openclaw/diagnostics-otel",
+      "clawhubSpec": "clawhub:@agentos/diagnostics-otel",
+      "npmSpec": "@agentos/diagnostics-otel",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.25"
     },
@@ -37,7 +37,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "agentosVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

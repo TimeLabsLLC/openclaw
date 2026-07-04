@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/kimi-provider",
+  "name": "@agentos/kimi-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Kimi provider plugin",
+  "description": "AgentOS Kimi provider plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

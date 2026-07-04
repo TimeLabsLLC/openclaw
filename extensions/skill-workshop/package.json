@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/skill-workshop",
+  "name": "@agentos/skill-workshop",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw skill workshop plugin",
+  "description": "AgentOS skill workshop plugin",
   "type": "module",
   "dependencies": {
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/slack",
+  "name": "@agentos/slack",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Slack channel plugin",
+  "description": "AgentOS Slack channel plugin",
   "type": "module",
   "dependencies": {
     "@slack/bolt": "^4.7.2",
@@ -11,9 +11,9 @@
     "https-proxy-agent": "^9.0.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],

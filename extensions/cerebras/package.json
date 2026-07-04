@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/cerebras-provider",
+  "name": "@agentos/cerebras-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Cerebras provider plugin",
+  "description": "AgentOS Cerebras provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

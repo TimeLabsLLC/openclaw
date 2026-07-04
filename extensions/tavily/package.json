@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/tavily-plugin",
+  "name": "@agentos/tavily-plugin",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Tavily plugin",
+  "description": "AgentOS Tavily plugin",
   "type": "module",
   "dependencies": {
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

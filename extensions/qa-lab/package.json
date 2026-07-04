@@ -1,8 +1,8 @@
 {
-  "name": "@openclaw/qa-lab",
+  "name": "@agentos/qa-lab",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw QA lab plugin with private debugger UI and scenario runner",
+  "description": "AgentOS QA lab plugin with private debugger UI and scenario runner",
   "type": "module",
   "dependencies": {
     "@copilotkit/aimock": "1.16.4",
@@ -12,20 +12,20 @@
     "zod": "^4.4.1"
   },
   "devDependencies": {
-    "@openclaw/discord": "workspace:*",
-    "@openclaw/plugin-sdk": "workspace:*",
-    "@openclaw/slack": "workspace:*",
-    "openclaw": "workspace:*"
+    "@agentos/discord": "workspace:*",
+    "@agentos/plugin-sdk": "workspace:*",
+    "@agentos/slack": "workspace:*",
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],

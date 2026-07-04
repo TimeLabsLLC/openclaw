@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/deepseek-provider",
+  "name": "@agentos/deepseek-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw DeepSeek provider plugin",
+  "description": "AgentOS DeepSeek provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

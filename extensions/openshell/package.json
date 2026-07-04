@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/openshell-sandbox",
+  "name": "@agentos/openshell-sandbox",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenShell sandbox backend",
+  "description": "AgentOS OpenShell sandbox backend",
   "type": "module",
   "dependencies": {
     "openshell": "0.1.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

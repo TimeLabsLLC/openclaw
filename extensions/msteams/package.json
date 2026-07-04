@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/msteams",
+  "name": "@agentos/msteams",
   "version": "2026.5.3",
-  "description": "OpenClaw Microsoft Teams channel plugin",
+  "description": "AgentOS Microsoft Teams channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/agentos/agentos"
   },
   "type": "module",
   "dependencies": {
@@ -17,19 +17,19 @@
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
+    "@agentos/plugin-sdk": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
-    "openclaw": "workspace:*"
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
@@ -53,7 +53,7 @@
       }
     },
     "install": {
-      "npmSpec": "@openclaw/msteams",
+      "npmSpec": "@agentos/msteams",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10"
     },
@@ -61,7 +61,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "agentosVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

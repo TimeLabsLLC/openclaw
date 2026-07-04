@@ -1,25 +1,25 @@
 {
-  "name": "@openclaw/migrate-hermes",
+  "name": "@agentos/migrate-hermes",
   "version": "2026.5.3",
   "private": true,
-  "description": "Hermes to OpenClaw migration provider",
+  "description": "Hermes to AgentOS migration provider",
   "type": "module",
   "dependencies": {
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*",
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,5 +1,5 @@
 {
-  "name": "@openclaw/tokenjuice",
+  "name": "@agentos/tokenjuice",
   "version": "2026.5.3",
   "description": "Bundled tokenjuice exec output compaction plugin",
   "type": "module",
@@ -7,9 +7,9 @@
     "tokenjuice": "0.7.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

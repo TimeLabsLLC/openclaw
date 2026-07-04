@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/volcengine-provider",
+  "name": "@agentos/volcengine-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Volcengine provider plugin",
+  "description": "AgentOS Volcengine provider plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

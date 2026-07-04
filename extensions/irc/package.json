@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/irc",
+  "name": "@agentos/irc",
   "version": "2026.5.3",
-  "description": "OpenClaw IRC channel plugin",
+  "description": "AgentOS IRC channel plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],

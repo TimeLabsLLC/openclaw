@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/diffs",
+  "name": "@agentos/diffs",
   "version": "2026.5.3",
-  "description": "OpenClaw diff viewer plugin",
+  "description": "AgentOS diff viewer plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/agentos/agentos"
   },
   "type": "module",
   "scripts": {
@@ -17,14 +17,14 @@
     "typebox": "1.1.37"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
     "install": {
-      "npmSpec": "@openclaw/diffs",
+      "npmSpec": "@agentos/diffs",
       "localPath": "extensions/diffs",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.30"
@@ -33,7 +33,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3",
+      "agentosVersion": "2026.5.3",
       "staticAssets": [
         {
           "source": "./assets/viewer-runtime.js",

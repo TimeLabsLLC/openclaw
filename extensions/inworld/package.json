@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/inworld-speech",
+  "name": "@agentos/inworld-speech",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Inworld speech plugin",
+  "description": "AgentOS Inworld speech plugin",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

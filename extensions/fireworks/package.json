@@ -1,16 +1,16 @@
 {
-  "name": "@openclaw/fireworks-provider",
+  "name": "@agentos/fireworks-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw Fireworks provider plugin",
+  "description": "AgentOS Fireworks provider plugin",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]

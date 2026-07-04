@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@agentos/discord",
   "version": "2026.5.3",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "AgentOS Discord channel plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openclaw/openclaw"
+    "url": "https://github.com/agentos/agentos"
   },
   "type": "module",
   "dependencies": {
@@ -17,18 +17,18 @@
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*",
-    "openclaw": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*",
+    "agentos": "workspace:*"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.3"
+    "agentos": ">=2026.5.3"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "agentos": {
       "optional": true
     }
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ],
@@ -59,7 +59,7 @@
       }
     },
     "install": {
-      "npmSpec": "@openclaw/discord",
+      "npmSpec": "@agentos/discord",
       "defaultChoice": "npm",
       "minHostVersion": ">=2026.4.10",
       "allowInvalidConfigRecovery": true
@@ -68,7 +68,7 @@
       "pluginApi": ">=2026.5.3"
     },
     "build": {
-      "openclawVersion": "2026.5.3"
+      "agentosVersion": "2026.5.3"
     },
     "release": {
       "publishToClawHub": true,

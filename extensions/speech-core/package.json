@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/speech-core",
+  "name": "@agentos/speech-core",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw speech runtime package",
+  "description": "AgentOS speech runtime package",
   "type": "module",
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   }
 }

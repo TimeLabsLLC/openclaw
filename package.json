@@ -1,5 +1,5 @@
 {
-  "name": "openclaw",
+  "name": "agentos",
   "version": "2026.5.3-1",
   "description": "AgentOS: Agent Operating System for local agentic work orchestration",
   "keywords": [],
@@ -1294,9 +1294,9 @@
     "android:test:integration": "AGENTOS_LIVE_TEST=1 AGENTOS_LIVE_ANDROID_NODE=1 node scripts/run-vitest.mjs run --config test/vitest/vitest.live.config.ts src/gateway/android-node.capabilities.live.test.ts",
     "android:test:third-party": "cd apps/android && ./gradlew :app:testThirdPartyDebugUnitTest",
     "audit:seams": "node scripts/audit-seams.mjs",
+    "bios-ai:block-tauri-release-path": "node scripts/bios-ai-tauri-release-path-block-gate.mjs",
     "bios-ai:build-governance": "node scripts/bios-ai-build-governance-gate.mjs",
     "bios-ai:build-identity": "node scripts/bios-ai-build-identity.mjs",
-    "bios-ai:block-tauri-release-path": "node scripts/bios-ai-tauri-release-path-block-gate.mjs",
     "bios-ai:cross-os-package-readiness": "node scripts/bios-ai-cross-os-package-readiness.mjs",
     "bios-ai:desktop-shell-decision": "node scripts/bios-ai-desktop-shell-decision-gate.mjs",
     "bios-ai:electron-install-registration": "node scripts/bios-ai-electron-install-registration-gate.mjs",

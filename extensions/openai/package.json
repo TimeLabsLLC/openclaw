@@ -1,17 +1,17 @@
 {
-  "name": "@openclaw/openai-provider",
+  "name": "@agentos/openai-provider",
   "version": "2026.5.3",
   "private": true,
-  "description": "OpenClaw OpenAI provider plugins",
+  "description": "AgentOS OpenAI provider plugins",
   "type": "module",
   "dependencies": {
     "@mariozechner/pi-ai": "0.71.1",
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": "workspace:*"
+    "@agentos/plugin-sdk": "workspace:*"
   },
-  "openclaw": {
+  "agentos": {
     "extensions": [
       "./index.ts"
     ]
