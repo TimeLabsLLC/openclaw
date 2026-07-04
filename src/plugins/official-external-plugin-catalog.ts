@@ -1,7 +1,7 @@
 import officialExternalChannelCatalog from "../../scripts/lib/official-external-channel-catalog.json" with { type: "json" };
 import officialExternalPluginCatalog from "../../scripts/lib/official-external-plugin-catalog.json" with { type: "json" };
 import officialExternalProviderCatalog from "../../scripts/lib/official-external-provider-catalog.json" with { type: "json" };
-import { MANIFEST_KEY } from "../compat/legacy-names.js";
+import { LEGACY_MANIFEST_KEYS, MANIFEST_KEY } from "../compat/legacy-names.js";
 import { normalizeOptionalString } from "../shared/string-coerce.js";
 import { isRecord } from "../utils.js";
 import type {
@@ -10,7 +10,7 @@ import type {
   PluginPackageInstall,
 } from "./manifest.js";
 
-type ManifestKey = typeof MANIFEST_KEY;
+type ManifestKey = typeof MANIFEST_KEY | (typeof LEGACY_MANIFEST_KEYS)[number];
 
 export type OfficialExternalProviderAuthChoice = {
   method?: string;
@@ -103,7 +103,8 @@ function normalizeDefaultChoice(value: unknown): PluginPackageInstall["defaultCh
 export function getOfficialExternalPluginCatalogManifest(
   entry: OfficialExternalPluginCatalogEntry,
 ): OfficialExternalPluginCatalogManifest | undefined {
-  const manifest = entry[MANIFEST_KEY];
+  const manifest =
+    entry[MANIFEST_KEY] ?? LEGACY_MANIFEST_KEYS.map((key) => entry[key]).find(Boolean);
   return isRecord(manifest) ? manifest : undefined;
 }
 

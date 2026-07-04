@@ -70,7 +70,12 @@ type ExternalCatalogEntry = {
   description?: string;
 } & Partial<Record<ManifestKey, AgentOSPackageManifest>>;
 
-const ENV_CATALOG_PATHS = ["AGENTOS_PLUGIN_CATALOG_PATHS", "AGENTOS_MPM_CATALOG_PATHS"];
+const ENV_CATALOG_PATHS = [
+  "AGENTOS_PLUGIN_CATALOG_PATHS",
+  "AGENTOS_MPM_CATALOG_PATHS",
+  "OPENCLAW_PLUGIN_CATALOG_PATHS",
+  "OPENCLAW_MPM_CATALOG_PATHS",
+];
 const OFFICIAL_CHANNEL_CATALOG_RELATIVE_PATH = path.join("dist", "channel-catalog.json");
 const officialCatalogEntriesByPath = new Map<string, ExternalCatalogEntry[] | null>();
 
@@ -373,7 +378,9 @@ function buildExternalCatalogEntry(
   });
 }
 
-function getExternalCatalogManifest(entry: ExternalCatalogEntry): AgentOSPackageManifest | undefined {
+function getExternalCatalogManifest(
+  entry: ExternalCatalogEntry,
+): AgentOSPackageManifest | undefined {
   return entry[MANIFEST_KEY] ?? LEGACY_MANIFEST_KEYS.map((key) => entry[key]).find(Boolean);
 }
 
