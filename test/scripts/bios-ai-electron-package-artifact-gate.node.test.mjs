@@ -356,6 +356,67 @@ describe("BIOS AI Electron package artifact gate", () => {
     assert.equal(launchArgs[0][0], "--no-sandbox");
   });
 
+  it("passes the packaged app payload path to macOS launch smoke", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-macos-launch-")),
+    );
+    const outputRoot = path.join(fixtureRoot, "out");
+    const launchArgs = [];
+
+    await verifyBiosAiElectronPackageArtifactGate(fixtureRoot, {
+      platform: "darwin",
+      outputRoot,
+      writeReport: false,
+      stageApp: async (_repoRoot, stageRoot) => {
+        await writeFixtureFile(stageRoot, "dist/index.html");
+        await writeFixtureFile(stageRoot, "electron/main.mjs");
+        await writeFixtureFile(stageRoot, path.join("resources", "bin", "llama-server"));
+      },
+      writeBuilderConfig: async (stageRoot) => {
+        await writeFixtureFile(stageRoot, "electron-builder.json", "{}");
+        return path.join(stageRoot, "electron-builder.json");
+      },
+      packageApp: async (_dependencyRoot, _stageRoot, actualOutputRoot) => {
+        await writeFixtureFile(
+          "",
+          path.join(actualOutputRoot, "mac", "BIOS AI.app", "Contents", "MacOS", "BIOS AI"),
+        );
+        await writeFixtureFile(
+          "",
+          path.join(
+            actualOutputRoot,
+            "mac",
+            "BIOS AI.app",
+            "Contents",
+            "Resources",
+            "bin",
+            "llama-server",
+          ),
+        );
+      },
+      runProcess: async (_command, args, options = {}) => {
+        launchArgs.push(args);
+        if (options.env?.BIOS_AI_ELECTRON_SMOKE) {
+          await writeFixtureFile(
+            "",
+            options.env.BIOS_AI_ELECTRON_SMOKE_REPORT,
+            JSON.stringify({
+              status: "pass",
+              appName: "BIOS AI",
+              sidecarProof: { status: "pass" },
+            }),
+          );
+        }
+        return { status: "pass", exitCode: 0, timedOut: false, stdout: "", stderr: "" };
+      },
+    });
+
+    assert.equal(
+      launchArgs[0].at(-1),
+      path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "Resources", "app"),
+    );
+  });
+
   it("blocks when electron-builder does not produce the executable artifact", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-missing-exe-")),

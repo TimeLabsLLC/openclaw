@@ -81,7 +81,17 @@ function packagedSidecarCompanionPath(outputRoot, platform = process.platform) {
   return path.join(outputRoot, "win-unpacked", "resources", "bin", "llama-common.dll");
 }
 
-function packagedLaunchArgs(args, platform = process.platform) {
+function packagedLaunchArgs(
+  args,
+  platform = process.platform,
+  outputRoot = defaultOutputRoot(resolveRepoRoot()),
+) {
+  if (platform === "darwin") {
+    return [
+      ...args,
+      path.join(unpackedPackageRoot(outputRoot, platform), "Contents", "Resources", "app"),
+    ];
+  }
   if (platform === "linux") {
     return ["--no-sandbox", ...args];
   }
@@ -555,6 +565,7 @@ export async function verifyBiosAiElectronPackageArtifactGate(
           "--disable-features=Vulkan,UseSkiaRenderer,CanvasOopRasterization",
         ],
         platform,
+        outputRoot,
       ),
       {
         cwd: path.dirname(executablePath),
