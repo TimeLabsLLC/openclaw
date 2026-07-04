@@ -225,7 +225,7 @@ describe("BIOS AI Electron package artifact gate", () => {
     assert.equal(report.checks[2].executablePath, executablePath);
   });
 
-  it("copies macOS Electron support files into the framework resources", async () => {
+  it("copies macOS Electron support files into app and framework resources", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-macos-support-")),
     );
@@ -269,6 +269,13 @@ describe("BIOS AI Electron package artifact gate", () => {
           "Resources",
           "icudtl.dat",
         ),
+        "utf8",
+      ),
+      "icu",
+    );
+    assert.equal(
+      await readFile(
+        path.join(outputRoot, "mac", "BIOS AI.app", "Contents", "Resources", "icudtl.dat"),
         "utf8",
       ),
       "icu",

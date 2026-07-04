@@ -93,18 +93,17 @@ function platformSidecarFileName(platform = process.platform) {
 }
 
 async function copyMacElectronSupportFiles(electronDist, appRoot) {
-  const resourceRoot = path.join(
-    appRoot,
-    "Contents",
-    "Frameworks",
-    "Electron Framework.framework",
-    "Resources",
-  );
-  await mkdir(resourceRoot, { recursive: true });
+  const resourceRoots = [
+    path.join(appRoot, "Contents", "Resources"),
+    path.join(appRoot, "Contents", "Frameworks", "Electron Framework.framework", "Resources"),
+  ];
+  await Promise.all(resourceRoots.map((resourceRoot) => mkdir(resourceRoot, { recursive: true })));
   for (const fileName of ["icudtl.dat", "v8_context_snapshot.bin", "snapshot_blob.bin"]) {
     const source = path.join(electronDist, fileName);
     if (await fileExists(source)) {
-      await cp(source, path.join(resourceRoot, fileName));
+      await Promise.all(
+        resourceRoots.map((resourceRoot) => cp(source, path.join(resourceRoot, fileName))),
+      );
     }
   }
 }
