@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { ChannelConfigRuntimeSchema } from "../channels/plugins/types.config.js";
-import { MANIFEST_KEY } from "../compat/legacy-names.js";
+import { LEGACY_MANIFEST_KEYS, MANIFEST_KEY } from "../compat/legacy-names.js";
 import { matchBoundaryFileOpenFailure, openBoundaryFileSync } from "../infra/boundary-file-read.js";
 import { isBlockedObjectKey } from "../infra/prototype-keys.js";
 import {
@@ -32,7 +32,7 @@ import { createPluginCacheKey, PluginLruCache } from "./plugin-cache-primitives.
 import type { PluginKind } from "./plugin-kind.types.js";
 
 export const PLUGIN_MANIFEST_FILENAME = "agentos.plugin.json";
-export const PLUGIN_MANIFEST_FILENAMES = [PLUGIN_MANIFEST_FILENAME] as const;
+export const PLUGIN_MANIFEST_FILENAMES = [PLUGIN_MANIFEST_FILENAME, "openclaw.plugin.json"] as const;
 export const MAX_PLUGIN_MANIFEST_BYTES = 256 * 1024;
 const MAX_PLUGIN_MANIFEST_LOAD_CACHE_ENTRIES = 512;
 
@@ -1796,7 +1796,7 @@ export type PackageExtensionResolution =
   | { status: "missing"; entries: [] }
   | { status: "empty"; entries: [] };
 
-export type ManifestKey = typeof MANIFEST_KEY;
+export type ManifestKey = typeof MANIFEST_KEY | (typeof LEGACY_MANIFEST_KEYS)[number];
 
 export type PackageManifest = {
   name?: string;
@@ -1812,7 +1812,7 @@ export function getPackageManifestMetadata(
   if (!manifest) {
     return undefined;
   }
-  return manifest[MANIFEST_KEY];
+  return manifest[MANIFEST_KEY] ?? LEGACY_MANIFEST_KEYS.map((key) => manifest[key]).find(Boolean);
 }
 
 export function resolvePackageExtensionEntries(
