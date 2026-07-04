@@ -14,7 +14,6 @@ const threadingContractPluginIds = new Set<ChannelId>([
   "discord",
   "googlechat",
   "matrix",
-  "mattermost",
   "msteams",
   "slack",
   "telegram",
@@ -41,6 +40,8 @@ const slowSurfaceContractPluginIds = new Set<ChannelId>([
   "imessage",
   "mattermost",
   "qa-channel",
+  "synology-chat",
+  "whatsapp",
 ]);
 
 function getBundledChannelPluginIdsForShard(params: {
