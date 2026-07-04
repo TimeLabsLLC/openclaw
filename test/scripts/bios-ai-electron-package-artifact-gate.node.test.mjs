@@ -225,6 +225,56 @@ describe("BIOS AI Electron package artifact gate", () => {
     assert.equal(report.checks[2].executablePath, executablePath);
   });
 
+  it("copies macOS Electron support files into the framework resources", async () => {
+    const fixtureRoot = await import("node:fs/promises").then((fs) =>
+      fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-macos-support-")),
+    );
+    const outputRoot = path.join(fixtureRoot, "out");
+    const stageRoot = path.join(fixtureRoot, "stage");
+    const dependencyRoot = path.join(fixtureRoot, "deps");
+    await writeFixtureFile(stageRoot, "dist/index.html");
+    await writeFixtureFile(stageRoot, "electron/main.mjs");
+    await writeFixtureFile(stageRoot, path.join("resources", "bin", "llama-server"));
+    await writeFixtureFile(
+      dependencyRoot,
+      "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron",
+    );
+    await writeFixtureFile(
+      dependencyRoot,
+      "node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Resources/Info.plist",
+    );
+    await writeFixtureFile(dependencyRoot, "node_modules/electron/dist/icudtl.dat", "icu");
+
+    const report = await verifyBiosAiElectronPackageArtifactGate(fixtureRoot, {
+      platform: "darwin",
+      stageRoot,
+      outputRoot,
+      env: { AGENTOS_DESKTOP_SHELL_DEPENDENCY_ROOT: dependencyRoot },
+      writeReport: false,
+      runLaunchSmoke: false,
+      stageApp: async () => {},
+      writeBuilderConfig: async () => path.join(stageRoot, "electron-builder.json"),
+    });
+
+    assert.equal(report.status, "pass");
+    assert.equal(
+      await readFile(
+        path.join(
+          outputRoot,
+          "mac",
+          "BIOS AI.app",
+          "Contents",
+          "Frameworks",
+          "Electron Framework.framework",
+          "Resources",
+          "icudtl.dat",
+        ),
+        "utf8",
+      ),
+      "icu",
+    );
+  });
+
   it("passes no-sandbox to packaged Linux launch smoke", async () => {
     const fixtureRoot = await import("node:fs/promises").then((fs) =>
       fs.mkdtemp(path.join(os.tmpdir(), "bios-ai-electron-package-linux-")),

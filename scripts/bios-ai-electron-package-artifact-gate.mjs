@@ -92,6 +92,23 @@ function platformSidecarFileName(platform = process.platform) {
   return platform === "win32" ? "llama-server.exe" : "llama-server";
 }
 
+async function copyMacElectronSupportFiles(electronDist, appRoot) {
+  const resourceRoot = path.join(
+    appRoot,
+    "Contents",
+    "Frameworks",
+    "Electron Framework.framework",
+    "Resources",
+  );
+  await mkdir(resourceRoot, { recursive: true });
+  for (const fileName of ["icudtl.dat", "v8_context_snapshot.bin", "snapshot_blob.bin"]) {
+    const source = path.join(electronDist, fileName);
+    if (await fileExists(source)) {
+      await cp(source, path.join(resourceRoot, fileName));
+    }
+  }
+}
+
 function runProcess(command, args, options = {}) {
   const timeoutMs = options.timeoutMs ?? 120_000;
   return new Promise((resolve) => {
@@ -254,6 +271,7 @@ async function packageBiosAiElectronApp(
     await rm(path.dirname(appRoot), { recursive: true, force: true });
     await mkdir(path.dirname(appRoot), { recursive: true });
     await cp(path.join(electronDist, "Electron.app"), appRoot, { recursive: true });
+    await copyMacElectronSupportFiles(electronDist, appRoot);
     await cp(stageRoot, path.join(appRoot, "Contents", "Resources", "app"), { recursive: true });
     await mkdir(path.join(appRoot, "Contents", "Resources", "bin"), { recursive: true });
     await cp(
