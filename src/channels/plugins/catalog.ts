@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import { MANIFEST_KEY } from "../../compat/legacy-names.js";
+import { LEGACY_MANIFEST_KEYS, MANIFEST_KEY } from "../../compat/legacy-names.js";
 import { isPrereleaseSemverVersion, parseRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
-import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.js";
+import { resolveAgentOSPackageRootSync } from "../../infra/agentos-root.js";
 import { listChannelCatalogEntries } from "../../plugins/channel-catalog-registry.js";
 import {
   describePluginInstallSource,
@@ -70,11 +70,11 @@ type ExternalCatalogEntry = {
   description?: string;
 } & Partial<Record<ManifestKey, AgentOSPackageManifest>>;
 
-const ENV_CATALOG_PATHS = ["OPENCLAW_PLUGIN_CATALOG_PATHS", "OPENCLAW_MPM_CATALOG_PATHS"];
+const ENV_CATALOG_PATHS = ["AGENTOS_PLUGIN_CATALOG_PATHS", "AGENTOS_MPM_CATALOG_PATHS"];
 const OFFICIAL_CHANNEL_CATALOG_RELATIVE_PATH = path.join("dist", "channel-catalog.json");
 const officialCatalogEntriesByPath = new Map<string, ExternalCatalogEntry[] | null>();
 
-type ManifestKey = typeof MANIFEST_KEY;
+type ManifestKey = typeof MANIFEST_KEY | (typeof LEGACY_MANIFEST_KEYS)[number];
 
 function parseCatalogEntries(raw: unknown): ExternalCatalogEntry[] {
   if (Array.isArray(raw)) {
@@ -180,8 +180,8 @@ function resolveOfficialCatalogPaths(options: CatalogOptions): string[] {
   }
 
   const packageRoots = [
-    resolveOpenClawPackageRootSync({ cwd: process.cwd() }),
-    resolveOpenClawPackageRootSync({ moduleUrl: import.meta.url }),
+    resolveAgentOSPackageRootSync({ cwd: process.cwd() }),
+    resolveAgentOSPackageRootSync({ moduleUrl: import.meta.url }),
   ].filter((entry, index, all): entry is string => Boolean(entry) && all.indexOf(entry) === index);
 
   const candidates = packageRoots.map((packageRoot) =>
@@ -362,7 +362,7 @@ function buildExternalCatalogEntry(
     trustedSourceLinkedOfficialInstall?: boolean;
   },
 ): ChannelPluginCatalogEntry | null {
-  const manifest = entry[MANIFEST_KEY];
+  const manifest = getExternalCatalogManifest(entry);
   return buildCatalogEntryFromManifest({
     pluginId: manifest?.plugin?.id,
     packageName: entry.name,
@@ -371,6 +371,10 @@ function buildExternalCatalogEntry(
     channel: manifest?.channel,
     install: manifest?.install,
   });
+}
+
+function getExternalCatalogManifest(entry: ExternalCatalogEntry): AgentOSPackageManifest | undefined {
+  return entry[MANIFEST_KEY] ?? LEGACY_MANIFEST_KEYS.map((key) => entry[key]).find(Boolean);
 }
 
 export function buildChannelUiCatalog(
