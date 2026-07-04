@@ -30,7 +30,6 @@ const directoryContractPluginIds = new Set<ChannelId>([
   "irc",
   "line",
   "matrix",
-  "mattermost",
   "msteams",
   "slack",
   "synology-chat",
