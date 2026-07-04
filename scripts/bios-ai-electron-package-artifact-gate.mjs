@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { access, cp, mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { access, cp, mkdir, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -114,9 +114,26 @@ async function copyMacElectronSupportFiles(electronDist, appRoot) {
     const source = await firstExistingFile(sourceCandidates);
     if (await fileExists(source)) {
       await Promise.all(
-        resourceRoots.map((resourceRoot) => cp(source, path.join(resourceRoot, fileName))),
+        resourceRoots.map((resourceRoot) =>
+          copyFileIfDifferent(source, path.join(resourceRoot, fileName)),
+        ),
       );
     }
+  }
+}
+
+async function copyFileIfDifferent(source, destination) {
+  if (await pathsResolveToSameFile(source, destination)) {
+    return;
+  }
+  await cp(source, destination);
+}
+
+async function pathsResolveToSameFile(left, right) {
+  try {
+    return (await realpath(left)) === (await realpath(right));
+  } catch {
+    return false;
   }
 }
 
