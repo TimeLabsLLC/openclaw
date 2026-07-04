@@ -314,6 +314,34 @@ async function packageBiosAiElectronApp(
 ) {
   const electronDist = electronDistributionRoot(dependencyRoot);
   if (platform === "darwin") {
+    const builderExecutable = electronBuilderExecutablePath(dependencyRoot, platform);
+    if (await fileExists(builderExecutable)) {
+      const result = await runProcess(
+        builderExecutable,
+        [
+          "--config",
+          path.join(stageRoot, "electron-builder.json"),
+          "--dir",
+          "--mac",
+          "--publish=never",
+        ],
+        {
+          cwd: stageRoot,
+          platform,
+          timeoutMs: 180_000,
+          env: {
+            ...process.env,
+            CSC_IDENTITY_AUTO_DISCOVERY: "false",
+          },
+        },
+      );
+      if (result.status !== "pass") {
+        throw new Error(
+          `electron-builder macOS dir package failed: ${result.stderr || result.stdout || "no output"}`,
+        );
+      }
+      return;
+    }
     const appRoot = unpackedPackageRoot(outputRoot, platform);
     await rm(path.dirname(appRoot), { recursive: true, force: true });
     await mkdir(path.dirname(appRoot), { recursive: true });
