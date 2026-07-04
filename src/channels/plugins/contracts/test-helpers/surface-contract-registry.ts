@@ -11,7 +11,6 @@ type DirectoryContractRef = {
 };
 
 const threadingContractPluginIds = new Set<ChannelId>([
-  "bluebubbles",
   "discord",
   "googlechat",
   "matrix",
@@ -40,6 +39,8 @@ const directoryContractPluginIds = new Set<ChannelId>([
 const slowSurfaceContractPluginIds = new Set<ChannelId>([
   "bluebubbles",
   "imessage",
+  "mattermost",
+  "qa-channel",
 ]);
 
 function getBundledChannelPluginIdsForShard(params: {
