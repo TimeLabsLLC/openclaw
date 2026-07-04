@@ -33,9 +33,13 @@ const directoryContractPluginIds = new Set<ChannelId>([
   "msteams",
   "slack",
   "telegram",
-  "whatsapp",
   "zalo",
   "zalouser",
+]);
+
+const slowSurfaceContractPluginIds = new Set<ChannelId>([
+  "bluebubbles",
+  "imessage",
 ]);
 
 function getBundledChannelPluginIdsForShard(params: {
@@ -51,7 +55,9 @@ export function getSurfaceContractRegistryShardIds(params: {
   shardIndex: number;
   shardCount: number;
 }): readonly ChannelId[] {
-  return getBundledChannelPluginIdsForShard(params);
+  return getBundledChannelPluginIdsForShard(params).filter(
+    (id) => !slowSurfaceContractPluginIds.has(id),
+  );
 }
 
 export function getThreadingContractRegistryShardRefs(params: {
